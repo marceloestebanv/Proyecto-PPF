@@ -176,9 +176,9 @@ public class ReportesBean {
     reglasEncontradas  = beanMineria.obtenerDim3();
         //campo fijo (txtUsu.. valor del parmetro jasper, Mitocode... valor que le daremos desde java
         
-    Map<String,List> parametros= new HashMap<>();
+    Map<String,Object> parametros= new HashMap<>();
     
-    for(int i=1;reglasEncontradas.size(),i++){
+    for(int i=1;i<=reglasEncontradas.size();i++){
     
     parametros.put("textoRegla", reglasEncontradas.get(i));
     }
