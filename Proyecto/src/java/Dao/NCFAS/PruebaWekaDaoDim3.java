@@ -6,6 +6,7 @@
 package Dao.NCFAS;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -37,11 +38,101 @@ import weka.core.Instances;
 
 public class PruebaWekaDaoDim3 {
     
+public String consultaPalabra(String palabra) {
+    
+    String obtenerNum[] =palabra.split("");
+    
+
+     Matcher mat;
+    Pattern pat1 = Pattern.compile("DIM1.*");
+    Pattern pat2 = Pattern.compile("DIM2.*");
+    Pattern pat3 = Pattern.compile("DIM3.*");
+    Pattern pat4 = Pattern.compile("DIM4.*");
+    Pattern pat5 = Pattern.compile("DIM5.*");
+    Pattern pat6 = Pattern.compile("DIM6.*");
+    Pattern pat7 = Pattern.compile("DIM7.*");
+    Pattern pat8 = Pattern.compile("DIM8.*");
+     
+    String dim1="Entorno";
+    String dim2="Competenicas Parentales";
+    String dim3="Interacciones Familiares";
+    String dim4="Seguridad Social";
+    String dim5="Bienestar del Niño";
+    String dim6="Vida Social Comunitaria";
+    String dim7="Autonomía";
+    String dim8="Salud Familiar";
+    
+    
+    mat = pat1.matcher(palabra);
+            if (mat.matches()) {
+                palabra=dim1;
+            }else{          
+            mat = pat2.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim2;
+            }else{
+            mat = pat3.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim3;
+            }else{
+            mat = pat4.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim4;
+            }else{
+            mat = pat5.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim5;
+            }else{
+            mat = pat6.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim6;
+            }else{
+            mat = pat7.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim7;
+            }else{
+            mat = pat8.matcher(palabra);
+            if(mat.matches()){
+            palabra=dim8;
+            }
+            }
+            }
+            }
+            }
+            }
+            }
+            }
+            
+            if(obtenerNum[5].equals("-")){
+            
+            return palabra+ " con un valor= " + obtenerNum[5]+obtenerNum[6];
+            
+            }else{
+            
+            return palabra+ " con un valor= " + obtenerNum[5];
+            }
+}    
+    
+public String consultaValor(String dim2) {
+
+    String valorDim2;
+    String obtenerNum[] =dim2.split("");
+    if(obtenerNum[5].equals("-")){
+            
+            valorDim2 =obtenerNum[5]+obtenerNum[6];
+            
+            }else{
+            
+            valorDim2 = obtenerNum[5];
+            }
+    
+    return valorDim2;
+}
     
 public List<String> retornarReglasDim3() throws DAOException, IOException, Exception{
     
   ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-      String pathArchivos=(String) servletContext.getRealPath("/")+"/archivosVarios/"; // Sustituye "/" por el directorio ej: "/upload"
+      String pathArchivos=(String) servletContext.getRealPath("/")+"archivosVarios/"; // Sustituye "/" por el directorio ej: "/upload"
     FileWriter fichero = null; 
     PrintWriter pw = null; 
     String dataset=pathArchivos+"DataSetSimulado.arff";
@@ -70,11 +161,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
          
     fichero = new FileWriter(pathArchivos+"Resultado.txt",true); 
     pw = new PrintWriter(fichero);
+    BufferedWriter bw = new BufferedWriter(new FileWriter(pathArchivos+"Resultado.txt"));
     pw.println(model);
     
     //SE MUESTRA LOS RESULTADOS OBTENIDOS POR APRIORI
      System.out.println("LOS RESULTADOS DE APRIORI A DataSetSimulado.arff son:");
     System.out.println(model);
+    bw.write("");
     fichero.close();
     
     
@@ -122,7 +215,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
         Matcher mat;
            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num1.equals(palabra0)){
                 if(in.hasNext()){
@@ -132,8 +225,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 almacenaAnterior.add(palabra1);               
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
-                if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+                if (mat.matches()) { 
+                    
+                String valorDim2=consultaValor(palabra1);    
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -145,7 +240,8 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares con valor = " +valorDim2+ " afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                    // band=1;
@@ -160,8 +256,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares con valor = " +valorDim2+ " junto con la dimensión " + dimension + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
                             almacenaRetorno.add(frase1);
                      //       band=1;
@@ -186,12 +284,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String valorDim2=consultaValor(palabra4);
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares con valor = " +valorDim2+ "  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2  
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
                   //  band=1;
                 }               
                 }
@@ -199,13 +299,15 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 else{                   
                     mat = pat.matcher(palabra2);
                     if(mat.matches()){
-                    
+                        String valorDim2=consultaValor(palabra2);
                         if(in.hasNext()){
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares con valor = " +valorDim2+ " junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
                             System.out.println(frase1); 
                             almacenaRetorno.add(frase1);;
                           //  band=1;
@@ -221,8 +323,11 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                                String valorDim2=consultaValor(palabra5);
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares con valor = "+valorDim2+ "es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -235,10 +340,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }}}}
                 
                 
-                //NUEVO CODIGO
-                //SEGUNDA RELGA DE ASOCIACIÓN
+                //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num2.equals(palabra0)){
                 if(in.hasNext()){
@@ -249,7 +353,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -261,10 +365,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); 
-                    //band=1;
+                    almacenaRetorno.add(frase1);
+                   // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -275,11 +381,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -301,13 +409,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2 
-                    //band=1;
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
                 }               
                 }
                 }               
@@ -319,11 +428,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);           
-                    //band=1;
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
                         }                      
                         }                       
                         }                   
@@ -336,8 +447,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -349,9 +462,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }
                 }}}}
             
-            //TERCERA RELGA DE ASOCIACIÓN
+            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num3.equals(palabra0)){
                 if(in.hasNext()){
@@ -362,7 +475,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -374,10 +487,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                    // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -388,11 +503,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -414,13 +531,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2  
-                    //band=1;
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
                 }               
                 }
                 }               
@@ -432,11 +550,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);              
-                   // band=1;
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
                         }                      
                         }                       
                         }                   
@@ -449,8 +569,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -462,9 +584,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }
                 }}}}
             
-            //CUARTA RELGA DE ASOCIACIÓN
+            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num4.equals(palabra0)){
                 if(in.hasNext()){
@@ -475,7 +597,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -487,10 +609,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
-                    //band=1;
+                   // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -501,11 +625,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -527,13 +653,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2
-                    //band=1;
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
                 }               
                 }
                 }               
@@ -545,11 +672,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);     
-                    //band=1;
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
                         }                      
                         }                       
                         }                   
@@ -562,8 +691,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -575,9 +706,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }
                 }}}}
             
-            //QUINTA RELGA DE ASOCIACIÓN
+            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num5.equals(palabra0)){
                 if(in.hasNext()){
@@ -588,7 +719,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -600,10 +731,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
-                    //band=1;
+                   // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -614,11 +747,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -640,13 +775,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2   
-                    //band=1;
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
                 }               
                 }
                 }               
@@ -658,11 +794,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);              
-                   // band=1;
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
                         }                      
                         }                       
                         }                   
@@ -675,8 +813,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -688,9 +828,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }
                 }}}}
             
-            //SEXTA RELGA DE ASOCIACIÓN
+            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num6.equals(palabra0)){
                 if(in.hasNext()){
@@ -701,7 +841,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -713,10 +853,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                    // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -727,11 +869,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -753,13 +897,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2 
-                    //band=1;
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
                 }               
                 }
                 }               
@@ -771,11 +916,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);            
-                    //band=1;
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
                         }                      
                         }                       
                         }                   
@@ -788,8 +935,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -801,9 +950,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }
                 }}}}
             
-            //SEPTIMA RELGA DE ASOCIACIÓN
+            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num7.equals(palabra0)){
                 if(in.hasNext()){
@@ -814,7 +963,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -826,10 +975,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
-                    //band=1;
+                   // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -840,11 +991,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -866,13 +1019,14 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
+                if(mat.matches()){
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
                     System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2  
-                    //band=1;
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
                 }               
                 }
                 }               
@@ -884,11 +1038,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra4=in.next();
                         if(in.hasNext()){
                         palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
-                           System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);  
-                    //band=1;
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
+                            System.out.println(frase1); 
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
                         }                      
                         }                       
                         }                   
@@ -901,8 +1057,10 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                         palabra5=in.next();
                         if(in.hasNext()){                           
                             mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                                 System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
                     //band=1;
@@ -914,9 +1072,9 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 }
                 }}}}
             
-            //OCTAVA RELGA DE ASOCIACIÓN
+            //PRIMERA RELGA DE ASOCIACIÓN
             //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
+            //COMPROBAR SI ESTÁ DIM2 INVOLUCRADA
             mat = pat3.matcher(palabra0);
             if(num8.equals(palabra0)){
                 if(in.hasNext()){
@@ -927,7 +1085,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
+               //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
                     palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
                     if(in.hasNext()){
@@ -939,10 +1097,12 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
+                    palabra4=consultaPalabra(palabra4);
+                    frase1=("La dimensión Ineracciones Familiares afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
-                    //band=1;
+                   // band=1;
+                    
                 }}
                 
                 // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
@@ -953,11 +1113,13 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     mat = pat2.matcher(palabra4);
                     if(mat.matches()){
                         if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                           System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
+                        palabra5=in.next();
+                        String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        palabra5=consultaPalabra(palabra5);
+                        frase1=(" La dimensión Ineracciones Familiares  junto con la dimensión " + dimension + " afectan a la dimensión  " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
+                            System.out.println(frase1); 
+                            almacenaRetorno.add(frase1);
+                     //       band=1;
                         }   
                     }
                     }  
@@ -979,354 +1141,58 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                 if (mat.matches()) {              
                 if(in.hasNext()){
                 palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
+                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM2 ?
                 mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
-                    System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2   
-                    //band=1;
-                }               
-                }
-                }               
-                else{                   
-                    mat = pat.matcher(palabra2);
-                    if(mat.matches()){
-                    
-                        if(in.hasNext()){
-                        palabra4=in.next();
-                        if(in.hasNext()){
-                        palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
-                            System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);   
-                    //band=1;
-                        }                      
-                        }                       
-                        }                   
-                    }                   
-                    //NO HAY DIMENSIÓN 2 NI EN LA PRIMERA NI EN LA SEGUNDA POSICIÓN 
-                    else {                  
-                        if(in.hasNext()){
-                        palabra4=in.next();
-                        if(in.hasNext()){
-                        palabra5=in.next();
-                        if(in.hasNext()){                           
-                            mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                                System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
-                            }     
-                        }
-                        }
-                        }   
-                    }      
-                }
-                }}}}
-            
-            //NOVENA RELGA DE ASOCIACIÓN
-            //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
-            mat = pat3.matcher(palabra0);
-            if(num9.equals(palabra0)){
-                if(in.hasNext()){
-                palabra1=in.next(); // SEGUNDA PALABRA             
-                //GUARDO LO LEIDO
-                almacenaAnterior.add(palabra0);
-                almacenaAnterior.add(palabra1);               
-                mat = pat.matcher(palabra1);
-                //PALABRA 1 ES DIMENSION 2?
-                if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
-                    if(in.hasNext()){
-                    palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
-                    if(in.hasNext()){
-                    palabra3=in.next(); //PALABRA 4 EN EL CAMINO FELIZ                    
-                    almacenaAnterior.add(palabra2);
-                    almacenaAnterior.add(palabra3);                   
-                    mat = pat2.matcher(palabra3);                    
-               //SI ES UNA ==> ENTONCES
-                if (mat.matches()) {                   
-                    if(in.hasNext()){
-                    palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
-                    System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); 
-                    //band=1;
-                }}
-                
-                // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
-                else{
-                    if(in.hasNext()){
-                    palabra4=in.next(); // DEBERÍA SER FLECHA 
-                    //COMPROBAMOS SI LA ==> ESTÁ EN LA cuarta POSICIÓN
-                    mat = pat2.matcher(palabra4);
-                    if(mat.matches()){
-                        if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                            System.out.println(frase1); 
-                   almacenaRetorno.add(frase1);
-                    //band=1;
-                        }   
-                    }
-                    }  
-                }
-                    }
-                }}
-             
-                //BLOQUE 2
-                //ACÁ SE COMPRUEBA SI SE ENCUENTRA LA DIMENSIÓN 2 EN SEGUNDA POSICIÓN           
-                if(in.hasNext()){
-                palabra2=in.next(); // 
-                if(in.hasNext()){
-                palabra3=in.next(); //               
-                //GUARDAMOS LO LEÍDO
-                almacenaAnterior.add(palabra2);
-                almacenaAnterior.add(palabra3);              
-                mat = pat2.matcher(palabra3);              
-                // SI LA PALABRA 3 ES UNA FLECHA, ENTONCES HAY SOLO UNA DIMENSIÓN INVOLUCRADA
-                if (mat.matches()) {              
-                if(in.hasNext()){
-                palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
-                mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
-                    System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2 
-                    //band=1;
-                }               
-                }
-                }               
-                else{                   
-                    mat = pat.matcher(palabra2);
-                    if(mat.matches()){
-                    
-                        if(in.hasNext()){
-                        palabra4=in.next();
-                        if(in.hasNext()){
-                        palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
-                            System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);      
-                    //band=1;
-                        }                      
-                        }                       
-                        }                   
-                    }                   
-                    //NO HAY DIMENSIÓN 2 NI EN LA PRIMERA NI EN LA SEGUNDA POSICIÓN 
-                    else {                  
-                        if(in.hasNext()){
-                        palabra4=in.next();
-                        if(in.hasNext()){
-                        palabra5=in.next();
-                        if(in.hasNext()){                           
-                            mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                                System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
-                            }     
-                        }
-                        }
-                        }   
-                    }      
-                }
-                }}}}
-            
-            //DECIMA RELGA DE ASOCIACIÓN
-            //BLOQUE 1
-            //COMPROBAR SI ESTÁ DIM3 INVOLUCRADA
-            mat = pat3.matcher(palabra0);
-            if(num10.equals(palabra0)){
-                if(in.hasNext()){
-                palabra1=in.next(); // SEGUNDA PALABRA             
-                //GUARDO LO LEIDO
-                almacenaAnterior.add(palabra0);
-                almacenaAnterior.add(palabra1);               
-                mat = pat.matcher(palabra1);
-                //PALABRA 1 ES DIMENSION 2?
-                if (mat.matches()) {        
-               //REVISAMOS LO QUE VIENE DESPUES DE DIM3=
-                    if(in.hasNext()){
-                    palabra2=in.next(); //PALABRA 3 EN EL CAMINO FELIZ
-                    if(in.hasNext()){
-                    palabra3=in.next(); //PALABRA 4 EN EL CAMINO FELIZ                    
-                    almacenaAnterior.add(palabra2);
-                    almacenaAnterior.add(palabra3);                   
-                    mat = pat2.matcher(palabra3);                    
-               //SI ES UNA ==> ENTONCES
-                if (mat.matches()) {                   
-                    if(in.hasNext()){
-                    palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
-                    frase1=("La dimensión 2 afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.");
-                    System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
-                }}
-                
-                // LA REGLA TIENE MAS DE UNA DIMENSIÓN INVOLUCRADA ANTES DE ==>
-                else{
-                    if(in.hasNext()){
-                    palabra4=in.next(); // DEBERÍA SER FLECHA 
-                    //COMPROBAMOS SI LA ==> ESTÁ EN LA cuarta POSICIÓN
-                    mat = pat2.matcher(palabra4);
-                    if(mat.matches()){
-                        if(in.hasNext()){
-                        palabra5=in.next();                
-                        frase1=(" La dimensión 2  junto con la dimensión " + almacenaAnterior.get(2) + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                            System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    //band=1;
-                        }   
-                    }
-                    }  
-                }
-                    }
-                }}
-             
-                //BLOQUE 2
-                //ACÁ SE COMPRUEBA SI SE ENCUENTRA LA DIMENSIÓN 2 EN SEGUNDA POSICIÓN           
-                if(in.hasNext()){
-                palabra2=in.next(); // 
-                if(in.hasNext()){
-                palabra3=in.next(); //               
-                //GUARDAMOS LO LEÍDO
-                almacenaAnterior.add(palabra2);
-                almacenaAnterior.add(palabra3);              
-                mat = pat2.matcher(palabra3);              
-                // SI LA PALABRA 3 ES UNA FLECHA, ENTONCES HAY SOLO UNA DIMENSIÓN INVOLUCRADA
-                if (mat.matches()) {              
-                if(in.hasNext()){
-                palabra4=in.next();            
-                // DESPUES DE LA ==> ESTÁ INVOLUCRADA LA DIM3 ?
-                mat = pat.matcher(palabra4);
-                if(mat.matches()){    
-                    frase1=("La dimensión 2  es afectada por la " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(2) + " veces");
-                    System.out.println(frase1); 
-                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM3 EN POSICIÓN 2  
-                    //band=1;
-                }               
-                }
-                }               
-                else{                   
-                    mat = pat.matcher(palabra2);
-                    if(mat.matches()){
-                    
-                        if(in.hasNext()){
-                        palabra4=in.next();
-                        if(in.hasNext()){
-                        palabra5=in.next();
-                        if(in.hasNext()){                     
-                            frase1=("La dimensión 2 junto con la dimensión " + almacenaAnterior.get(1) + "afectan a la " + palabra5 + " una cantidad de " + palabra3 + " veces.");
-                            System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    
-                        }                      
-                        }                       
-                        }                   
-                    }                   
-                    //NO HAY DIMENSIÓN 2 NI EN LA PRIMERA NI EN LA SEGUNDA POSICIÓN 
-                    else {                  
-                        if(in.hasNext()){
-                        palabra4=in.next();
-                        if(in.hasNext()){
-                        palabra5=in.next();
-                        if(in.hasNext()){                           
-                            mat = pat.matcher(palabra5);
-                            if(mat.matches()){                           
-                            frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(1) + " y por la dimensión " + almacenaAnterior.get(2) + " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                                System.out.println(frase1); 
-                    almacenaRetorno.add(frase1);
-                    
-                            }     
-                        }
-                        }
-                        }   
-                    }      
-                }
-                }}}}
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                /*
-                }
-                
-                
-                }}
-                
-                //COMPROBAMOS LA POS 1 NO ERA COMPROBAMOS LA 2 TAMPOCO ERA
-                //VEMOS SI HAY UNA ==> LUEGO DE COMPROBAR LAS 2 PRIMERAS PALABRAS
-                if(in.hasNext()){
-                palabra4=in.next(); 
-                if(in.hasNext()){
-                palabra5=in.next(); 
-                      
-                
-                mat = pat2.matcher(palabra4);
-                //PALABRA 4 ES UNA DIM3 ?
-                //guardo lo leído
-                almacenaAnterior.add(palabra4);
-                almacenaAnterior.add(palabra5);
-                
                 if(mat.matches()){
-                    
-                    //SI ESTÁ INVOLUCRADA LA DIM3 ENTONCES
-                    mat = pat.matcher(palabra5);
-                    
-                    //LA DIMENSIÓN 2 ESTÁ INVOLUCRADA ENTONCES
-                    //ESTÁ INVOLUCRADA POR 1 ELEMENTO
-                        frase1=("La dimensión 2 es afectada por " + almacenaAnterior.get(2) + " y por la dimensión " + almacenaAnterior.get(1) +  " una cantidad de " + almacenaAnterior.get(3) + " veces.");
-                        System.out.println(frase1);
-                    
-                    
-                }else{ //SI NO ES UNA ==> ENTONCES ES UNA DIMENSIÓN, COMPROBAMOS SI ES DIM3
-                    mat = pat.matcher(almacenaAnterior.get(4));
-                    if(mat.matches()){
-                        //entonces ES DIM 2
-                         
-                        frase1=("La dimensión 2 es afectada por la " + almacenaAnterior.get(1) + " un numero de " + almacenaAnterior.get(2) + " veces." );
-                            System.out.println(frase1);
-                                                                         
-                                               
-                    } 
-                    
-                }//ELSE             
-                
+                    String dimension=consultaPalabra(almacenaAnterior.get(1));
+                    frase1=("La dimensión Ineracciones Familiares  es afectada por la dimensión la " + dimension +  " una cantidad de " + almacenaAnterior.get(2) + " veces.\n");
+                    System.out.println(frase1); 
+                    almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
+                  //  band=1;
+                }               
                 }
                 }               
-            }//IF NUMERO 1 INICIAL DE LA ASOCIACIÓN
-                
-                //ACÁ TERMINA LA ULTIMA COMPROBACIÓN
-            
-            */
-            
-        
-        /*if(num2.equals(palabra)){
-            
-            if(in.hasNext()){
-            palabra2=in.next();
-            
-            mat = pat.matcher(palabra2);
-            if(mat.matches()){
-                System.out.println("ENCONTRAMOS LA DIMENSION 2");
-                
-            }
-        }
-        }*/
-        //System.out.println("Palabra:"+palabra);
+                else{                   
+                    mat = pat.matcher(palabra2);
+                    if(mat.matches()){
+                    
+                        if(in.hasNext()){
+                        palabra4=in.next();
+                        if(in.hasNext()){
+                        palabra5=in.next();
+                        if(in.hasNext()){ 
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            palabra5=consultaPalabra(palabra5);
+                            frase1=("La dimensión Ineracciones Familiares junto con la dimensión " + dimension + "afectan a la dimensión " + palabra5 + " una cantidad de " + palabra3 + " veces.\n");
+                            System.out.println(frase1); 
+                            almacenaRetorno.add(frase1);;
+                          //  band=1;
+                        }                      
+                        }                       
+                        }                   
+                    }                   
+                    //NO HAY DIMENSIÓN 2 NI EN LA PRIMERA NI EN LA SEGUNDA POSICIÓN 
+                    else {                  
+                        if(in.hasNext()){
+                        palabra4=in.next();
+                        if(in.hasNext()){
+                        palabra5=in.next();
+                        if(in.hasNext()){                           
+                            mat = pat.matcher(palabra5);
+                            if(mat.matches()){
+                            String dimension=consultaPalabra(almacenaAnterior.get(1));
+                            String dimension2=consultaPalabra(almacenaAnterior.get(2));
+                            frase1=("La dimensión Ineracciones Familiares es afectada por la dimensión " + dimension + " y por la dimensión " + dimension2 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
+                                System.out.println(frase1); 
+                    almacenaRetorno.add(frase1);
+                    //band=1;
+                            }     
+                        }
+                        }
+                        }   
+                    }      
+                }
+                }}}}
         }// while (in.hasNext())
 	 
  

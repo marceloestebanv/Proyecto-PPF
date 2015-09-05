@@ -77,7 +77,7 @@ public class ChartView implements Serializable{
     @PostConstruct
     public void ChartView()  {
         
-        createLineModels1();
+        //createLineModels1();
         createLineModels2();
         createLineModels3();
         createLineModels4();
@@ -338,22 +338,45 @@ public class ChartView implements Serializable{
          
         }
 
-    private void createPieModel2() {
+    /*private void createPieModelCompetencias() {
         pieModel2 = new PieChartModel();
          
-        pieModel2.set("Brand 1", 540);
-        pieModel2.set("Brand 2", 325);
-        pieModel2.set("Brand 3", 702);
-        pieModel2.set("Brand 4", 421);
+        pieModel2.set("Entorno", );
+        pieModel2.set("Competencias Parentales", );
+        pieModel2.set("Interacciones Familiares", );
+        pieModel2.set("Seguridad Social", );
+        pieModel2.set("Bienestar del Niño", );
+        pieModel2.set("Vida Social Comunitaria", );
+        pieModel2.set("Autonomía", );
+        pieModel2.set("Salud Familiar", );
          
-        pieModel2.setTitle("Custom Pie");
+        pieModel2.setTitle("Competencias Parentales");
         pieModel2.setLegendPosition("e");
         pieModel2.setFill(false);
         pieModel2.setShowDataLabels(true);
-        pieModel2.setDiameter(150);
+        pieModel2.setDiameter();
     }
     
-    public void createLineModels1() {  
+    private void createPieModelInteracciones() {
+        pieModel2 = new PieChartModel();
+         
+        pieModel2.set("Entorno", );
+        pieModel2.set("Competencias Parentales", );
+        pieModel2.set("Interacciones Familiares", );
+        pieModel2.set("Seguridad Social", );
+        pieModel2.set("Bienestar del Niño", );
+        pieModel2.set("Vida Social Comunitaria", );
+        pieModel2.set("Autonomía", );
+        pieModel2.set("Salud Familiar", );
+         
+        pieModel2.setTitle("Interacciones Familiares");
+        pieModel2.setLegendPosition("e");
+        pieModel2.setFill(false);
+        pieModel2.setShowDataLabels(true);
+        pieModel2.setDiameter();
+    }*/
+    
+    public void createLineModels() {  
 
         lineModel1 = initCategoryModel1();
         lineModel1.setTitle("DIMENSION ENTORNO");

@@ -5,6 +5,7 @@
  */
 package Bean.NCFAS;
 
+import Model.NCFAS.NcfasReport;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -20,9 +21,11 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.data.JRAbstractBeanDataSource;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @ManagedBean 
@@ -52,7 +55,7 @@ public class ReportesBean {
       String pathArchivos=(String) servletContext.getRealPath("/")+"/archivosVarios/"; 
 
         
-          ListarItemsBean beanItems;
+    ListarItemsBean beanItems;
     beanItems= new ListarItemsBean();
     
     String nombrefamilia = beanItems.getNombrefamilia();
@@ -66,8 +69,25 @@ public class ReportesBean {
     valores7=beanItems.getValores7();
     valores8=beanItems.getValores8();
     
+   
+    
+    NcfasReport objectNcfas;
+    objectNcfas= new NcfasReport();
+    
         //campo fijo (txtUsu.. valor del parmetro jasper, Mitocode... valor que le daremos desde java
-        
+    objectNcfas.setFechaEvaluacion(null);
+    objectNcfas.setNombreFamilia(nombrefamilia);
+    objectNcfas.setRutEvaluador(pathArchivos);
+    
+    objectNcfas.setDimension1(valores1);
+    objectNcfas.setDimension2(valores2);
+    objectNcfas.setDimension3(valores3);
+    objectNcfas.setDimension4(valores4);
+    objectNcfas.setDimension5(valores5);
+    objectNcfas.setDimension6(valores6);
+    objectNcfas.setDimension7(valores7);
+    objectNcfas.setDimension8(valores8);
+    
     Map<String,Object> parametros= new HashMap<>();        
     parametros.put("field1",valores1[1]);
     parametros.put("field2",valores1[2]);
@@ -143,14 +163,12 @@ public class ReportesBean {
     System.out.println("el último valor es : " +valores8[7]);
     
    // parametros.put("nombreUs",testBean.getUsuario().getNombre());
-        
-        
-        
-        File jasper= new File(pathArchivos+"reporteNcfas.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parametros);
+
+            File jasper= new File(pathArchivos+"reporteNcfas.jasper");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros);
        
      HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-		response.addHeader("Content-disposition","attachment; filename=NCFAS-Resultados-"+".pdf");
+		response.addHeader("Content-disposition","attachment; filename=Ncfas-"+".pdf");
 		ServletOutputStream stream = response.getOutputStream();
 		
 		JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
@@ -158,10 +176,11 @@ public class ReportesBean {
 		stream.flush();
 		stream.close();
 		FacesContext.getCurrentInstance().responseComplete();
+                
     }
      
      
-      public void reporMineriaPDF(ActionEvent actionEvent) throws JRException, IOException, Exception{
+      public void reporMineriaPDF() throws JRException, IOException, Exception{
         
     List<String> reglasEncontradas;
             
@@ -178,10 +197,7 @@ public class ReportesBean {
         
     Map<String,Object> parametros= new HashMap<>();
     
-    for(int i=1;i<=reglasEncontradas.size();i++){
-    
-    parametros.put("textoRegla", reglasEncontradas.get(i));
-    }
+    parametros.put("regla", "algo");
     
     
    // parametros.put("nombreUs",testBean.getUsuario().getNombre());
@@ -189,7 +205,8 @@ public class ReportesBean {
         
         
         File jasper= new File(pathArchivos+"reporteMineria.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parametros);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parametros ); 
+            
        
      HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 		response.addHeader("Content-disposition","attachment; filename=Mineria-Resultados-"+".pdf");
@@ -197,6 +214,7 @@ public class ReportesBean {
 		
 		JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
 		
+                System.out.println("ruta jasper: " + pathArchivos+"reporteMineria.jasper");
 		stream.flush();
 		stream.close();
 		FacesContext.getCurrentInstance().responseComplete();

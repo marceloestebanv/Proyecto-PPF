@@ -38,6 +38,8 @@ import weka.core.Instances;
 
 public class PruebaWekaDao {
     
+    
+    
 public String consultaPalabra(String palabra) {
     
     String obtenerNum[] =palabra.split("");
@@ -161,8 +163,13 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
          
     fichero = new FileWriter(pathArchivos+"Resultado.txt",true); 
     pw = new PrintWriter(fichero);
+    
+    
     BufferedWriter bw = new BufferedWriter(new FileWriter(pathArchivos+"Resultado.txt"));
     pw.println(model);
+    
+    /*fichero = new FileWriter(pathArchivos+"valoresMineria.txt",true); 
+    pw = new PrintWriter(fichero);*/
     
     //SE MUESTRA LOS RESULTADOS OBTENIDOS POR APRIORI
      System.out.println("LOS RESULTADOS DE APRIORI A DataSetSimulado.arff son:");
@@ -211,6 +218,12 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
         String num9=("9.");
         String num10=("10.");
         
+        int[] valoresMineria = new int[9];
+        
+        for(int i = 1; i<9 ;i++){
+        valoresMineria[i]=0;
+        }
+        
         
         Matcher mat;
            //PRIMERA RELGA DE ASOCIACIÓN
@@ -244,6 +257,7 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
                     frase1=("La dimensión Competencias Parentales con valor = " +valorDim2+ " afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
+                    
                    // band=1;
                     
                 }}
@@ -263,6 +277,12 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
                             System.out.println(frase1); 
                             almacenaRetorno.add(frase1);
                      //       band=1;
+                            pw.println(2);
+                            pw.println(valorDim2);
+                            pw.println(dimension);
+                            pw.println(almacenaAnterior.get(3));
+                            pw.println(palabra5);
+                            pw.println(almacenaAnterior.get(3));
                         }   
                     }
                     }  
@@ -293,6 +313,11 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1); // CAMINO FELIZ DIM2 EN POSICIÓN 2  
                   //  band=1;
+                            pw.println(2);
+                            pw.println(valorDim2);
+                            pw.println(dimension);
+                            pw.println(almacenaAnterior.get(2));
+                            
                 }               
                 }
                 }               

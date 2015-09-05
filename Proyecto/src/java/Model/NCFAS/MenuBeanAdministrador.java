@@ -86,6 +86,10 @@ public class MenuBeanAdministrador {
         contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/comparacion_por_fecha.xhtml");
     }
     
+    public void mineriaCompetencias() throws IOException {
+        contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/mineriadedatos_Dim3.xhtml");
+    }
+    
     public void viewitem1() {
         RequestContext.getCurrentInstance().openDialog("propItem1");
     }
