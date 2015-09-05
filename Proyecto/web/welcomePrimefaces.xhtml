@@ -91,11 +91,21 @@
                     
                     <h2>Bienvenido Elija sistema a ingresar</h2>
                     
-                    <p:link outcome="CATPages/inicioCAT" value="CAT-A" >
-                    </p:link>
+                    <div class="row">
                     
-                    <p:link outcome="NCFASPages/sistemaindex" value="NCFAS">
-                    </p:link>
+                        
+                    <div class="col-md-3 col-sm-offset-3">
+                        <h3> Ingresar a NCFAS</h3>
+                        <p:commandButton actionListener="#{menuBeanAdministrador.outcomeNCFAS}" id="iconOnly" icon="ui-icon-note"  title="NCFAS"/>
+                    </div>
+                    
+                    <div class="col-md-3">
+                    <h3> Ingresar a CAT-A</h3>
+                        <p:commandButton actionListener="#{menuBeanAdministrador.outcomeCATA}" id="iconOnly2" icon="ui-icon-person" title="CAT-A" />
+                    </div>
+                        
+                    </div>
+                    
                     
                     
                     

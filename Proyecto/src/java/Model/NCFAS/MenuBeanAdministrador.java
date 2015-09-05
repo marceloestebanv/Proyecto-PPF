@@ -96,4 +96,13 @@ public class MenuBeanAdministrador {
      public void outcome() throws IOException {
    contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/result.xhtml");
      }
+     
+     public void outcomeNCFAS() throws IOException {
+   contex.getExternalContext().redirect("/Proyecto/faces/CATPages/inicioCAT.xhtml");
+     }
+     
+     public void outcomeCATA() throws IOException {
+   contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/sistemaindex.xhtml");
+     }
+     
 }
