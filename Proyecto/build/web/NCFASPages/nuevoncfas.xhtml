@@ -85,11 +85,11 @@
         <p:growl id="msgs" showDetail="true" />
         <p:layoutUnit position="center">
              
-             <h:form>
+             <h:form id="formMenu">
                     <p:fieldset legend="Nuevo NCFAS" style="margin-bottom:20px"> 
                         
                         
-                        <h:form>
+                        <h:form id="formInsertar" class="form">
             <p:outputLabel value="Ingrese Nombre Familia a Evaluar:"/>
             <p:inputText id="txtnombre" value="#{ncfasBean.nombrefamilia}"/>
             <br>

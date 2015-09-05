@@ -89,9 +89,16 @@
 <p:layoutUnit position="center">
              <p:growl id="msgs" showDetail="true" />
              <h:form>
-                 <h1>Bienvenido </h1>
+                 <h2>Bienvenido </h2>
                  <p id="letrasinicio"> En esta sección ud. podrá ingresar nuevos NCFAS al sistema, además de revisarlos y ver gráficos lineales de sus datos respectivos. </p>  
-             </h:form>       
+             </h:form>   
+             
+             <div class="col-md-3 col-sm-offset-1">
+                 <p:galleria  style="display:block;display: block;text-align: center " value="#{imagesView.images}" var="image" panelWidth="800" panelHeight="250" showCaption="true" >
+                    <p:graphicImage name="imagen/#{image}" alt="Image Description for #{image}" title="#{image}"/>
+                </p:galleria>   
+              </div>
+                   
 </p:layoutUnit>  
                 
 
