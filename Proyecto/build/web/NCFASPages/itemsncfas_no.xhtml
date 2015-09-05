@@ -22,17 +22,20 @@
         
         
         
-<p:layoutUnit position="north"   size="150"  collapsible="true" >
-            
-             <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
-            <p:graphicImage value="/resources/imagen/logo_uv.png"  style="display:block;padding: 25px"/>
-            <h1> PPF AITUÉ </h1>
+<p:layoutUnit position="north"   size="140"  collapsible="true" >      
+             <h:panelGrid  columns ="3"   width="100%"  >
+                 <h:panelGrid >
+                    <p:graphicImage value="/resources/imagen/logo_uv.png"  style="display:block;padding: 10px;padding-top: 0px"/>
+                 </h:panelGrid>    
+                 <h:panelGrid   style="display: block;float: center; text-align: center;padding-left: 300px;padding-top: 0px" >
+                    <h1> PPF AITUÉ </h1>
+                    <p:graphicImage  value="/resources/imagen/logofamilia.png" width="35%" />
+                 </h:panelGrid>        
             <h:panelGrid   style="display: block;float: right;text-align: center " >
-            <p:graphicImage  value="/resources/imagen/images.jpg" width="30%"  />
+            <p:graphicImage  value="/resources/imagen/images.jpg" width="20%"  />
             <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
-            </h:panelGrid>
-            </h:panelGrid>
-                    
+            </h:panelGrid>     
+            </h:panelGrid>     
  </p:layoutUnit>
         
         
@@ -66,7 +69,7 @@
 </p:panelMenu>
 
        
-<h:commandButton id="salir" class="btn btn-info" value="Volver al Inicio" action="#{usuarioBean.logout()}" />
+<h:commandButton id="salir" class="btn btn-primary" value="Volver al Inicio" action="#{usuarioBean.logout()}" />
 </h:form> 
 </p:layoutUnit>  
                     
