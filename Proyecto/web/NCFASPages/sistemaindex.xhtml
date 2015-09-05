@@ -6,7 +6,6 @@
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
-        <h:form rendered="#{not empty testSession.tipoUsuario}">
         <h:head>
         <f:facet name="first">
         <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -17,41 +16,33 @@
         <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
 </f:facet>
 </h:head>
-        
-        
-        
 <h:body>
-
-
-  <p:layout fullPage="true" >  
-  
+    <p:layout fullPage="true" >
+        
+        
+        
+        
 <p:layoutUnit position="north"   size="150"  collapsible="true" >
             
-            <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
-            <p:graphicImage value="./resources/imagen/logo_uv.png"  style="display:block;padding: 25px"/>
-            <h1> Sistema NCFAS-G </h1>
+             <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
+            <p:graphicImage value="/resources/imagen/logo_uv.png"  style="display:block;padding: 25px"/>
+            <h1> PPF AITUÉ </h1>
             <h:panelGrid   style="display: block;float: right;text-align: center " >
-            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />
+            <p:graphicImage  value="/resources/imagen/images.jpg" width="30%"  />
             <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
             </h:panelGrid>
             </h:panelGrid>
                     
-                    
-</p:layoutUnit>
+ </p:layoutUnit>
+        
+        
 
-      
-<p:layoutUnit position="south" size="70" closable="true" collapsible="true">
-                 <h:outputText value=" Universidad de Valparaíso. 
-                   Todos los derechos reservados. 
-                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
-                 
-</p:layoutUnit>
-      
-<p:layoutUnit position="west" size="200" header="Menu">
-
+        
+ <p:layoutUnit position="west" size="200">
     <p:growl autoUpdate="true"/>
+
     <h:form>
-    <p:panelMenu style="width:200px">
+ <p:panelMenu style="width:190px">
         <p:submenu label="Gestionar NCFAS">
             <p:menuitem value="Ingresar un Nuevo NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" icon="ui-icon-disk" />
             <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}" icon="ui-icon-arrowrefresh-1-w" />
@@ -62,7 +53,7 @@
         </p:submenu>
         
         <p:submenu label="Módulo Minería de Datos">
-            <p:menuitem value="Generar Minería (Competencias Parentales)" actionListener="#{menuBeanAdministrador.mineriadedatos}" icon="ui-icon-wrench"/>
+            <p:menuitem value="Generar Minería (Competencias Familiares)" actionListener="#{menuBeanAdministrador.mineriadedatos}" icon="ui-icon-wrench"/>
             <p:menuitem value="Generar Minería (Interacciones Familiares)" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" icon="ui-icon-wrench"/>
         </p:submenu>
         
@@ -72,36 +63,37 @@
             <p:menuitem value="Ver Gráfico de Comparación de Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" icon="ui-icon-bookmark"/>
             <p:menuitem value="Ver Gráfico de Comparación de fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" icon="ui-icon-bookmark"/>
         </p:submenu>
-    </p:panelMenu>
+</p:panelMenu>
 
-        
-<h:commandButton id="salir" class="btn btn-info" value="Salir"  />
+       
+<h:commandButton id="salir" class="btn btn-info" value="Volver al Inicio" action="#{usuarioBean.logout()}" />
 </h:form> 
-                      
-</p:layoutUnit >
-   
-
-    
-
+</p:layoutUnit>  
                     
-                    
-<p:layoutUnit position="center">
     
-    <h1> Bienvenido </h1>
-<p> En esta sección ud. podrá ingresar nuevos NCFAS al sistema, además de revisarlos y ver gráficos lineales de sus datos respectivos. </p>
+<p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                 <h:outputText value=" Universidad de Valparaíso. 
+                   Todos los derechos reservados. 
+                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
                  
 </p:layoutUnit>
-
-            </p:layout>
+        
+        
+        
+<p:layoutUnit position="center">
+             <p:growl id="msgs" showDetail="true" />
+             <h:form>
+                 <h1>Bienvenido </h1>
+                 <p id="letrasinicio"> En esta sección ud. podrá ingresar nuevos NCFAS al sistema, además de revisarlos y ver gráficos lineales de sus datos respectivos. </p>  
+             </h:form>       
+</p:layoutUnit>  
                 
 
+            </p:layout>
         </h:body>
-             
-             </h:form> 
         <h:form rendered="#{empty testSession.tipoUsuario}">
               
               <h1> ingresa sesion</h1>
               </h:form>
-
     </f:view>
 </html>

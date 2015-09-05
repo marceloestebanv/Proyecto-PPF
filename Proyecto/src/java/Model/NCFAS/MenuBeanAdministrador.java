@@ -93,5 +93,7 @@ public class MenuBeanAdministrador {
     public void viewitem1() {
         RequestContext.getCurrentInstance().openDialog("propItem1");
     }
-    
+     public void outcome() throws IOException {
+   contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/result.xhtml");
+     }
 }

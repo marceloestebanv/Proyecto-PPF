@@ -197,7 +197,7 @@ public class NcfasBean {
         try{
            // ChartView algo = new ChartView();
             //algo.createLineModels1(id);
-            contex.getExternalContext().redirect("/Proyecto/faces/result.xhtml");
+            contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/result.xhtml");
 	}catch(Exception e){
             throw e;
         }

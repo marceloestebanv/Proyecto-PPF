@@ -13,60 +13,85 @@
         <link href="/Proyecto/resources/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="/Proyecto/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <link href="/Proyecto/resources/css/docs.min.css" rel="stylesheet" type="text/css"/>
-        </f:facet>
-        </h:head>
-        <h:body>
+        <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
+</f:facet>
+</h:head>
+<h:body>
+    <p:layout fullPage="true" >
+        
+        
+        
+        
+<p:layoutUnit position="north"   size="150"  collapsible="true" >
             
-<div class="row" style="background-color: #F5F5F5;padding: 20px;">
-<div class="col-md-3"><img src="/Proyecto/resources/imagen/logo_uv.png" alt=""/>
-</div>
-<div class="span6 pull-right">
-<div class="hidden-xs">
-<img src="/Proyecto/resources/imagen/header_decom.png" alt=""/>
-</div>
-</div>
-</div>
-         
-<div class="row">
+             <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
+            <p:graphicImage value="/resources/imagen/logo_uv.png"  style="display:block;padding: 25px"/>
+            <h1> PPF AITUÉ </h1>
+            <h:panelGrid   style="display: block;float: right;text-align: center " >
+            <p:graphicImage  value="/resources/imagen/images.jpg" width="30%"  />
+            <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
+            </h:panelGrid>
+            </h:panelGrid>
+                    
+ </p:layoutUnit>
+        
+        
+
+        
+ <p:layoutUnit position="west" size="200">
     <p:growl autoUpdate="true"/>
-    <div class="col-md-3" style="margin: 10px">
+
     <h:form>
-    <p:panelMenu style="width:300px">
+ <p:panelMenu style="width:190px">
         <p:submenu label="Gestionar NCFAS">
-            <p:menuitem value="Ingresar Nuevo NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" icon="ui-icon-disk" />
-            <p:menuitem value="Ver NCFAS Gurdados"  icon="ui-icon-arrowrefresh-1-w" />
+            <p:menuitem value="Ingresar un Nuevo NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" icon="ui-icon-disk" />
+            <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}" icon="ui-icon-arrowrefresh-1-w" />
+            <p:menuitem value="Ver NCFAS de tipo Inical"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}" icon="ui-icon-arrowrefresh-1-w" />   
+            <p:menuitem value="Ver NCFAS de tipo Final"  actionListener="#{menuBeanAdministrador.verNcfasFinales}" icon="ui-icon-arrowrefresh-1-w" />
+            <p:menuitem value="Ver NCFAS por Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" icon="ui-icon-arrowrefresh-1-w" />
+        
         </p:submenu>
         
         <p:submenu label="Módulo Minería de Datos">
-            <p:menuitem value="Generar Minería" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
+            <p:menuitem value="Generar Minería (Competencias Familiares)" actionListener="#{menuBeanAdministrador.mineriadedatos}" icon="ui-icon-wrench"/>
+            <p:menuitem value="Generar Minería (Interacciones Familiares)" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" icon="ui-icon-wrench"/>
         </p:submenu>
         
-        <p:submenu label="Módulo Estadística Descriptiva">
-            <p:menuitem value="Generar Datos Estadística" actionListener="#{menuBeanAdministrador.estadistica}" />
+        <p:submenu label="Módulo Estadística Desciptiva">
+            <p:menuitem value="Ver Gráfico Seleccionando NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" icon="ui-icon-bookmark"/>
+            <p:menuitem value="Ver Gráfico de Comparación de Items " actionListener="#{menuBeanAdministrador.comparar}" icon="ui-icon-bookmark"/>
+            <p:menuitem value="Ver Gráfico de Comparación de Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" icon="ui-icon-bookmark"/>
+            <p:menuitem value="Ver Gráfico de Comparación de fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" icon="ui-icon-bookmark"/>
         </p:submenu>
-    </p:panelMenu>
+</p:panelMenu>
 
-<h:commandButton id="salir" class="btn btn-default" value="Salir" action="#{login.logout()}" />
+       
+<h:commandButton id="salir" class="btn btn-info" value="Volver al Inicio" action="#{usuarioBean.logout()}" />
 </h:form> 
-</div>
+</p:layoutUnit>  
+                    
+    
+<p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                 <h:outputText value=" Universidad de Valparaíso. 
+                   Todos los derechos reservados. 
+                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
+                 
+</p:layoutUnit>
 
-    <div class="row" style="margin: 10px;">
-        
-          
- 
-        <div class="col-md-8" style="margin: 10px">
+        <p:layoutUnit position="center">
     <h1> Al realizar Minería de Datos se obtubierón los siguientes resultados: </h1>
     
     <h:panelGrid >
         
         <h:outputLabel id="txtid" value="#{mineriaBean.obtenerNum()}" />
     </h:panelGrid>
-</div>  
-           
-                
-    </div>
-</div>
-</h:body>
-
-</f:view>
+</p:layoutUnit>
+        
+ </p:layout>
+        </h:body>
+        <h:form rendered="#{empty testSession.tipoUsuario}">
+              
+              <h1> ingresa sesion</h1>
+              </h:form>
+    </f:view>
 </html>

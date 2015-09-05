@@ -133,7 +133,7 @@ public class ChartView implements Serializable{
     @PostConstruct
     public void ChartView()  {
         
-        //createLineModels1();
+        createLineModels1();
         createLineModels2();
         createLineModels3();
         createLineModels4();
@@ -428,7 +428,7 @@ public class ChartView implements Serializable{
         pieModel2.setDiameter();
     }*/
     
-    public void createLineModels() {  
+    public void createLineModels1() {  
 
         lineModel1 = initCategoryModel1();
         lineModel1.setTitle("DIMENSION ENTORNO");
