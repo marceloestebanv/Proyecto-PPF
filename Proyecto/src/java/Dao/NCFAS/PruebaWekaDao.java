@@ -5,6 +5,7 @@
  */
 package Dao.NCFAS;
 
+import Bean.NCFAS.ChartView;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -168,9 +169,7 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
     BufferedWriter bw = new BufferedWriter(new FileWriter(pathArchivos+"Resultado.txt"));
     pw.println(model);
     
-    /*fichero = new FileWriter(pathArchivos+"valoresMineria.txt",true); 
-    pw = new PrintWriter(fichero);*/
-    
+      
     //SE MUESTRA LOS RESULTADOS OBTENIDOS POR APRIORI
      System.out.println("LOS RESULTADOS DE APRIORI A DataSetSimulado.arff son:");
     System.out.println(model);
@@ -218,11 +217,13 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
         String num9=("9.");
         String num10=("10.");
         
-        int[] valoresMineria = new int[9];
+        int[] numVeces = new int[9];
         
         for(int i = 1; i<9 ;i++){
-        valoresMineria[i]=0;
+        numVeces[i]=0;
         }
+        List<String> dimInvolucradas = null;
+        dimInvolucradas = new ArrayList<String>();
         
         
         Matcher mat;
@@ -239,7 +240,8 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
                 mat = pat.matcher(palabra1);
                 //PALABRA 1 ES DIMENSION 2?
                 if (mat.matches()) { 
-                    
+                 
+                dimInvolucradas.add(palabra1);    
                 String valorDim2=consultaValor(palabra1);    
                //REVISAMOS LO QUE VIENE DESPUES DE DIM2=
                     if(in.hasNext()){
@@ -253,11 +255,13 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
                 if (mat.matches()) {                   
                     if(in.hasNext()){
                     palabra4=in.next(); //PALABRA 5 CAMINO FELIZ
+                    dimInvolucradas.add(palabra4);
                     palabra4=consultaPalabra(palabra4);
                     frase1=("La dimensión Competencias Parentales con valor = " +valorDim2+ " afecta a la dimensión "+ palabra4 + " una cantidad de " + palabra2 + " veces.\n");
                     System.out.println(frase1); 
                     almacenaRetorno.add(frase1);
-                    
+                    numVeces[1]=Integer.parseInt(palabra2);
+                        System.out.println("ENTRAMOS ACÁ");
                    // band=1;
                     
                 }}
@@ -271,18 +275,29 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
                     if(mat.matches()){
                         if(in.hasNext()){
                         palabra5=in.next();
+                        dimInvolucradas.add(almacenaAnterior.get(2));
                         String dimension=consultaPalabra(almacenaAnterior.get(2));
+                        dimInvolucradas.add(palabra5);
                         palabra5=consultaPalabra(palabra5);
                         frase1=(" La dimensión Competencias Parentales con valor = " +valorDim2+ " junto con la dimensión " + dimension + " afectan a la dimensión " + palabra5 + " una cantidad de " + almacenaAnterior.get(3) + " veces.\n");
                             System.out.println(frase1); 
                             almacenaRetorno.add(frase1);
+                            numVeces[1]=Integer.parseInt(almacenaAnterior.get(3));
+                            System.out.println("llegamos acá");
+                            System.out.println(dimInvolucradas);
+                            System.out.println(numVeces[1]);
+                            
+                            ChartView objectChart = new ChartView();
+                            objectChart.setDimension1(dimInvolucradas.get(0));
+                            objectChart.setDimension2(dimInvolucradas.get(1));
+                            objectChart.setDimension3(dimInvolucradas.get(2));
+                            objectChart.setNumveces(numVeces[1]);
+                            objectChart.setTotal(512);
+                            
                      //       band=1;
-                            pw.println(2);
-                            pw.println(valorDim2);
-                            pw.println(dimension);
-                            pw.println(almacenaAnterior.get(3));
-                            pw.println(palabra5);
-                            pw.println(almacenaAnterior.get(3));
+                           
+                            
+                            
                         }   
                     }
                     }  

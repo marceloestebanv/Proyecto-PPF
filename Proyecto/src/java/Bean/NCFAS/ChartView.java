@@ -70,6 +70,62 @@ public class ChartView implements Serializable{
     private LineChartModel lineModel18;
     private LineChartModel lineModel20;
     private PieChartModel mineriamodel;
+    private String dimension1;
+    private String dimension2;
+    private String dimension3;
+    
+    private int total;
+    private int numveces;
+
+    public String getDimension1() {
+        return dimension1;
+    }
+
+    public void setDimension1(String dimension1) {
+        this.dimension1 = dimension1;
+    }
+
+    public String getDimension2() {
+        return dimension2;
+    }
+
+    public void setDimension2(String dimension2) {
+        this.dimension2 = dimension2;
+    }
+
+    public String getDimension3() {
+        return dimension3;
+    }
+
+    public void setDimension3(String dimension3) {
+        this.dimension3 = dimension3;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public int getNumveces() {
+        return numveces;
+    }
+
+    public void setNumveces(int numveces) {
+        this.numveces = numveces;
+    }
+
+    public Axis getyAxis() {
+        return yAxis;
+    }
+
+    public void setyAxis(Axis yAxis) {
+        this.yAxis = yAxis;
+    }
+    
+    
     private Axis yAxis;
   
  
@@ -95,6 +151,7 @@ public class ChartView implements Serializable{
         createLineModelComparar8();
         createLineModelComparar9();
         createLineModelCompararporFecha();
+        createPieModelInteracciones3dim();
         
     }
  
@@ -338,26 +395,21 @@ public class ChartView implements Serializable{
          
         }
 
-    /*private void createPieModelCompetencias() {
+        private void createPieModelInteracciones3dim() {
         pieModel2 = new PieChartModel();
          
-        pieModel2.set("Entorno", );
-        pieModel2.set("Competencias Parentales", );
-        pieModel2.set("Interacciones Familiares", );
-        pieModel2.set("Seguridad Social", );
-        pieModel2.set("Bienestar del Niño", );
-        pieModel2.set("Vida Social Comunitaria", );
-        pieModel2.set("Autonomía", );
-        pieModel2.set("Salud Familiar", );
-         
+        pieModel2.set(dimension1, numveces );
+        pieModel2.set(dimension2, numveces);
+        pieModel2.set(dimension3, numveces );
+        
         pieModel2.setTitle("Competencias Parentales");
         pieModel2.setLegendPosition("e");
         pieModel2.setFill(false);
         pieModel2.setShowDataLabels(true);
-        pieModel2.setDiameter();
+        pieModel2.setDiameter(total);
     }
     
-    private void createPieModelInteracciones() {
+   /* private void createPieModelInteracciones3dim() {
         pieModel2 = new PieChartModel();
          
         pieModel2.set("Entorno", );

@@ -6,6 +6,7 @@
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
+        <h:form rendered="#{not empty testSession.tipoUsuario}">
         <h:head>
         <f:facet name="first">
         <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -16,33 +17,41 @@
         <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
 </f:facet>
 </h:head>
+        
+        
+        
 <h:body>
 
-<div class="row" id="logo">
-         <img src="/Proyecto/resources/imagen/logofamilia.png" alt=""/>
-</div>
-    
-    <div class="row" id="h1titulo">
-         <h1 >
-             PPF Aitué
-         </h1>
-</div>
-   
-<div class="col-md-12" style="background-color: #F5F5F5;padding: 20px;">
-<div class="col-md-3"><img src="/Proyecto/resources/imagen/logo_uv.png" alt=""/>
-</div>
-<div class="span6 pull-right">
-<div class="hidden-xs">
-<img src="/Proyecto/resources/imagen/header_decom.png" alt=""/>
-</div>
-</div>
-</div>
-         
-<div class="row">
+
+  <p:layout fullPage="true" >  
+  
+<p:layoutUnit position="north"   size="150"  collapsible="true" >
+            
+            <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
+            <p:graphicImage value="./resources/imagen/logo_uv.png"  style="display:block;padding: 25px"/>
+            <h1> Sistema NCFAS-G </h1>
+            <h:panelGrid   style="display: block;float: right;text-align: center " >
+            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />
+            <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
+            </h:panelGrid>
+            </h:panelGrid>
+                    
+                    
+</p:layoutUnit>
+
+      
+<p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                 <h:outputText value=" Universidad de Valparaíso. 
+                   Todos los derechos reservados. 
+                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
+                 
+</p:layoutUnit>
+      
+<p:layoutUnit position="west" size="200" header="Menu">
+
     <p:growl autoUpdate="true"/>
-    <div class="col-md-3" style="margin: 10px">
     <h:form>
-    <p:panelMenu style="width:300px">
+    <p:panelMenu style="width:200px">
         <p:submenu label="Gestionar NCFAS">
             <p:menuitem value="Ingresar un Nuevo NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" icon="ui-icon-disk" />
             <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}" icon="ui-icon-arrowrefresh-1-w" />
@@ -65,39 +74,34 @@
         </p:submenu>
     </p:panelMenu>
 
-         <p:panelGrid columns="2">
-    <f:facet name="header">
-        <img src="/Proyecto/resources/imagen/mujer.png" alt=""/>
-    </f:facet>
- 
-    <h:outputText value="Nombre:" />
-    <h:outputText value="#{mbsesionBean.nombreusuario}" />
- 
-    <h:outputText value="Tipo:" />
-    <h:outputText value="Administrador" />
- 
-</p:panelGrid>
+        
 <h:commandButton id="salir" class="btn btn-info" value="Salir"  />
 </h:form> 
-</div>
+                      
+</p:layoutUnit >
+   
+
+    
+
                     
                     
-<div class="col-md-8" style="margin: 10px">
-             <p:growl id="msgs" showDetail="true" />
-             <h:form>
-                    <p:fieldset legend="Bienvenido al Sistema NCFAS"  style="margin-bottom:15px"> 
-                       <p id="letrasinicio"> En esta sección ud. podrá ingresar nuevos NCFAS al sistema, además de revisarlos y ver gráficos lineales de sus datos respectivos. </p>
-                    
-                    <f:facet name="header2">
-        <img src="/Proyecto/resources/imagen/nature1.jpg" alt=""/>
-    </f:facet>
-                    
-                    
-                    </p:fieldset>
-             </h:form>
-</div>  
-                    
-</div>
-</h:body>
-</f:view>
+<p:layoutUnit position="center">
+    
+    <h1> Bienvenido </h1>
+<p> En esta sección ud. podrá ingresar nuevos NCFAS al sistema, además de revisarlos y ver gráficos lineales de sus datos respectivos. </p>
+                 
+</p:layoutUnit>
+
+            </p:layout>
+                
+
+        </h:body>
+             
+             </h:form> 
+        <h:form rendered="#{empty testSession.tipoUsuario}">
+              
+              <h1> ingresa sesion</h1>
+              </h:form>
+
+    </f:view>
 </html>
