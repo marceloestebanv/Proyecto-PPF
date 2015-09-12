@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteMineriaFinal" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6c2f58dd-bc91-46ad-b257-b4122f404d68">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="144"/>
+	<parameter name="regla1" class="java.lang.String"/>
+	<parameter name="regla2" class="java.lang.String"/>
+	<parameter name="regla3" class="java.lang.String"/>
+	<parameter name="regla4" class="java.lang.String"/>
+	<parameter name="regla5" class="java.lang.String"/>
+	<parameter name="regla6" class="java.lang.String"/>
+	<parameter name="regla7" class="java.lang.String"/>
+	<parameter name="regla8" class="java.lang.String"/>
+	<parameter name="regla9" class="java.lang.String"/>
+	<parameter name="regla10" class="java.lang.String"/>
+	<parameter name="regla0" class="java.lang.String"/>
+	<group name="Group1">
+		<groupHeader>
+			<band height="36">
+				<line>
+					<reportElement uuid="67840751-9ddf-4672-a02a-31bd8dfe4e93" x="-20" y="32" width="595" height="1" forecolor="#666666"/>
+				</line>
+				<textField>
+					<reportElement uuid="88357705-60b1-4aee-a139-f3788bb5d612" x="0" y="-1" width="555" height="34"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla0}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="34">
+				<textField>
+					<reportElement uuid="e4486dcb-f568-4bd5-9742-18b920604af2" x="0" y="0" width="555" height="32"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla1}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group2">
+		<groupHeader>
+			<band height="35">
+				<textField>
+					<reportElement uuid="0bd032d4-49c4-4c41-b133-78eb3acd70e9" x="0" y="0" width="555" height="32"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla2}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
+	<group name="Group3">
+		<groupHeader>
+			<band height="36">
+				<textField>
+					<reportElement uuid="23a4565f-b855-4c18-abdc-cce767e4516c" x="0" y="3" width="555" height="29"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla3}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+		</groupFooter>
+	</group>
+	<group name="Group4">
+		<groupHeader>
+			<band height="38">
+				<textField>
+					<reportElement uuid="f5d1c631-407d-4784-a233-cab1f99971c4" x="0" y="0" width="555" height="32"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla4}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="41">
+				<textField>
+					<reportElement uuid="b4515947-ca16-4778-9d66-e5cc22029145" x="0" y="0" width="555" height="37"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla5}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band/>
+			<band height="38">
+				<textField>
+					<reportElement uuid="cbc067ba-cc23-4618-aae9-b3cc5937556d" x="0" y="0" width="555" height="34"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla6}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="40">
+				<textField>
+					<reportElement uuid="cbc067ba-cc23-4618-aae9-b3cc5937556d" x="0" y="0" width="555" height="34"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla7}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="41">
+				<textField>
+					<reportElement uuid="cbc067ba-cc23-4618-aae9-b3cc5937556d" x="0" y="0" width="555" height="34"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla8}]]></textFieldExpression>
+				</textField>
+			</band>
+			<band height="42">
+				<textField>
+					<reportElement uuid="cbc067ba-cc23-4618-aae9-b3cc5937556d" x="0" y="0" width="555" height="34"/>
+					<textElement>
+						<font size="10"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{regla9}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement uuid="deccdef0-a1ac-4936-8a44-d10111128bc4" mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699"/>
+				<staticText>
+					<reportElement uuid="dc394b03-672c-4c8f-bbf0-78e925c0c3e6" x="20" y="20" width="282" height="43" forecolor="#FFFFFF"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Minería de Datos]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="9ab357a3-a358-485c-82a0-ce1f73bbc0cd" x="395" y="43" width="180" height="20" forecolor="#FFFFFF"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[PPF Aitué]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<staticText>
+				<reportElement uuid="8b4fe706-5ec5-437b-8931-4ad85ed4b2d1" mode="Opaque" x="0" y="0" width="282" height="20" forecolor="#006699" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reglas de asociación encontradas:]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="5f87f752-5e74-4187-85b9-8ecbc3051bcf" x="-20" y="20" width="595" height="1" forecolor="#666666"/>
+			</line>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement uuid="ea636dfa-93bb-45bd-91dc-993350a413a6" mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement uuid="15794dbe-05d4-416c-a071-ceb52d0007d3" mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement uuid="96e5010f-9aa0-4762-a56a-179aa71004ed" x="0" y="4" width="100" height="13"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>

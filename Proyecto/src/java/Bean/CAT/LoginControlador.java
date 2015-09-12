@@ -11,7 +11,9 @@ import java.io.IOException;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,8 @@ import javax.servlet.http.HttpServletRequest;
  * @author jean
  */
 @ManagedBean(name = "loginControlador")
+// @ViewScoped
+//@RequestScoped
 //@SessionScoped
 
 public class LoginControlador {
@@ -37,7 +41,7 @@ public class LoginControlador {
     public LoginControlador() {
         faceContext=FacesContext.getCurrentInstance();
         httpServletRequest=(HttpServletRequest)faceContext.getExternalContext().getRequest();
-        usuario=new Usuario();   
+       usuario=new Usuario();   
     }
     
     public void autenticar () throws ServletException, IOException{
@@ -48,11 +52,13 @@ public class LoginControlador {
         System.out.println("usuario: "+usuario.getRut());
          System.out.println("pass: "+usuario.getPassword());
         UsuarioDao valida= new UsuarioDao();
-        
+      
         if (valida.existePersona(usuario)){
             System.out.println("existe en la bd"); 
             
+
             Usuario usuarioLocal=valida.getUsuario(usuario.getRut());
+
             
              httpServletRequest.getSession().setAttribute("sessionUsuario",usuario.getRut());
              httpServletRequest.getSession().setAttribute("sessionNombre",usuarioLocal.getNombre());
@@ -62,8 +68,7 @@ public class LoginControlador {
              httpServletRequest.getSession().setAttribute("sessionTipoUs",valida.getTipoUsuario(usuario.getRut()));
              
            //  httpServletRequest.getSession().setAttribute("sessionTipoUsuario",usuario.getTipoUsuario());
-        
-             
+       
              
              //esta linea redirige a cat-a
            contex.getExternalContext().redirect("/Proyecto/faces/welcomePrimefaces.xhtml");
@@ -80,7 +85,7 @@ public class LoginControlador {
     }
     
     
-    public String logout() throws IOException {
+    public void logout() throws IOException {
         
         httpServletRequest.getSession().removeAttribute("sessionUsuario");
         httpServletRequest.getSession().removeAttribute("sessionNombre");
@@ -93,12 +98,12 @@ public class LoginControlador {
       
      //   facesMessage=new FacesMessage(FacesMessage.SEVERITY_INFO, "Session cerrada correctamente", null);
      //   faceContext.addMessage(null, facesMessage);
-         
-         
- return "index";
+       
+         System.out.println(" saliendo");
+          faceContext.getExternalContext().redirect("/Proyecto/faces/index.xhtml");
    
 }
-    
+
     
       public Usuario getUsuario() throws IOException {
         

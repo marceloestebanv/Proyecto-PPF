@@ -10,7 +10,11 @@ import Dao.CAT.UsuarioDao;
 import Model.CAT.CausaIngresoExaminado;
 import Model.CAT.Examinado;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -50,16 +54,39 @@ public class ExaminadoBean {
     }
 
     
-    public void insertar(){
-        
-     
-    UsuarioDao linkDAO= new UsuarioDao();
-        
+    public void insertar() throws ParseException{
+        System.out.println("la fecha es "+examinado.getFechaNac()); 
     
-    if(linkDAO.insertarExaminado(examinado)!=0){
-     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Se insertó el examinado.")); 
-    }else{
-         //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Hubo error al insertar el usuario")); 
+        
+      //  Date d = javax.xml.bind.DatatypeConverter.parseDateTime(examinado.getFechaNac()).getTime();
+      
+     SimpleDateFormat formatter = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy",Locale.ENGLISH);
+      Date date = (Date)formatter.parse(examinado.getFechaNac());
+       
+      
+      SimpleDateFormat format = new SimpleDateFormat("yyyy-mm-dd");
+        String fecha=format.format(date);
+     
+       
+        
+       
+        
+        
+   
+        System.out.println(" convertio" +fecha);
+      examinado.setFechaNac(fecha);
+      
+    
+    UsuarioDao linkDAO= new UsuarioDao();
+     
+    int insercion=linkDAO.insertarExaminado(examinado);
+    
+    if(insercion==1){
+     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al ingresar el examinado.", "Se insertó el examinado.")); 
+    }else if(insercion==3){
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! Este rut ya existe en el sistema.", "El rut ya Existe"));
+    }   else{
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! Hubo un fallo al insertar el examinado.", "Hubo error al insertar el examinado")); 
     }    
     
         examinado= new Examinado();

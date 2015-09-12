@@ -98,11 +98,11 @@ public class MenuBeanAdministrador {
      }
      
      public void outcomeNCFAS() throws IOException {
-   contex.getExternalContext().redirect("/Proyecto/faces/CATPages/inicioCAT.xhtml");
+   contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/sistemaindex.xhtml");
      }
      
      public void outcomeCATA() throws IOException {
-   contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/sistemaindex.xhtml");
+   contex.getExternalContext().redirect("/Proyecto/faces/CATPages/inicioCAT.xhtml");
      }
      
 }

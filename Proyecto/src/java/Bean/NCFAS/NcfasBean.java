@@ -1,5 +1,6 @@
 package Bean.NCFAS;
 
+import Bean.CAT.LoginControlador;
 import Dao.NCFAS.NcfasDAO;
 import Model.NCFAS.Item;
 import java.util.List;
@@ -40,7 +41,7 @@ public class NcfasBean {
     List<Ncfas> ncfases;
     List<Ncfas> ncfases2;
     Ncfas ncfas;
-    private Usuario usuario;
+    private String rutUsuario;
     private String nombrefamilia;
     private int parteproceso;
     public int id=40;
@@ -82,14 +83,6 @@ public class NcfasBean {
         this.ncfases = ncfases;
     }
 
-    
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 
     public int getId() {
         return id;
@@ -132,9 +125,13 @@ public class NcfasBean {
         System.out.println(nombrefamilia);
         System.out.println(parteproceso);
         
+        LoginControlador User = new LoginControlador();
+        rutUsuario=User.getUsuario().getRut();
+        System.out.println(rutUsuario);
+        
     try {
             dao = new NcfasDAO();
-           dao.ingresarNcafas(nombrefamilia,parteproceso/*,usuario*/);
+           dao.ingresarNcafas(nombrefamilia,parteproceso,rutUsuario);
            contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/nuevositemsncfas_1.xhtml");
         } catch (Exception e) {
             throw e;

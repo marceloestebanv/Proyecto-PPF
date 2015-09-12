@@ -13,6 +13,7 @@ import Model.NCFAS.Item;
 import Model.NCFAS.Ncfas;
 import java.util.List;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +47,34 @@ public class ListarItemsBean implements Serializable{
     private List<Item> items; 
     private int idamandar;
     private String nombrefamilia;
+    private String rutUsuario;
+    private int parteProceso;
+    private Date fechaIngreso;
+
+    public String getRutUsuario() {
+        return rutUsuario;
+    }
+
+    public void setRutUsuario(String rutUsuario) {
+        this.rutUsuario = rutUsuario;
+    }
+
+    public int getParteProceso() {
+        return parteProceso;
+    }
+
+    public void setParteProceso(int parteProceso) {
+        this.parteProceso = parteProceso;
+    }
+
+    public Date getFechaIngreso() {
+        return fechaIngreso;
+    }
+
+    public void setFechaIngreso(Date fechaIngreso) {
+        this.fechaIngreso = fechaIngreso;
+    }  
+    
 
     public String getNombrefamilia() {
         return nombrefamilia;
@@ -216,6 +245,11 @@ public class ListarItemsBean implements Serializable{
         listarDim6();
         listarDim7();
         listarDim8();
+        retornaRutUsuario();
+        retornaFechaIngreso();
+        retornaNombreFamilia();
+        retornaParteProceso();
+
     }
     
     public void listarEntorno() throws Exception{
@@ -227,7 +261,7 @@ public class ListarItemsBean implements Serializable{
      ItemDao dao;  
      dao = new ItemDao();
      valores1=dao.obtenerPuntajesDim1(1,dao2.retornarID());
-        System.out.println(valores1[2]);
+      //  System.out.println(valores1[2]);
      }catch(DAOException ex){
      Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
      }
@@ -347,7 +381,52 @@ public class ListarItemsBean implements Serializable{
      IdDAO dao;  
      dao = new IdDAO();
      nombrefamilia=dao2.obtenerNombreFamilia(dao.retornarID());
-        System.out.println(valores1[2]);
+        System.out.println(nombrefamilia);
+     }catch(DAOException ex){
+     Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
+     }
+}
+     
+     public void retornaRutUsuario() throws Exception{
+     
+     try{
+     NcfasDAO dao2;  
+     dao2 = new NcfasDAO();
+     
+     IdDAO dao;  
+     dao = new IdDAO();
+     rutUsuario=dao2.obtenerRutUsuario(dao.retornarID());
+        System.out.println(rutUsuario);
+     }catch(DAOException ex){
+     Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
+     }
+}
+     
+     public void retornaFechaIngreso() throws Exception{
+     
+     try{
+     NcfasDAO dao2;  
+     dao2 = new NcfasDAO();
+     
+     IdDAO dao;  
+     dao = new IdDAO();
+     fechaIngreso=dao2.obtenerFechaIngreso(dao.retornarID());
+        System.out.println(fechaIngreso);
+     }catch(DAOException ex){
+     Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
+     }
+}
+     
+     public void retornaParteProceso() throws Exception{
+     
+     try{
+     NcfasDAO dao2;  
+     dao2 = new NcfasDAO();
+     
+     IdDAO dao;  
+     dao = new IdDAO();
+     parteProceso=dao2.obtenerParteProceso(dao.retornarID());
+        System.out.println(parteProceso);
      }catch(DAOException ex){
      Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
      }

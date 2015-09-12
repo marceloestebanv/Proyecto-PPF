@@ -31,8 +31,10 @@ import javax.servlet.ServletContext;
  * @author Marcelo Verdugo
  */
 public class ItemDao extends DAO{
-    private Object servletContext;
     
+    
+   // private Object servletContext;
+  //  public void ItemDao(){}
 
 
 public void obtenerIdNcfas() throws Exception{
@@ -555,7 +557,7 @@ pw.print(valor+",");
         Integer[] listaValores;
         listaValores = new Integer[9];
         
-        System.err.println("llegasos a la dimension a obtener los valores ");
+        System.err.println("llegasos a la dimension 1 a obtener los valores ");
         //Statement stmt2 = null;
         ResultSet rs = null;
         try{
@@ -741,7 +743,7 @@ pw.print(valor+",");
     }
     
     
-    /*public List<Ncfas> mostrarNcfas() throws Exception{
+    public List<Ncfas> mostrarNcfas() throws Exception{
          
         List<Ncfas> lista;
         ResultSet rs=null;
@@ -771,7 +773,7 @@ pw.print(valor+",");
         }
             
         return lista;
-        }*/
+        }
 
     public String obtenerFecha(int id) throws DAOException {
         int i=1;

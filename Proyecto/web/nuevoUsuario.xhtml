@@ -6,6 +6,8 @@
       xmlns:p="http://primefaces.org/ui">
 
     <f:view contentType="text/html">
+        
+    
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -16,7 +18,8 @@
                 
                 
                 <title>Nuevo Usuario</title>
-                
+                <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="/Proyecto/favicon.ico" type="image/x-icon"/>
                 
             </f:facet>
             
@@ -43,53 +46,51 @@
             
         </h:head>
 
-        <h:body>
+        <h:body rendered="#{not empty testSession.tipoUsuario and testSession.tipoUsuario eq 'Administrador'}">
           
             <p:layout fullPage="true">
 
-                <p:layoutUnit position="north"   size="150"  collapsible="true" style="color: #888">
-            
-                    <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
-            <p:graphicImage value="./resources/imagen/logo_uv.png" style="display:block;padding: 25px"/>
-            <h1> CAT-A</h1>
-            
-            <h:panelGrid   style="display: block;float: right;text-align: center " >
-            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />
-            <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
+                <p:layoutUnit position="north"   size="95"  collapsible="true" style="" >                
+           <div class="col-md-3">
+           <a class="navbar-brand" href="welcomePrimefaces.xhtml" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 30px;">PPF Aitué <span><p:graphicImage  value="./resources/imagen/logofamilia.png" width="20%"/> </span></a>
+           </div>  
+            <h:panelGrid   style="display: block;float: right;text-align: center " >    
+            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />     
+            <h:outputText value="#{loginControlador.usuario.nombre}" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;display: block;  text-align: center"  /> 
             </h:panelGrid>
-            </h:panelGrid>
-                    
-                    
-                </p:layoutUnit>
+            </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
                  <h:outputText value=" Universidad de Valparaíso. 
                    Todos los derechos reservados. 
-                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
-                 
+                   Chile - 2015"  style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;padding: 1%; display: block;text-align: center"  /> 
                 </p:layoutUnit>
 
-                <p:layoutUnit position="west" size="175" header="Menu" collapsible="true">
-                  
-                    <h:form >
-                    <p:menu>
+                <p:layoutUnit position="west" size="220" header="Menu">
+                   
+                      <h:form>
+                          <p:panelMenu style="width:100%;" rendered="#{testSession.tipoUsuario eq 'Administrador'}">
                        
-                            <p:menuitem value="Inicio"   outcome="./welcomePrimefaces.xhtml" /> 
+                            <p:submenu label="Gestion de Usuarios">
                             <p:menuitem value="Agregar Usuario" outcome="./nuevoUsuario.xhtml" />
                             <p:menuitem value="Gestionar Cuenta" outcome="./gestionarUsuario.xhtml" />
-                            <p:menuitem value="Agregar Examinado" outcome="/CATPages/nuevoExaminado.xhtml" />
-                            <p:menuitem value="Agregar Test" outcome="/CATPages/ingresarTest.xhtml" />
-                             <p:menuitem value="Histórico de Test" outcome="/CATPages/gestionarTests.xhtml" />
-                             <p:menuitem value="Consultar Estadísticas" outcome="/CATPages/consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="/CATPages/administrarTerminos.xhtml" />
-                            <p:menuitem value="Salir" action="#{loginControlador.logout()}" />
+                            </p:submenu>
+                              <p:submenu label="Sistema">
+                            <p:menuitem value="CAT-A" outcome="./CATPages/inicioCAT.xhtml" />
+                            <p:menuitem value="NCFAS" outcome="./NCFASPages/sistemaindex.xhtml" />
+                           </p:submenu>
+                          </p:panelMenu>
+                          
+                            <p:panelMenu style="width:210px"  rendered="#{testSession.tipoUsuario eq 'Asistente' or 'Psicologo'}">
                             
-                   </p:menu>
-                    
+                            <p:submenu label="Sistema">
+                            <p:menuitem value="CAT-A" outcome="./CATPages/inicioCAT.xhtml" />
+                            <p:menuitem value="NCFAS" outcome="./NCFASPages/sistemaindex.xhtml" />
+                           </p:submenu>
+                            </p:panelMenu>
+                    <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
                       </h:form>
-                    
-                    
-                </p:layoutUnit>
+                  </p:layoutUnit >
 
                 <p:layoutUnit position="center">
                     
@@ -99,23 +100,33 @@
                          <h2> Agregar Usuario </h2>
                          <br/>
                     
-                      <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
+                      <p:messages id="messages"  autoUpdate="true" closable="true" />
                       <h:panelGrid columns="2" >
                 
                 <p:outputLabel for="rut" value="Rut del Usuario" />
-                <p:inputText id="rut" value="#{usuarioBean.usuario.rut}"   placeholder="Ej:18033150"/>
-              
+                <p:inputText id="rut" value="#{usuarioBean.usuario.rut}" required="true"  placeholder="Ej:18033150"  validatorMessage="Rut Erroneo">
+                             
+                   
+             <f:validateRegex  pattern="[0-9]{7,9}"  />          
+                   
+                </p:inputText>
                 
-                <p:outputLabel value="Nombre del Usuario"/>
-                <p:inputText value="#{usuarioBean.usuario.nombre}"  placeholder="Ingrese Nombre" />
+                <p:outputLabel for="nombre" value="Nombre del Usuario"/>
+                <p:inputText id="nombre" value="#{usuarioBean.usuario.nombre}"  required="true"  placeholder="Ingrese Nombre"  >
+                 <f:validateLength minimum="5" maximum="45" /> 
+                </p:inputText>
                 
-                <p:outputLabel value="Contraseña del Usuario"/>
-                <p:inputText value="#{usuarioBean.usuario.password}"  placeholder="Ingrese Contraseña" />
+                <p:outputLabel for="pass" value="Contraseña del Usuario"/>
+                <p:inputText id="pass" value="#{usuarioBean.usuario.password}" required="true"  placeholder="Ingrese Contraseña" >
+                <f:validateLength minimum="4" maximum="45" /> 
+                </p:inputText>
                 
-                <p:outputLabel value="Correo del Usuario"/>
-                <p:inputText value="#{usuarioBean.usuario.correo}" placeholder="Ingrese Correo"/>
-               
-                <p:outputLabel value="Tipo de usuario"/>
+                <p:outputLabel for="correo" value="Correo del Usuario"/>
+                <p:inputText id="correo" value="#{usuarioBean.usuario.correo}" required="true" validatorMessage="Formato correo erroneo" placeholder="Ingrese Correo">
+                 <f:validateRegex  pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$"  />          
+                   
+                </p:inputText>
+                <p:outputLabel for="tipoUser" value="Tipo de Usuario"/>
                
                 <p:selectOneMenu id="tipoUser" effect="drop"
                                  value="#{usuarioBean.tipoUsuario}" required="true">
@@ -131,7 +142,7 @@
              
             </h:panelGrid>
                         <br/>
-                        <h:commandButton actionListener="#{usuarioBean.insertar()}" class="btn btn-primary"  value="Ingresar Usuario" /> 
+                        <p:commandButton actionListener="#{usuarioBean.insertar()}" validateClient="true" value="Ingresar Usuario" /> 
         </h:form>
         
                 </p:layoutUnit>
@@ -143,7 +154,16 @@
            
 
         </h:body>
-
+          
+        
+         <h:form rendered="#{not empty testSession.tipoUsuario and ((testSession.tipoUsuario eq 'Psicologo')or (testSession.tipoUsuario eq 'Asistente'))}">
+        <h1> Página sólo de administración.No tienes permisos para esta página</h1>
+              </h:form>
+        
+        <h:form rendered="#{empty testSession.tipoUsuario}">
+              
+              <h1> ingresa sesion</h1>
+              </h:form>
     </f:view>
 </html>
 

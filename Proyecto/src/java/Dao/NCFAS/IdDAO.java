@@ -6,6 +6,7 @@
 package Dao.NCFAS;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -31,13 +32,18 @@ public class IdDAO {
     
     
    public void guardarID(int id) throws Exception{
-       
-       FileWriter fichero = null; 
+ 
+     FileWriter fichero = null; 
      PrintWriter pw = null; 
+     //BufferedWriter bw = new BufferedWriter(new FileWriter(pathArchivos+"infoid.txt"));
+    //bw.write(id);
      try{
-       fichero = new FileWriter("infoid.txt",true);
+      ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+      String pathArchivos=(String) servletContext.getRealPath("/")+"/archivosVarios/"; 
+       System.out.println(pathArchivos+"infoid.txt");
+       fichero = new FileWriter(pathArchivos+"infoid.txt");
        pw = new PrintWriter(fichero);
-       pw.print(id);
+       pw.println(id);
        pw.println("");
        System.out.println("biiieennntoo");
        
@@ -50,37 +56,36 @@ public class IdDAO {
     
 }
    
-    public int retornarID() throws DAOException{
+public int retornarID() throws DAOException{
         
-ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
-      String pathArchivos=(String) servletContext.getRealPath("/")+"/archivosVarios/"; // Sustituye "/" por el directorio ej: "/upload"
 
+      
 int retorno=0;
- try{  
+ try{
+ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+String pathArchivos=(String) servletContext.getRealPath("/")+"/archivosVarios/";      
 BufferedReader bf = new BufferedReader(new FileReader(pathArchivos+"infoid.txt"));
-
-String temp="";
+String linea1=bf.readLine();
+/*String temp="";
 String[] lineas;
-lineas = new String[30];
+lineas = new String[30];*/
 
 int i=0;
-while(temp!=null){
+retorno=Integer.parseInt(linea1);
+/*while(temp!=null){
     
     temp = bf.readLine();
     if(temp==null)
         break;    
     retorno = Integer.parseInt(temp);
     i++;
-}  
- 
- 
-     System.out.println(retorno);
-  
+} */ 
+
  }catch (IOException | NumberFormatException ex) {
             Logger.getLogger(DimensionesDao.class.getName()).log(Level.SEVERE, null, ex);
         }        
 
- 
+ System.out.println("estamos retornando esto -->"+retorno);
 return retorno;
 
 }

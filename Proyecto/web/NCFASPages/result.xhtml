@@ -15,6 +15,9 @@
         <link href="/Proyecto/resources/css/docs.min.css" rel="stylesheet" type="text/css"/>
         <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
 </f:facet>
+            <title>NCFAS</title>
+                <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="/Proyecto/favicon.ico" type="image/x-icon"/>
 </h:head>
 <h:body>
     <p:layout fullPage="true" >
@@ -22,77 +25,52 @@
         
         
         
-<p:layoutUnit position="north"   size="140"  collapsible="true" >      
-             <h:panelGrid  columns ="3"   width="100%"  >
-                 <h:panelGrid >
-                    <p:graphicImage value="/resources/imagen/logo_uv.png"  style="display:block;padding: 10px;padding-top: 0px"/>
-                 </h:panelGrid>    
-                 <h:panelGrid   style="display: block;float: center; text-align: center;padding-left: 300px;padding-top: 0px" >
-                    <h1> PPF AITUÉ </h1>
-                    <p:graphicImage  value="/resources/imagen/logofamilia.png" width="35%" />
-                 </h:panelGrid>        
-            <h:panelGrid   style="display: block;float: right;text-align: center " >
-            <p:graphicImage  value="/resources/imagen/images.jpg" width="20%"  />
-            <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
-            </h:panelGrid>     
-            </h:panelGrid>     
- </p:layoutUnit>
-        
-        
+<p:layoutUnit position="north"   size="95"  collapsible="true" style="" >                
+           <div class="col-md-3">
+           <a class="navbar-brand" href="../welcomePrimefaces.xhtml" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 30px;">PPF Aitué <span><p:graphicImage  value="./resources/imagen/logofamilia.png" width="20%"/> </span></a>
+           </div>  
+            <h:panelGrid   style="display: block;float: right;text-align: center " >    
+            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />     
+            <h:outputText value="#{loginControlador.usuario.nombre}" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;display: block;  text-align: center"  /> 
+            </h:panelGrid>
+            </p:layoutUnit>
 
+                <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                 <h:outputText value=" Universidad de Valparaíso. 
+                   Todos los derechos reservados. 
+                   Chile - 2015"  style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;padding: 1%; display: block;text-align: center"  /> 
+                </p:layoutUnit>
         
- <p:layoutUnit position="west" size="200">
+ <p:layoutUnit position="west" size="220" header="Menu">
     <p:growl autoUpdate="true"/>
-
     <h:form>
- <p:panelMenu style="width:190px">
+        <p:panelMenu style="width:210px">
         <p:submenu label="Gestionar NCFAS">
-            <p:menuitem value="Ingresar un Nuevo NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" icon="ui-icon-disk" />
-            <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}" icon="ui-icon-arrowrefresh-1-w" />
-            <p:menuitem value="Ver NCFAS de tipo Inical"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}" icon="ui-icon-arrowrefresh-1-w" />   
-            <p:menuitem value="Ver NCFAS de tipo Final"  actionListener="#{menuBeanAdministrador.verNcfasFinales}" icon="ui-icon-arrowrefresh-1-w" />
-            <p:menuitem value="Ver NCFAS por Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" icon="ui-icon-arrowrefresh-1-w" />
-        
+            <p:menuitem value="Ingresar NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
+            <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
+            <p:menuitem value="Ver NCFAS de tipo Inical"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
+            <p:menuitem value="Ver NCFAS de tipo Final"  actionListener="#{menuBeanAdministrador.verNcfasFinales}"  />
+            <p:menuitem value="Ver NCFAS por rengo de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
         </p:submenu>
-        
-        <p:submenu label="Módulo Minería de Datos">
-            <p:menuitem value="Generar Minería (Competencias Familiares)" actionListener="#{menuBeanAdministrador.mineriadedatos}" icon="ui-icon-wrench"/>
-            <p:menuitem value="Generar Minería (Interacciones Familiares)" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" icon="ui-icon-wrench"/>
+        <p:submenu label="Minería de Datos">
+            <p:menuitem value="Reglas de Asociación a Competencias Familiares" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
+            <p:menuitem value="Reglas de Asociación a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
         </p:submenu>
-        
-        <p:submenu label="Módulo Estadística Desciptiva">
-            <p:menuitem value="Ver Gráfico Seleccionando NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" icon="ui-icon-bookmark"/>
-            <p:menuitem value="Ver Gráfico de Comparación de Items " actionListener="#{menuBeanAdministrador.comparar}" icon="ui-icon-bookmark"/>
-            <p:menuitem value="Ver Gráfico de Comparación de Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" icon="ui-icon-bookmark"/>
-            <p:menuitem value="Ver Gráfico de Comparación de fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" icon="ui-icon-bookmark"/>
+        <p:submenu label="Estadística Desciptiva">
+            <p:menuitem value="Ver Gráfico Seleccionando NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
+            <p:menuitem value="Ver Gráfico de Comparación por Items " actionListener="#{menuBeanAdministrador.comparar}" />
+            <p:menuitem value="Ver Gráfico de Comparación por Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" />
+            <p:menuitem value="Ver Gráfico de Comparación por fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" />
         </p:submenu>
-</p:panelMenu>
-
-       
-<h:commandButton id="salir" class="btn btn-primary" value="Volver al Inicio" action="#{usuarioBean.logout()}" />
+        </p:panelMenu>      
+<h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
 </h:form> 
-</p:layoutUnit>  
-                    
-    
-<p:layoutUnit position="south" size="70" closable="true" collapsible="true">
-                 <h:outputText value=" Universidad de Valparaíso. 
-                   Todos los derechos reservados. 
-                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
-                 
-</p:layoutUnit> 
-                    
-    
-<p:layoutUnit position="south" size="70" closable="true" collapsible="true">
-                 <h:outputText value=" Universidad de Valparaíso. 
-                   Todos los derechos reservados. 
-                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
-                 
 </p:layoutUnit>
         
             
            <p:growl id="msgs" showDetail="true" />         
         <p:layoutUnit position="center">         
-        <h3>Nombre Familia: VALENZUELA </h3> 
+        <h3>Nombre Familia:</h3> 
         <h:outputText value="#{listarItemsBean.nombrefamilia}" />
       
              

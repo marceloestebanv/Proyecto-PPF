@@ -11,6 +11,7 @@ import Model.CAT.Usuario;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
@@ -54,32 +55,63 @@ public class UsuarioBean {
 
     
     public void insertar(){
-        
-        System.out.println("nombre usuario bean:" +usuario.getNombre());
-    UsuarioDao linkDAO= new UsuarioDao();
-        
     
-    if(linkDAO.insertarUsuario(usuario,tipoUsuario)!=0){
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "OK", "Se insertó el usuario.")); 
-    }else{
-         //FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Hubo error al insertar el usuario")); 
+      System.out.println("Usuario a insertar:" +usuario.getNombre());
+    UsuarioDao linkDAO= new UsuarioDao();
+    
+    int insercion=linkDAO.insertarUsuario(usuario,tipoUsuario);
+
+    if(insercion==1){
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al ingresar usuario.", "Se insertó el usuario.")); 
+    //el 8 lo asignamos arbitrariamente en el metodo insertar
+    }else if(insercion==3){
+       FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! El usuario ya existe en el sistema.", "El usuario ya Existe")); 
+    }
+    else{
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! Hubo un fallo al insertar el usuario.", "Hubo error al insertar el usuario")); 
     }
         usuario= new Usuario();
         updateUsuarios();
-        System.out.println("nobmre: "+usuario.getNombre());
+    //    System.out.println("nobmre: "+usuario.getNombre());
         
     }
     public void modificar(){
+        
+        System.out.println("a modificicar");
+   
     UsuarioDao linkDAO= new UsuarioDao();
-        linkDAO.modificarUsuario(usuario);
+    
+    if(usuario.getCorreo().length()==0||usuario.getNombre().length()==0){
+     //   FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Complete los campos"));
+       //quiere decir que esta vacio 
+        
+    }else{
+      
+       int modifica= linkDAO.modificarUsuario(usuario);
+        if(modifica==1)
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al editar el usuario!", "Se editó el usuario."));
+       else
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! Hubo un fallo al tratar de editar el usuario, intentelo más tarde.", "Complete los campos"));  
+       
+       
+       
         updateUsuarios();
         usuario= new Usuario();
+     
+    }
+   
     }
     public void eliminar(){
         System.out.println("nombre usuario bean:" +usuario.getRut());
     UsuarioDao linkDAO= new UsuarioDao();
-        linkDAO.eliminarUsuario(usuario);
-        updateUsuarios();
+       int elimina= linkDAO.eliminarUsuario(usuario);
+       
+       if(elimina==1)
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al eliminar el usuario!", "Se eliminó el usuario."));
+       else
+         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! Hubo un fallo al tratar de eliminar el usuario, intentelo más tarde.", "Complete los campos"));  
+       
+       updateUsuarios();
         usuario= new Usuario();
     }
     public Usuario getUsuario() {

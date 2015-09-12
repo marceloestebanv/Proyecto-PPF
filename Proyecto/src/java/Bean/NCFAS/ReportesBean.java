@@ -5,10 +5,13 @@
  */
 package Bean.NCFAS;
 
+import Dao.NCFAS.PruebaWekaDao;
 import Model.NCFAS.NcfasReport;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +23,7 @@ import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRField;
 import net.sf.jasperreports.engine.JasperExportManager;
@@ -33,7 +37,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 @SessionScoped
 @RequestScoped
 
-public class ReportesBean {
+public class ReportesBean implements Serializable {
     
     
     
@@ -59,6 +63,25 @@ public class ReportesBean {
     beanItems= new ListarItemsBean();
     
     String nombrefamilia = beanItems.getNombrefamilia();
+    String rutUuario =beanItems.getRutUsuario();
+    Date fechaIngreso =beanItems.getFechaIngreso();
+    int parteproceso = beanItems.getParteProceso();
+    String parteProceso="";
+    
+    if(parteproceso!=-1){
+    parteproceso = (int)parteproceso;
+        switch(parteproceso){
+            case 1:
+                parteProceso="Inicial";
+                break;
+            case 2:
+                parteProceso="Porceso";
+                break;
+            case 3:
+                parteProceso="Final";
+                break;
+        }
+    }
     
     valores1=beanItems.getValores1();
     valores2=beanItems.getValores2();
@@ -71,101 +94,87 @@ public class ReportesBean {
     
    
     
-    NcfasReport objectNcfas;
-    objectNcfas= new NcfasReport();
-    
-        //campo fijo (txtUsu.. valor del parmetro jasper, Mitocode... valor que le daremos desde java
-    objectNcfas.setFechaEvaluacion(null);
-    objectNcfas.setNombreFamilia(nombrefamilia);
-    objectNcfas.setRutEvaluador(pathArchivos);
-    
-    objectNcfas.setDimension1(valores1);
-    objectNcfas.setDimension2(valores2);
-    objectNcfas.setDimension3(valores3);
-    objectNcfas.setDimension4(valores4);
-    objectNcfas.setDimension5(valores5);
-    objectNcfas.setDimension6(valores6);
-    objectNcfas.setDimension7(valores7);
-    objectNcfas.setDimension8(valores8);
-    
     Map<String,Object> parametros= new HashMap<>();        
-    parametros.put("field1",valores1[1]);
-    parametros.put("field2",valores1[2]);
-    parametros.put("field3",valores1[3]);
-    parametros.put("field4",valores1[4]);
-    parametros.put("field5",valores1[5]);
-    parametros.put("field6",valores1[6]);
-    parametros.put("field7",valores1[7]);
+    parametros.put("parameter1",valores1[1]);
+    parametros.put("parameter2",valores1[2]);
+    parametros.put("parameter3",valores1[3]);
+    parametros.put("parameter4",valores1[4]);
+    parametros.put("parameter5",valores1[5]);
+    parametros.put("parameter6",valores1[6]);
+    parametros.put("parameter7",valores1[7]);
     
-    parametros.put("field8",valores2[1]);
-    parametros.put("field9",valores2[2]);
-    parametros.put("field10",valores2[3]);
-    parametros.put("field11",valores2[4]);
-    parametros.put("field12",valores2[5]);
-    parametros.put("field13",valores2[6]);
-    parametros.put("field14",valores2[7]);
-    parametros.put("field15",valores2[8]);
+    parametros.put("parameter8",valores2[1]);
+    parametros.put("parameter9",valores2[2]);
+    parametros.put("parameter10",valores2[3]);
+    parametros.put("parameter11",valores2[4]);
+    parametros.put("parameter12",valores2[5]);
+    parametros.put("parameter13",valores2[6]);
+    parametros.put("parameter14",valores2[7]);
+    parametros.put("parameter15",valores2[8]);
     
-    parametros.put("field16",valores3[1]);
-    parametros.put("field17",valores3[2]);
-    parametros.put("field18",valores3[3]);
-    parametros.put("field19",valores3[4]);
-    parametros.put("field20",valores3[5]);
-    parametros.put("field21",valores3[6]);
-    parametros.put("field22",valores3[7]);
-    parametros.put("field23",valores3[8]);
+    parametros.put("parameter16",valores3[1]);
+    parametros.put("parameter17",valores3[2]);
+    parametros.put("parameter18",valores3[3]);
+    parametros.put("parameter19",valores3[4]);
+    parametros.put("parameter20",valores3[5]);
+    parametros.put("parameter21",valores3[6]);
+    parametros.put("parameter22",valores3[7]);
+    parametros.put("parameter23",valores3[8]);
     
-    parametros.put("field24",valores4[1]);
-    parametros.put("field25",valores4[2]);
-    parametros.put("field26",valores4[3]);
-    parametros.put("field27",valores4[4]);
-    parametros.put("field28",valores4[5]);
-    parametros.put("field29",valores4[6]);
-    parametros.put("field30",valores4[7]);
-    parametros.put("field31",valores4[8]);
+    parametros.put("parameter24",valores4[1]);
+    parametros.put("parameter25",valores4[2]);
+    parametros.put("parameter26",valores4[3]);
+    parametros.put("parameter27",valores4[4]);
+    parametros.put("parameter28",valores4[5]);
+    parametros.put("parameter29",valores4[6]);
+    parametros.put("parameter30",valores4[7]);
+    parametros.put("parameter31",valores4[8]);
     
-    parametros.put("field32",valores5[1]);
-    parametros.put("field33",valores5[2]);
-    parametros.put("field34",valores5[3]);
-    parametros.put("field35",valores5[4]);
-    parametros.put("field36",valores5[5]);
-    parametros.put("field37",valores5[6]);
-    parametros.put("field38",valores5[7]);
+    parametros.put("parameter32",valores5[1]);
+    parametros.put("parameter33",valores5[2]);
+    parametros.put("parameter34",valores5[3]);
+    parametros.put("parameter35",valores5[4]);
+    parametros.put("parameter36",valores5[5]);
+    parametros.put("parameter37",valores5[6]);
+    parametros.put("parameter38",valores5[7]);
    
    
-    parametros.put("field39",valores6[1]);
-    parametros.put("field40",valores6[2]);
-    parametros.put("field41",valores6[3]);
-    parametros.put("field42",valores6[4]);
-    parametros.put("field43",valores6[5]);
-    parametros.put("field44",valores6[6]);
+    parametros.put("parameter39",valores6[1]);
+    parametros.put("parameter40",valores6[2]);
+    parametros.put("parameter41",valores6[3]);
+    parametros.put("parameter42",valores6[4]);
+    parametros.put("parameter43",valores6[5]);
+    parametros.put("parameter44",valores6[6]);
     
     
     
-    parametros.put("field45",valores7[1]);
-    parametros.put("field46",valores7[2]);
-    parametros.put("field47",valores7[3]);
-    parametros.put("field48",valores7[4]);
-    parametros.put("field49",valores7[5]);
-    parametros.put("field50",valores7[6]);
+    parametros.put("parameter45",valores7[1]);
+    parametros.put("parameter46",valores7[2]);
+    parametros.put("parameter47",valores7[3]);
+    parametros.put("parameter48",valores7[4]);
+    parametros.put("parameter49",valores7[5]);
+    parametros.put("parameter50",valores7[6]);
     
     
-    parametros.put("field51",valores8[1]);
-    parametros.put("field52",valores8[2]);
-    parametros.put("field53",valores8[3]);
-    parametros.put("field54",valores8[4]);
-    parametros.put("field55",valores8[5]);
-    parametros.put("field56",valores8[6]);
-    parametros.put("field57",valores8[7]);
+    parametros.put("parameter51",valores8[1]);
+    parametros.put("parameter52",valores8[2]);
+    parametros.put("parameter53",valores8[3]);
+    parametros.put("parameter54",valores8[4]);
+    parametros.put("parameter55",valores8[5]);
+    parametros.put("parameter56",valores8[6]);
+    parametros.put("parameter57",valores8[7]);
+    parametros.put("parameter58",valores8[8]);
+    
+    parametros.put("nombreFamilia",nombrefamilia);
+    parametros.put("examinador",rutUuario);
+    parametros.put("fechaAplica",fechaIngreso);
+    parametros.put("parteProceso",parteProceso);
         
-   
-    System.out.println("el valor 1 es : " +valores1[1]);
-    System.out.println("el último valor es : " +valores8[7]);
     
    // parametros.put("nombreUs",testBean.getUsuario().getNombre());
 
             File jasper= new File(pathArchivos+"reporteNcfas.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros);
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(), parametros , new JREmptyDataSource());
        
      HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
 		response.addHeader("Content-disposition","attachment; filename=Ncfas-"+".pdf");
@@ -189,23 +198,38 @@ public class ReportesBean {
       String pathArchivos=(String) servletContext.getRealPath("/")+"/archivosVarios/"; 
 
         
-          MineriaBean beanMineria;
-    beanMineria= new MineriaBean();
-    
-    reglasEncontradas  = beanMineria.obtenerDim3();
+    PruebaWekaDao dao2;
+    dao2 = new PruebaWekaDao();
+    //OBTENGO LAS REGLAS
+    reglasEncontradas=dao2.retornarReglas();
         //campo fijo (txtUsu.. valor del parmetro jasper, Mitocode... valor que le daremos desde java
         
     Map<String,Object> parametros= new HashMap<>();
     
-    parametros.put("regla", "algo");
+          for(int i=0; i<reglasEncontradas.size();i++){
+   System.out.println( reglasEncontradas.size());
+              System.out.println(reglasEncontradas.get(2));
+    parametros.put("regla"+i, reglasEncontradas.get(i));
+          }
+   /* parametros.put("regla1", reglasEncontradas.get(0));
+    parametros.put("regla2", reglasEncontradas.get(1));
+    parametros.put("regla3", reglasEncontradas.get(2));
+    parametros.put("regla4", reglasEncontradas.get(3));
+    parametros.put("regla5", reglasEncontradas.get(4));
+    parametros.put("regla6", reglasEncontradas.get(5));
+    parametros.put("regla7", reglasEncontradas.get(6));
+    parametros.put("regla8", reglasEncontradas.get(7));
+    parametros.put("regla9", reglasEncontradas.get(8));
+    parametros.put("regla10", reglasEncontradas.get(9));*/
     
     
+          System.out.println(reglasEncontradas.get(1));
    // parametros.put("nombreUs",testBean.getUsuario().getNombre());
         
         
         
-        File jasper= new File(pathArchivos+"reporteMineria.jasper");
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parametros ); 
+        File jasper= new File(pathArchivos+"reporteMineriaFinal.jasper");
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasper.getPath(),parametros , new JREmptyDataSource()); 
             
        
      HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
@@ -218,7 +242,7 @@ public class ReportesBean {
 		stream.flush();
 		stream.close();
 		FacesContext.getCurrentInstance().responseComplete();
-                
+       
                 
              
                     

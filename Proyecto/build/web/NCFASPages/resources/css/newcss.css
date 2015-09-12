@@ -8,17 +8,12 @@ and open the template in the editor.
     Author     : Marcelo Verdugo
 */
 
-.ui-Oneradio-text{
-   font-size:50px;
-}
-.ui-selectOnRadio-text{
-    font-size:50px;
-}
-.smallButton .ui-button-text {
-   font-size:11px;
-}
+
 h1{
 font-size:30pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;
+}
+h2{
+font-size:20pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;
 }
 body{
     background-color: #fff;  
@@ -31,4 +26,8 @@ p.lerasinicio{font-size:22pt;line-height:0.85em;font-weight: 500;text-align:cent
 #logo {position: fixed;right: 30px;top: 65vh;z-index: 3; }
 #h1titulo{position: fixed;right: 65px;top: 89vh;z-index: 3;}
 #menu{font-size:10pt;line-height:1.85em;font-weight: 800;letter-spacing:1px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;}
-.ui-fieldset{font-size:30pt;line-height:0.85em;font-weight: 800;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;}
+.ui-fieldset{font-size:30pt;line-height:0.85em;font-weight: 800;letter-spacing: 2px;color:#3BBAAE;}
+
+
+
+

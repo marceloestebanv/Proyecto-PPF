@@ -10,14 +10,18 @@
         <h:form rendered="#{not empty testSession.tipoUsuario}">
         <h:head>
             <f:facet name="first">
-                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+         <meta name="viewport" content="width=device-width, initial-scale=1"/>
          <link href="/Proyecto/resources/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="/Proyecto/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="/Proyecto/resources/js/bootstrap.js" type="text/javascript"></script>
+        <link href="/Proyecto/resources/css/docs.min.css" rel="stylesheet" type="text/css"/>
+        <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
        
                 
                 
-                <title>Inicio</title>
+                <title>PPF Aitué</title>
+                <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="/Proyecto/favicon.ico" type="image/x-icon"/>
             </f:facet>
             
                <style type="text/css">
@@ -34,86 +38,86 @@
         </h:head>
 
         <h:body>
+         
             
-            
-   
+            <div class="wrap">
             
             <p:layout fullPage="true" >
 
-                <p:layoutUnit position="north"   size="150"  collapsible="true" >
-            
-                    <h:panelGrid  columns ="3"  cellpadding="15" width="100%"  >
-            <p:graphicImage value="./resources/imagen/logo_uv.png"  style="display:block;padding: 25px"/>
-            <h1> PPF AITUÉ </h1>
-            
-            <h:panelGrid   style="display: block;float: right;text-align: center " >
-            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />
-            <h:outputText value="#{loginControlador.usuario.nombre}" style="display: block;  text-align: center"  /> 
+           <p:layoutUnit position="north"   size="95"  collapsible="true" style="" >                
+           <div class="col-md-3">
+           <a class="navbar-brand" href="welcomePrimefaces.xhtml" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 30px;">PPF Aitué <span><p:graphicImage  value="./resources/imagen/logofamilia.png" width="20%"/> </span></a>
+           </div>  
+            <h:panelGrid   style="display: block;float: right;text-align: center " >    
+            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />     
+            <h:outputText value="#{loginControlador.usuario.nombre}" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;display: block;  text-align: center"  /> 
             </h:panelGrid>
-            </h:panelGrid>
-                    
-                    
-                </p:layoutUnit>
+            </p:layoutUnit>
 
                 <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
                  <h:outputText value=" Universidad de Valparaíso. 
                    Todos los derechos reservados. 
-                   Chile - 2015"  style="padding: 1%; display: block;text-align: center"  /> 
-                 
+                   Chile - 2015"  style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;padding: 1%; display: block;text-align: center"  /> 
                 </p:layoutUnit>
 
-                <p:layoutUnit position="west" size="200" header="Menu">
+                <p:layoutUnit position="west" size="220" header="Menu">
                    
                       <h:form>
-                          <p:menu rendered="#{testSession.tipoUsuario eq 'Administrador'}">
+                          <p:panelMenu style="width:100%;" rendered="#{testSession.tipoUsuario eq 'Administrador'}">
                        
-                            <p:menuitem value="Inicio"   outcome="./welcomePrimefaces.xhtml" /> 
+                            <p:submenu label="Gestion de Usuarios">
                             <p:menuitem value="Agregar Usuario" outcome="./nuevoUsuario.xhtml" />
                             <p:menuitem value="Gestionar Cuenta" outcome="./gestionarUsuario.xhtml" />
-                           
-                               <p:menuitem value="Salir" action="#{loginControlador.logout()}" />
-                            
-                   </p:menu>
+                            </p:submenu>
+                              <p:submenu label="Sistema">
+                            <p:menuitem value="CAT-A" outcome="./CATPages/inicioCAT.xhtml" />
+                            <p:menuitem value="NCFAS" outcome="./NCFASPages/sistemaindex.xhtml" />
+                           </p:submenu>
+                          </p:panelMenu>
                           
-                            <p:menu rendered="#{testSession.tipoUsuario eq 'Asistente' or 'Psicologo'}">
-                       
-                            <p:menuitem value="Inicio"   outcome="./welcomePrimefaces.xhtml" /> 
-                           
-                               <p:menuitem value="Salir" action="#{loginControlador.logout()}" />
+                            <p:panelMenu style="width:210px"  rendered="#{testSession.tipoUsuario eq 'Asistente' or 'Psicologo'}">
                             
-                   </p:menu>
-                    
+                            <p:submenu label="Sistema">
+                            <p:menuitem value="CAT-A" outcome="./CATPages/inicioCAT.xhtml" />
+                            <p:menuitem value="NCFAS" outcome="./NCFASPages/sistemaindex.xhtml" />
+                           </p:submenu>
+                            </p:panelMenu>
+                    <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
                       </h:form>
                   </p:layoutUnit >
 
-                <p:layoutUnit position="center">
-                  
-                    
-                    <h2>Bienvenido Elija sistema a ingresar</h2>
-                    
-                    <div class="row">
+                <p:layoutUnit position="center"  >
+                  <div class="row" style="margin-right:0px;">
+                    <div class="col-lg-12">
+                    <h1>Bienvenido</h1>
+                    </div>
+                   
                     
                         
-                    <div class="col-md-3 col-sm-offset-3">
-                        <h3> Ingresar a NCFAS</h3>
-                        <p:commandButton actionListener="#{menuBeanAdministrador.outcomeNCFAS}" id="iconOnly" icon="ui-icon-note"  title="NCFAS"/>
+                    <div class="col-md-3 col-sm-offset-4">
+                        <h3 style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;">Ir a sistema:</h3>
+                        <h:commandButton value="NCFAS"  actionListener="#{menuBeanAdministrador.outcomeNCFAS()}"  class="btn btn-info"  title="NCFAS"/>
                     </div>
-                    
+                      
                     <div class="col-md-3">
-                    <h3> Ingresar a CAT-A</h3>
-                        <p:commandButton actionListener="#{menuBeanAdministrador.outcomeCATA}" id="iconOnly2" icon="ui-icon-person" title="CAT-A" />
-                    </div>
-                        
-                    </div>
+                    <h3 style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;" >Ir a sistema:</h3>
                     
+                    <h:commandButton value="CAT-A"  actionListener="#{menuBeanAdministrador.outcomeCATA()}" class="btn btn-info"   title="CAT-A"/> 
+                   
                     
+                    </div>
+                  </div>
+                    
+                   <div class="col-md-3 col-sm-offset-8" style="margin-top: 50px;">
+                 <p:graphicImage  value="./resources/imagen/familia1.jpg" width="120%"  /> 
+              </div>
                     
                     
                 </p:layoutUnit>
 
             </p:layout>
                 
-
+</div>
         </h:body>
              
              </h:form> 

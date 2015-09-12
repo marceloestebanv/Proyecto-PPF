@@ -267,7 +267,7 @@ public void obtenerUltimoid() throws Exception {
 
 public void mostrarID(int idncfas) throws Exception{
 
-    System.out.println("estamos guarand esta shit ->"+idncfas);
+    System.out.println("estamos guarando el id de este ncfas ->"+idncfas);
     IdDAO iddao = new IdDAO();
     iddao.guardarID(idncfas);
 }

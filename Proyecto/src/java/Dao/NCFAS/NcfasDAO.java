@@ -21,7 +21,7 @@ public class NcfasDAO extends DAO {
     
     
     
-    public void ingresarNcafas(String nombrefamilia ,int parteproceso /*,Usuario usuario*/)  {
+    public void ingresarNcafas(String nombrefamilia ,int parteproceso ,String rutUsuario)  {
     String fechaactual;
     Date fecha= new Date(); 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("YYYY-MM-dd");
@@ -33,11 +33,12 @@ public class NcfasDAO extends DAO {
         this.Conectar();
         PreparedStatement stmt = null;
         
-            stmt = con.prepareStatement("INSERT INTO ncfas (nombrefamilia,parteproceso,fecha)"
-                    + " values (?,?,?)");  
+            stmt = con.prepareStatement("INSERT INTO ncfas (nombrefamilia,parteproceso,fecha,Usuario_rut)"
+            + " values (?,?,?,?)");  
             stmt.setString(1, nombrefamilia);
             stmt.setInt(2, parteproceso);
             stmt.setString(3, fechaactual);
+            stmt.setString(4, rutUsuario);
             /*stmt.setString(4, usuario.getRut())*/
             int retorno = stmt.executeUpdate();
             System.out.println("biiieennntoo");
@@ -396,6 +397,7 @@ public String obtenerNombreFamilia(int id) throws Exception {
         ResultSet rs = null;
         Ncfas tempNcfas;
         tempNcfas = new Ncfas();
+        String nombreFamilia=null;
         int i=1;
         try {
             this.Conectar();
@@ -405,15 +407,97 @@ public String obtenerNombreFamilia(int id) throws Exception {
             rs = stmt.executeQuery();
             while(rs.next()){
                 
-                tempNcfas.setIdncfas((Integer)rs.getObject(1));
-                tempNcfas.setNombrefamilia(rs.getObject(2).toString());
+                
+                nombreFamilia=(rs.getObject(1).toString());
             }
         }catch(Exception e){
         throw e;
         }finally{
         this.Cerrar();
         }
-        return tempNcfas.getNombrefamilia();
+        return nombreFamilia;
+    }
+
+public String obtenerRutUsuario(int id) throws Exception {
+        ResultSet rs = null;
+        Ncfas tempNcfas;
+        tempNcfas = new Ncfas();
+        String nombreFamilia;
+        String rutUsuario=null;
+        int i=1;
+        try {
+            this.Conectar();
+            PreparedStatement stmt = null;
+            stmt = con.prepareStatement("SELECT Usuario_rut FROM ncfas where idncfas=?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                
+                
+                rutUsuario=((String)rs.getObject(1));
+            }
+        }catch(Exception e){
+        throw e;
+        }finally{
+        this.Cerrar();
+        }
+        return rutUsuario;
+    }
+
+public int obtenerParteProceso(int id) throws Exception {
+        ResultSet rs = null;
+        Ncfas tempNcfas;
+        tempNcfas = new Ncfas();
+        int parteProceso=1;
+        //String rutUsuario=null;
+        int i=1;
+        try {
+            this.Conectar();
+            PreparedStatement stmt = null;
+            stmt = con.prepareStatement("SELECT parteproceso FROM ncfas where idncfas=?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                
+                
+                parteProceso=((Integer)rs.getObject(1));
+                
+            }
+        }catch(Exception e){
+        throw e;
+        }finally{
+        this.Cerrar();
+        }
+        return parteProceso;
+    }
+
+public Date obtenerFechaIngreso(int id) throws Exception {
+        ResultSet rs = null;
+        Ncfas tempNcfas;
+        tempNcfas = new Ncfas();
+        Date fechaIngreso=null;
+        //String rutUsuario=null;
+        int i=1;
+        try {
+            this.Conectar();
+            PreparedStatement stmt = null;
+            stmt = con.prepareStatement("SELECT fecha FROM ncfas where idncfas=?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                
+                
+                fechaIngreso=(Date)(rs.getObject(1));
+            }
+        }catch(Exception e){
+        throw e;
+        }finally{
+        this.Cerrar();
+        }
+        return fechaIngreso;
     }
     
 

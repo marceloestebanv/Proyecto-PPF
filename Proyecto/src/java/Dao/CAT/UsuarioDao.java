@@ -98,6 +98,20 @@ public class UsuarioDao {
 
             }
 
+            
+            // vemos si existe en la tabla de examinados
+            stmt=con.prepareStatement("SELECT * FROM examinado WHERE rut= ? ");
+            stmt.setString(1, Rut);
+
+            rs = stmt.executeQuery();
+
+            if (rs.next()) { //es un result set vacío 
+
+                existe = true;
+
+
+            }
+            
         } catch (SQLException e) {
             System.out.println("error"+e);
             
@@ -186,7 +200,14 @@ public class UsuarioDao {
         PreparedStatement stmt2 = null;
        int retorno=0;
 
+       if(existeRut(nuevoUsuario.getRut())){
+          // se retorna un 8 que sera capturado en la vista
+           return 3;
+       }
+       
         try {
+            
+            
 
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
@@ -202,17 +223,20 @@ public class UsuarioDao {
             stmt.setString(4, nuevoUsuario.getPassword());
 
              retorno = stmt.executeUpdate();
+             System.out.println(retorno);
             
             
             if (tipoUsuario.equals("psico")){
                 stmt2 = con.prepareStatement("INSERT INTO psicologo (Usuario_rut) values (?)");
                 stmt2.setString(1, nuevoUsuario.getRut());
                  int retorno2 = stmt2.executeUpdate();
+                 System.out.println(retorno2);
             }
             if (tipoUsuario.equals("asist")){
                 stmt2 = con.prepareStatement("INSERT INTO asistentesocial (Usuario_rut) values (?)");
                 stmt2.setString(1, nuevoUsuario.getRut());
                  int retorno2 = stmt2.executeUpdate(); 
+                 System.out.println(retorno2);
             }
             
          //   System.out.println("biiieennntoo");
@@ -247,6 +271,9 @@ public class UsuarioDao {
         PreparedStatement stmt = null;
   int retorno=0;
 
+   if(existeRut(nuevoExaminado.getRut()))
+      return 3;
+   
         try {
 
             Class.forName("com.mysql.jdbc.Driver");
@@ -295,7 +322,9 @@ public class UsuarioDao {
    return retorno;
     }
 
-    public void modificarUsuario(Usuario usuario) {
+    public int modificarUsuario(Usuario usuario) {
+        int retorno=-100;
+        
       System.out.println("usuario modif"+usuario.getRut()); 
       System.out.println("usuario modif"+usuario.getNombre()); 
       System.out.println("usuario modif"+usuario.getPassword()); 
@@ -314,7 +343,7 @@ public class UsuarioDao {
             stmt.setString(2, usuario.getCorreo());
             stmt.setString(3, usuario.getPassword());
            
-            int retorno = stmt.executeUpdate();
+            retorno = stmt.executeUpdate();
             
         } catch (SQLException sqle) {
             System.out.println("SQLState: "
@@ -337,13 +366,13 @@ public class UsuarioDao {
         }
 
 
-    
+    return retorno;
       
     }
 
-    public void eliminarUsuario(Usuario usuario) {
+    public int eliminarUsuario(Usuario usuario) {
         
-        
+        int retorno=-100;
         System.out.println("mandador a eliminar");
         System.out.println("usuario"+usuario.getRut());
          Connection con = null;
@@ -357,7 +386,7 @@ public class UsuarioDao {
 
             stmt = con.prepareStatement("DELETE FROM usuario WHERE rut=?");
             stmt.setString(1, usuario.getRut());
-            stmt.executeUpdate();
+        retorno=  stmt.executeUpdate();
 
 
         } catch (SQLException e) {
@@ -381,6 +410,7 @@ public class UsuarioDao {
             } catch (SQLException e) {
             }
         };
+    return retorno;
     }
 
     

@@ -1658,6 +1658,7 @@ input[type="search"] {
 }
 input[type="radio"],
 input[type="checkbox"] {
+size:30px;
   margin: 4px 0 0;
   margin-top: 1px \9;
   /* IE8-9 */
