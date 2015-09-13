@@ -9,6 +9,7 @@ package Bean.CAT;
  *
  * @author jean
  */
+//asdasda
 public class Cliente {
     
     
