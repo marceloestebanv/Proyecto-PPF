@@ -4,11 +4,13 @@
  * and open the template in the editor.
  */
 package Bean.CAT;
-
+//Se agrego comentarios
+//Se agrego comentarios
 /**
  *
  * @author jean
  */
+//asdasda
 public class Cliente {
     
     
