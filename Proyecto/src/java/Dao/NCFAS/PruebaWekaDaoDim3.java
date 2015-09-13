@@ -134,7 +134,7 @@ public String consultaValor(String dim2) {
     return valorDim2;
 }
     
-public List<String> retornarReglas() throws DAOException, IOException, Exception{
+public List<String> retornarReglasDim3() throws DAOException, IOException, Exception{
     
   ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
   
