@@ -8,6 +8,7 @@ package Dao.NCFAS;
 import Bean.NCFAS.ChartView;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -153,7 +154,29 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
 
     //LEO DATASET .ARFF
     String dataset=pathArchivos+"DataSetPuro.arff";
+    String datasettxt=pathArchivos+"datasettxt.txt";
+
     
+  File fichero2 = new File(datasettxt);
+  try {
+   BufferedReader fich = new BufferedReader(new FileReader(datasettxt));
+   //Usamos la clase BufferReadeader para tener acceso a un metodo propio (readLine()) y asi mediante un contador contar las lineas.
+   int contadorL = 0;
+   String linea;
+   try {
+    //En este caso la condicion final del while corresponde a null, para indicar el final de linea
+    while((linea = fich.readLine()) != null){
+     contadorL++;
+    }
+    contadorL=contadorL-13;
+   System.out.println("El número de líneas :" + contadorL);
+   } catch (IOException e) {
+    // TODO Bloque catch generado automáticamente
+    e.printStackTrace();
+   }
+  } catch (FileNotFoundException e) {
+   e.printStackTrace();
+  }
     
     int retorno=0;
     List<String> almacenaRetorno = null;

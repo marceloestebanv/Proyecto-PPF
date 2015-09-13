@@ -156,6 +156,7 @@ public List<String> retornarReglas() throws DAOException, IOException, Exception
     String dataset=pathArchivos+"DataSetPuro.arff";
     String datasettxt=pathArchivos+"datasettxt.txt";
 
+    
   File fichero2 = new File(datasettxt);
   try {
    BufferedReader fich = new BufferedReader(new FileReader(datasettxt));
