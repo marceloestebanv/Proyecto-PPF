@@ -191,7 +191,11 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
     int band=0;
  DataSource source = new DataSource(dataset);
  Apriori model = new Apriori();
- 
+ String[] numVeces = new String[11];
+        
+        for(int i = 1; i<=10 ;i++){
+        numVeces[i]="";
+        }
     
  try{
 
@@ -254,11 +258,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
         String num9=("9.");
         String num10=("10.");
         
-        String[] numVeces = new String[11];
         
-        for(int i = 1; i<=10 ;i++){
-        numVeces[i]="";
-        }
         List<String> dimInvolucradas = null;
         dimInvolucradas = new ArrayList<String>();
         
@@ -301,6 +301,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
                     almacenaRetorno.add(frase1);
                     
                     numVeces[1]=(palabra2+" "+palabra5);
+                        
                         //System.out.println("ENTRAMOS ACÁ");
                    // band=1;
                     
@@ -1953,7 +1954,7 @@ public List<String> retornarReglasDim3() throws DAOException, IOException, Excep
   //pwMin.println(almacenaRetorno.get(i));
   //}
     
-
+    System.out.println(numVeces);
 return almacenaRetorno;
 }
 
