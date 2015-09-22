@@ -23,10 +23,12 @@ import java.util.Comparator;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -67,7 +69,8 @@ public class Analisis {
     private final FacesContext faceContext;
     private FacesMessage facesMessage;
     
-   
+   @ManagedProperty("#{calcularMetricas}")
+   private CalcularMetricas metricas;
        
     /**
      * Creates a new instance of AnalisisBean
@@ -139,14 +142,14 @@ public void analizarTest() throws IOException, ClassNotFoundException{
       //  indexarTerminosTest();
       //     crearARFF();
            
-        
-       
-         System.out.println(" ahora direccionaremos a rectificarTerminos");
-        //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
-        FacesContext fc=FacesContext.getCurrentInstance();
-         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/rectificarTerminos.xhtml?rutExaminado="+rutExaminado+"&idTest="+idTest);//redirecciona la página
-         
-       
+//calculamos las métricas utilizando mananged propiety
+        metricas.calcularMetricaTest(idTest);
+          
+          
+ RequestContext context = RequestContext.getCurrentInstance();
+context.execute("PF('dlgRedirect').show();");   
+//despues de esto deberían calcularse las métricas altiro
+
   
     }
 
@@ -165,7 +168,17 @@ public void serializarTest() throws IOException{
             }
     
 }
+
+public void redireccionarRectificar() throws IOException{
+         System.out.println(" ahora direccionaremos a rectificarTerminos");
+        //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
+        FacesContext fc=FacesContext.getCurrentInstance();
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/rectificarTerminos.xhtml?rutExaminado="+rutExaminado+"&idTest="+idTest);//redirecciona la página
+         
+       
     
+}
+
 public void escribirMetricasTest(){
     
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -631,6 +644,16 @@ System.out.println(" el ral path es"+ realPath);
     public void setMetricasRI(List<MetricaRI> metricasRI) {
         this.metricasRI = metricasRI;
     }
+
+    public CalcularMetricas getMetricas() {
+        return metricas;
+    }
+
+    public void setMetricas(CalcularMetricas metricas) {
+        this.metricas = metricas;
+    }
+
+  
 
  
     

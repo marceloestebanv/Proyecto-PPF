@@ -58,7 +58,7 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" size="220" header="Menu">
-    <p:growl autoUpdate="true"/>
+   
     <h:form>
         <p:panelMenu style="width:210px">
                               <p:submenu label="Sistema CAT-A">
@@ -135,7 +135,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                     <p:commandButton icon="ui-icon-trash" 
                         title="Delete this actor"
                         actionListener="#{terminosBean.remove(as,loop.index)}" update=":formMostrar:table#{loop.index}"
-                        ajax="false" />
+                        />
                 </p:column>
                              
                              <p:column headerText="Añadir a Termino existente">

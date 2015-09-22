@@ -10,7 +10,6 @@ import Model.CAT.AnalisisUtils;
 import Model.CAT.MetricaRI;
 import Model.CAT.Termino;
 import Model.CAT.TerminosGenerales;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,24 +18,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -238,7 +227,7 @@ public class CalcularMetricas {
         
          //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
         FacesContext fc=FacesContext.getCurrentInstance();
-         fc.getExternalContext().redirect("/Proyecto/faces/estadisticasExaminado.xhtml?rutExaminado="+rutExaminado);//redirecciona la página
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/estadisticasExaminado.xhtml?rutExaminado="+rutExaminado);//redirecciona la página
 
   }
   }
@@ -396,7 +385,7 @@ public class CalcularMetricas {
     
     //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
         FacesContext fc=FacesContext.getCurrentInstance();
-         fc.getExternalContext().redirect("/Proyecto/faces/estadisticasRazonIngreso.xhtml");//redirecciona la página
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/estadisticasRazonIngreso.xhtml");//redirecciona la página
 
         System.out.println(" redireccionando a estadisticas razon ingreso "+causaIngreso);
     }else{

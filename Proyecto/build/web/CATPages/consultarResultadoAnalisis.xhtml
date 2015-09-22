@@ -218,13 +218,37 @@ border: none;
     </p:fieldset>
                     
                            
-                           <h:commandButton  value="exportar" actionListener ="#{mannagerPDFBean.exportarPDF()}"/>
+                           <h:commandButton  value="Exportar" actionListener ="#{mannagerPDFBean.exportarPDF()}"/>
                     </h:form> 
+                    
+           
 
                 </p:layoutUnit>
 
+                 
+                  
+                  
             </p:layout>
 
+          
+            
+                      
+                      <p:dialog id="dlga" header="Generación de reporte exitosa"  showEffect="explode" hideEffect="bounce"
+                       widgetVar="dlgMas" closable="false" closeOnEscape="false" modal="true" resizable="false" minWidth="200">
+            <h:form id="formEliminar">
+               
+                <p:outputLabel value="Pulse Aceptar para visualizar los resultados." /> <br/> <br/>
+                
+                <p:commandButton  style="display:block; margin: 0 auto;"  action = "PF('statusDialog').show(); " onclick="PF('dlgRedirect').hide();" value="Aceptar" 
+                                   />
+                
+            </h:form>
+        </p:dialog>
+            
+             <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    <p:outputLabel value="Aca va el pdf." /> <br/> <br/>
+</p:dialog>
+            
         </h:body>
 
     </f:view>
