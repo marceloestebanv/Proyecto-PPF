@@ -5,6 +5,7 @@
  */
 package Bean.CAT;
 
+import Dao.CAT.UsuarioDao;
 import Model.CAT.Termino;
 import Model.CAT.Test;
 import Model.CAT.Usuario;
@@ -44,6 +45,9 @@ public class TerminosBean {
    
     @ManagedProperty("#{adminTerminosBean}")
     private AdminTerminosBean adminTerminos;
+    
+    @ManagedProperty("#{analisis}")
+    private Analisis terminosAnalisis;
    
     
  
@@ -65,53 +69,55 @@ public class TerminosBean {
        // terminosTest=new ArrayList[2];
        test= new Test();
          usuario= new Usuario();
-         terminoTemp2= new Termino();
+        terminoTemp2= new Termino();
      
         
          }
-        
-            
-    public List<Termino> getTerminosRelato(int idRelato) throws IOException, FileNotFoundException, ClassNotFoundException{
-        
-        
-        getTerminosTest();
-       
-           System.out.println(" el id test es "+test.getIdTest());
-         System.out.println(" el rut examinado es "+test.getRutExaminado());
-          System.out.println(" el id relato es "+idRelato);
-        
-        /*
-        System.out.println(" el id test es "+test.getIdTest());
-         System.out.println(" el rut examinado es "+test.getRutExaminado());
-          System.out.println(" el id relato es "+idRelato);
-          for (List termino : terminosTest){
-              System.out.println(" hola ");
-              
-              for (Object term: termino){
-                  Termino terminito= (Termino)term;
-                  System.out.println(" la palabra que tiene es"+terminito.getPalabra());
    
-              }
+//    public List<Termino> getTerminosRelato(int idRelato) throws IOException, FileNotFoundException, ClassNotFoundException{
+//        
+//        
+//        getTerminosTest();
+//       
+//           System.out.println(" el id test es "+test.getIdTest());
+//         System.out.println(" el rut examinado es "+test.getRutExaminado());
+//          System.out.println(" el id relato es "+idRelato);
+//        
+//        /*
+//        System.out.println(" el id test es "+test.getIdTest());
+//         System.out.println(" el rut examinado es "+test.getRutExaminado());
+//          System.out.println(" el id relato es "+idRelato);
+//          for (List termino : terminosTest){
+//              System.out.println(" hola ");
+//              
+//              for (Object term: termino){
+//                  Termino terminito= (Termino)term;
+//                  System.out.println(" la palabra que tiene es"+terminito.getPalabra());
+//   
+//              }
+//
+//          }
+//          */
+//        
+//        return terminosTest[idRelato];
+//
+//    }
+//
 
-          }
-          */
-        
-        return terminosTest[idRelato];
-
-    }
 
     public List<Termino>[] getTerminosTest() throws IOException, FileNotFoundException, ClassNotFoundException {
         
          if(terminosTest==null)
-            terminosTest=deserializarTerminosTest();
+          //  terminosTest=deserializarTerminosTest();
+             terminosTest=terminosAnalisis.getTerminosTest();
         
         return terminosTest;
     }
 
-     public List<Termino> getTerminosRelato2(int idRelato) throws IOException, FileNotFoundException, ClassNotFoundException {
+     public List<Termino> getTerminosRelato(int idRelato) throws IOException, FileNotFoundException, ClassNotFoundException {
         
         
-          List<Termino>[] listaTerms=deserializarTerminosTest();
+          List<Termino>[] listaTerms=terminosAnalisis.getTerminosTest();
         
         return listaTerms[idRelato];
     }
@@ -136,13 +142,40 @@ public class TerminosBean {
     
     public void calcularMetricasTest() throws IOException, FileNotFoundException, ClassNotFoundException{
         
-        //primero hay que serilizar el test
+      
+        
+         //guardamos el test
+         
+             UsuarioDao dao= new UsuarioDao();
+          //aca debemos insertar en la bd el test y los relatos 
+          // primero insertamos, luego seteamos el valor del idTest a analisis
+        dao.insertarTest(terminosAnalisis.getRelatos(),terminosAnalisis.getRutExaminado(),terminosAnalisis.getRutUsuario()); 
+      
+        // si es el primer test
+        if(terminosAnalisis.getIdTest()==1){
+      
+            //No ocuparemos Analisis = analisis = new Analisis(); porque esto me lo crea de 0
+            //terminosAnalisis es una copia de Analisis.
+            terminosAnalisis.setIdTest(dao.getUltimoTest());
+       test.setIdTest(dao.getUltimoTest());
+       System.out.println(" el test =1 y se cambió a"+(dao.getUltimoTest())+1);
+        }
+        
+        
+        
+        
+          //serilizar el test
         //luego calcular las metricas
+        
         serializarTest();
         //hay que serializar los terminos;
         adminTerminos.serializarTerminos();
         
         metricas.calcularMetricaTest(test.getIdTest());
+        
+       
+         
+        
         
         
        //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
@@ -274,6 +307,14 @@ public class TerminosBean {
 
     public void setAdminTerminos(AdminTerminosBean adminTerminos) {
         this.adminTerminos = adminTerminos;
+    }
+
+    public Analisis getTerminosAnalisis() {
+        return terminosAnalisis;
+    }
+
+    public void setTerminosAnalisis(Analisis terminosAnalisis) {
+        this.terminosAnalisis = terminosAnalisis;
     }
         
         

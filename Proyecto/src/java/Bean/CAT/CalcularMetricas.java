@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -39,13 +40,13 @@ import javax.servlet.ServletContext;
 public class CalcularMetricas {
 
 
-    
+     
     
     int idTest;
     List<Termino>[] listaTerminosTest;
     List<MetricaRI> metricasTest;
     MetricaRI metricaGlobalTest;
-    
+     
     
     
      //Esta es una lista de tests
@@ -235,7 +236,9 @@ public class CalcularMetricas {
 
   
    public void calcularMetricaTest(int idTest) throws IOException, FileNotFoundException, ClassNotFoundException{
-      
+      Analisis analisis= new Analisis();
+       System.out.println("antes de calcular metricas el id test en analisis es "+analisis.getIdTest());
+       
         System.out.println(" calculando metricas");        
 
 //primero debemos obtener el test y setearlo en la lista de terminos
@@ -775,7 +778,9 @@ public class CalcularMetricas {
     public void setCantidadTestsPorCausa(int cantidadTestsPorCausa) {
         this.cantidadTestsPorCausa = cantidadTestsPorCausa;
     }
-    
+
+  
+
  
     
 }

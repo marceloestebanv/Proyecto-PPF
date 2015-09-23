@@ -109,11 +109,11 @@ public void analizarTest() throws IOException, ClassNotFoundException{
         
           //aca debemos insertar en la bd el test y los relatos lo insertamos acá ya que hay que obtener el id del test
           // que se insertará
-        dao.insertarTest(relatos,rutExaminado,rutUsuario); 
+      //  dao.insertarTest(relatos,rutExaminado,rutUsuario); 
         
         //obtenemos el id del ultimo test insertado y agregamos uno ya que este es nuevo
-         idTest=dao.getUltimoTest();
-         
+         idTest=(dao.getUltimoTest())+1;
+         System.out.println(" el id test es"+ idTest);
          
  
         for (int i =1; i <= 10; i++) {
@@ -135,15 +135,19 @@ public void analizarTest() throws IOException, ClassNotFoundException{
      //fin del for final   
     }
           //serializamos el test
-          serializarTest();
+        //  serializarTest();
         
+          
+          
+          
+          
        // indexamos los relatos pertenecientes al test( todos los test) 
        // escribirMetricasTest();
       //  indexarTerminosTest();
       //     crearARFF();
            
 //calculamos las métricas utilizando mananged propiety
-        metricas.calcularMetricaTest(idTest);
+    //   metricas.calcularMetricaTest(idTest);
           
           
  RequestContext context = RequestContext.getCurrentInstance();
@@ -651,6 +655,14 @@ System.out.println(" el ral path es"+ realPath);
 
     public void setMetricas(CalcularMetricas metricas) {
         this.metricas = metricas;
+    }
+
+    public List<Termino>[] getTerminosTest() {
+        return terminosTest;
+    }
+
+    public void setTerminosTest(List<Termino>[] terminosTest) {
+        this.terminosTest = terminosTest;
     }
 
   

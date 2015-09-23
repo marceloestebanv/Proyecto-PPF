@@ -821,7 +821,7 @@ public class UsuarioDao {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT MAX(idTest) as id FROM Test");
+            rs = stmt.executeQuery("SELECT MAX(idTest) as id FROM test");
 
             while (rs.next()) {
                 if(rs.getObject(1)!=null)

@@ -5,12 +5,13 @@
         <group>
             <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/Analisis.java</file>
             <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/RI.java</file>
+            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Dao/CAT/UsuarioDao.java</file>
             <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/CalcularMetricas.java</file>
             <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/CATPages/rectificarTerminos.xhtml</file>
-            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/CATPages/consultarResultadoAnalisis.xhtml</file>
+            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/CATPages/gestionarTests.xhtml</file>
+            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/AdminTerminosBean.java</file>
+            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/CATPages/detalleTerminos.xhtml</file>
             <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/TerminosBean.java</file>
-            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/gestionarUsuario.xhtml</file>
-            <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/MannagerPDFBean.java</file>
             <file>file:/C:/Users/jean/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/CATPages/ingresarTest.xhtml</file>
         </group>
     </open-files>
