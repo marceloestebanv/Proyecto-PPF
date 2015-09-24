@@ -236,20 +236,26 @@ public class CalcularMetricas {
 
   
    public void calcularMetricaTest(int idTest) throws IOException, FileNotFoundException, ClassNotFoundException{
-      Analisis analisis= new Analisis();
-       System.out.println("antes de calcular metricas el id test en analisis es "+analisis.getIdTest());
+      //Analisis analisis= new Analisis();
+       //System.out.println("antes de calcular metricas el id test en analisis es "+analisis.getIdTest());
        
         System.out.println(" calculando metricas");        
 
 //primero debemos obtener el test y setearlo en la lista de terminos
       this.idTest=idTest;
+       System.out.println(" el id test es "+this.idTest);
+      
        getTerminosdelTest();
-       calcularFrecuenciasTest();
+       
+      calcularFrecuenciasTest();
       serializarTest();
+       
        metricasTest=calculaMetrica();
       metricaGlobalTest=calculaMetricaGlobal(metricasTest);
       serializarMetricasTest();
       
+      
+    
       
       
       

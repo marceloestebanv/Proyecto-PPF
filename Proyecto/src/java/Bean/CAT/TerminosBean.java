@@ -125,6 +125,16 @@ public class TerminosBean {
         
         return listaTerms[idRelato];
     }
+     
+     public List<Termino> getTerminosRelatoSerializado(int idRelato) throws IOException, FileNotFoundException, ClassNotFoundException {
+        
+        
+        
+          List<Termino>[] terminosTestLocal=deserializarTerminosTest();
+        
+        return terminosTestLocal[idRelato];
+        
+    }
     
     public List<Termino>[] deserializarTerminosTest() throws FileNotFoundException, IOException, ClassNotFoundException{
         
@@ -407,25 +417,46 @@ public void guardarTerminosDiccionario() throws IOException{
               
                
                     System.out.println(" no existe el termino");
+                    
+                //acá hay que actualizar todas las coincidencias de ese término en la tabla
+                    actualizarTerminosTablaNuevoTermino(termino);
+                    
+                    
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito se añadió el termino ingresado al Diccionario", "")); 
                 }else{
                     
                
                System.out.println("el termino ya existe");
-                 
+          
+               
+             Termino terminoOriginal=new Termino();
+               
                     //hay que devolverlo a su valor real y no al modificado.
                     
                     for (Termino terminoRecorrer:terminosTestsClone[termino.getIdLámina()]){
                         //rescatamos la coincidencia
                         if (terminoRecorrer.getPalabra().equals(termino.getPalabra())){
-                            
-                            terminoTemp2.setTerminoAsociado(terminoRecorrer.getTerminoAsociado());
+                            terminoOriginal=terminoRecorrer;
+                            break;
+                         //   terminoTemp2.setTerminoAsociado(terminoRecorrer.getTerminoAsociado());
                             //se cambió a su valor anterior
-                            System.out.println("se cambió a su valor anterior"+terminoRecorrer.getPalabra());
+
+                          //  System.out.println("se cambió a su valor anterior"+terminoRecorrer.getPalabra());
                         }
                         
                     }
                     
-                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al añadir término! El término "+termino.getTerminoAsociado()+" ya existe", "")); 
+                    //acá actualizamos todos los valores
+                    
+                     for (Termino term:terminosTest[idRelato]){
+                  if (term.getPalabra().equals(terminoOriginal.getPalabra())){
+                    term.setTerminoAsociado(terminoOriginal.getTerminoAsociado());
+                    term.setConnotacion(terminoOriginal.getConnotacion());
+                  }
+                  
+              }
+                    
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al añadir término! El término  ya existe", "")); 
                     
                     //terminoTemp2.setTerminoAsociado("mama");
                     
@@ -435,6 +466,27 @@ public void guardarTerminosDiccionario() throws IOException{
               
           }
             
-        
+   
+           public void actualizarTerminosTablaNuevoTermino(Termino termino){
+               
+                 System.out.println("ela palabra a añadir es "+termino.getPalabra());
+              System.out.println(" el id relato es"+termino.getIdLámina());
+              System.out.println(" el nuevo Termino es  "+termino.getTerminoAsociado());
+              
+              String palabraAñadir=termino.getPalabra();
+              int idRelato=termino.getIdLámina();
+              String nuevoTermino=termino.getTerminoAsociado();
+              int connotacion=termino.getConnotacion();
+              
+              for (Termino term:terminosTest[idRelato]){
+                  if (term.getPalabra().equals(termino.getPalabra())){
+                    term.setTerminoAsociado(termino.getTerminoAsociado());
+                    term.setConnotacion(termino.getConnotacion());
+                  }
+                  
+              }
+               
+           }
+           
        
 }
