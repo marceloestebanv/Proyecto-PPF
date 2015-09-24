@@ -110,7 +110,7 @@
                    
                     <div style="padding: 50px">
                     <h:form id="form2" >  
-                          
+                     <p:messages id="messages"  showDetail="true" autoUpdate="true" closable="true" />    
                          <h3>Añadir Termino</h3>
                                  <h:panelGrid columns="2">
                     <h:outputLabel value="Nombre Termino " />
@@ -134,7 +134,7 @@
                               
                       <h:form id="formMostrar" >
                                  
-        <p:messages id="messages" for="formMostrar" showDetail="true" autoUpdate="true" closable="true" />             
+                
                                 
                         <h3>Terminos existentes</h3>
                         
@@ -171,7 +171,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                     <p:commandButton icon="ui-icon-trash"
                         title="Delete this actor"
                         actionListener="#{adminTerminosBean.remove(as,adminTerminosBean.idLaminaPagina)}" update=":formMostrar"
-                        ajax="false" />
+                         />
                 </p:column>
                 
                             
@@ -224,8 +224,10 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                     <h:outputLabel  value="Nombre Termino " />
                     <p:inputText  value="#{adminTerminosBean.palabra}" />
                      
+                    
                     <f:facet name="footer">
-                        <p:commandButton value="Añadir Término Asociado" action="#{adminTerminosBean.añadirTermAsoc(adminTerminosBean.palabra)}" update=":formModificar:table" />
+                        <!-- aca hay que pasarle el temino al cual se esta añadiendo el termino asociado para asi identificar que no exista -->
+                        <p:commandButton value="Añadir Término Asociado" action="#{adminTerminosBean.añadirTermAsoc(adminTerminosBean.palabra, adminTerminosBean.terminoLamina)}" update=":formModificar:table" />
                     </f:facet>
                 </p:panelGrid>
                     

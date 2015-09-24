@@ -99,4 +99,21 @@ public boolean equals(Object o){
     public int hashCode(){
         return Objects.hashCode(this.getPalabra());
     }
+    
+    
+    
+        //este clone es para consultar el termino original
+          @Override
+        public Termino clone() throws CloneNotSupportedException {
+   Termino side = null;
+        try {
+            side = (Termino) super.clone();
+        } catch (CloneNotSupportedException e) {
+            System.err.println(e);
+        }
+        return side;
+}
+    
+        
+        
 }

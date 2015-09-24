@@ -7,6 +7,7 @@ package Bean.CAT;
 
 import Dao.CAT.UsuarioDao;
 import Model.CAT.Termino;
+import Model.CAT.TerminoLamina;
 import Model.CAT.Test;
 import Model.CAT.Usuario;
 import java.io.FileInputStream;
@@ -15,7 +16,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -23,6 +26,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import javax.servlet.ServletContext;
+import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
 
 /**
@@ -35,8 +39,7 @@ import org.primefaces.event.CellEditEvent;
 public class TerminosBean {
 
     
-    
-    
+   
    private Usuario usuario;
    private Test test;
    
@@ -59,6 +62,7 @@ public class TerminosBean {
    
    private Termino terminoTemp;
    private Termino terminoTemp2;
+    private Termino terminoTemp2Copia;
    
    
     
@@ -70,7 +74,7 @@ public class TerminosBean {
        test= new Test();
          usuario= new Usuario();
         terminoTemp2= new Termino();
-     
+       terminoTemp2Copia=new Termino();
         
          }
    
@@ -138,7 +142,12 @@ public class TerminosBean {
         return terminos;
     }
 
- 
+public void guardarTerminosDiccionario() throws IOException{
+    
+     //hay que serializar los terminos;
+        adminTerminos.serializarTerminos();
+    
+} 
     
     public void calcularMetricasTest() throws IOException, FileNotFoundException, ClassNotFoundException{
         
@@ -320,8 +329,112 @@ public class TerminosBean {
         
         
    
+     
+ 
+    public Termino getTerminoTemp2Copia() {
+        return terminoTemp2Copia;
+    }
+
+    public void setTerminoTemp2Copia(Termino terminoTemp2Copia) {
+        this.terminoTemp2Copia = terminoTemp2Copia;
+    }
     
     
+       public void destroy() {
+        System.out.println(" se destruyo");
+    }
+
     
+        public void cerrarDialog(){
+            
+            //existe el termino por lo cual tiene que volver a ser el mismo
+    // terminoTemp2Copia.setTerminoAsociado("");
+           terminoTemp2Copia.setTerminoAsociado("");
+            System.out.println(" se cambió al término original");
+            
+            
+                RequestContext rc = RequestContext.getCurrentInstance();
+    rc.execute("PF('dlgmodificar3').hide();");  
     
+            System.out.println("termino"+terminoTemp2.getTerminoAsociado());
+             System.out.println("copia"+terminoTemp2Copia.getTerminoAsociado());
+    
+            }
+        
+        
+        
+           public void añadirNuevoTerminoDesdeRectificar(Termino termino) throws FileNotFoundException, IOException, ClassNotFoundException{
+              // desde rectificar terminos estamos agregando una nueva palabra al diccionario con id relato y termino asociado al cual hay que añadirla
+          //   List<Termino>[]  terminosTestsClone=(List<Termino>[])terminosAnalisis.getTerminosTest().clone();
+              
+          // ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("Datos.obj"));
+          //      salida.writeObject(terminosAnalisis.getTerminosTest());
+          //      System.out.println(" se serializó");
+                
+                //recuperar los terminos // setearle el rut del examinado para obtenerlo
+                ObjectInputStream entrada = new ObjectInputStream(new FileInputStream("Datos.obj"));
+                List<Termino>[] terminosTestsClone = (List<Termino>[])entrada.readObject();
+                System.out.println(" se deserializó");
+                
+                
+            
+      
+                
+              System.out.println("ela palabra a añadir es "+termino.getPalabra());
+              System.out.println(" el id relato es"+termino.getIdLámina());
+              System.out.println(" el nuevo Termino es  "+termino.getTerminoAsociado());
+              
+              String palabraAñadir=termino.getPalabra();
+              int idRelato=termino.getIdLámina();
+              String nuevoTermino=termino.getTerminoAsociado();
+              int connotacion=termino.getConnotacion();
+              
+         
+           if(!adminTerminos.existeTermino(adminTerminos.getTerm()[idRelato], termino.getTerminoAsociado())){      
+             //verificar que no exista en la lista para añadirla si existe lanzar mensaje
+              if(palabraAñadir.equals(nuevoTermino)){
+                  
+              //tener cuidado con el null en la lista
+              TerminoLamina nuevo =new TerminoLamina(palabraAñadir, connotacion, new ArrayList());
+                  this.adminTerminos.getTerm()[idRelato].add(nuevo);
+               }else{
+                  List<String> lista= new ArrayList<>();
+                  lista.add(palabraAñadir);
+                   TerminoLamina nuevo =new TerminoLamina(nuevoTermino, connotacion, lista);
+                   this.adminTerminos.getTerm()[idRelato].add(nuevo);
+                  
+              }
+              
+               
+                    System.out.println(" no existe el termino");
+                }else{
+                    
+               
+               System.out.println("el termino ya existe");
+                 
+                    //hay que devolverlo a su valor real y no al modificado.
+                    
+                    for (Termino terminoRecorrer:terminosTestsClone[termino.getIdLámina()]){
+                        //rescatamos la coincidencia
+                        if (terminoRecorrer.getPalabra().equals(termino.getPalabra())){
+                            
+                            terminoTemp2.setTerminoAsociado(terminoRecorrer.getTerminoAsociado());
+                            //se cambió a su valor anterior
+                            System.out.println("se cambió a su valor anterior"+terminoRecorrer.getPalabra());
+                        }
+                        
+                    }
+                    
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al añadir término! El término "+termino.getTerminoAsociado()+" ya existe", "")); 
+                    
+                    //terminoTemp2.setTerminoAsociado("mama");
+                    
+                }
+           //    RequestContext rc = RequestContext.getCurrentInstance();
+   // rc.execute("PF('dlgmodificar3').hide();");
+              
+          }
+            
+        
+       
 }

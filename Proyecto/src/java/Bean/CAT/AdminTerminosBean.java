@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
@@ -60,6 +61,8 @@ private int idLaminaPagina=0;
   
   private String palabra;
   
+
+   
     public AdminTerminosBean() throws IOException, FileNotFoundException, ClassNotFoundException {
   
    // term= RI.deserializarTerminos();
@@ -159,8 +162,12 @@ AnalisisUtils analisis = new AnalisisUtils();
     
     return termino;
     }
+  
+    
     
     public boolean existsTermino(String palabra,int idLamina){
+    //NO permite verificar en un solo terminoLámina
+    
        boolean existe=false;
         for(TerminoLamina  terminoLam:term[idLamina]){
            if (terminoLam.getTermino().equals(palabra))
@@ -175,6 +182,33 @@ AnalisisUtils analisis = new AnalisisUtils();
         }
        return existe; 
     }
+
+    
+    
+    
+    
+    public boolean existsTerminoAsoc(String palabra,int idLamina, TerminoLamina terminoLamina){
+//Exist termino Asoc : verificar que no exista una coincidencia solo dentro de un 
+// termino lamina, en los demas terminos laminas (generales) podra repetirse este.
+
+//NO permite verificar en un solo terminoLámina
+    
+       boolean existe=false;
+        for(TerminoLamina  terminoLam:term[idLamina]){
+           if (terminoLam.getTermino().equals(palabra))
+            return true;
+
+        }
+        
+         for(String termAsoc:terminoLamina.getTerminosAsociados()){
+               if (termAsoc.equals(palabra))
+                   return true;
+               
+           }
+        
+       return existe; 
+    }
+    
     
    public List<TerminoLamina> getTerminosLaminaId(int idLamina){
         
@@ -194,9 +228,13 @@ AnalisisUtils analisis = new AnalisisUtils();
         
     }
      
+     
+/*
+
+     
           public void añadirTermAsoc(String termAsoc){
               
-        
+             //este metodo no permite repeticiones de terminos asociados entre terminoslaminas
       
               
               
@@ -227,11 +265,46 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
    
           }
           
-          public void añadirTerminoAsocDesdeRectificar(Termino termino){
+          */
+     
+          public void añadirTermAsoc(String termAsoc,TerminoLamina terminoLamina){
+              
+        //este metodo SI permite repeticiones de terminos asociados entre terminoslaminas
+      
+              
+              
+              
+ String delimitadores= "[ .,;?!¡¿\'\"\\[\\]\\(\\)\\t]+";
+String[] palabrasSeparadas =termAsoc.split(delimitadores);
+
+
+    if(palabrasSeparadas.length==1){
+            termAsoc=formatearTermino(termAsoc);              
+              
+
+            if(!existsTerminoAsoc(termAsoc, idLaminaPagina,terminoLamina)){
+            terminoLamina.getTerminosAsociados().add(termAsoc);
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito!", "El término asociado fue añadido "));      
+    
+            } else{
+             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "El término asociado ya existe, o es parte de los Términos Generales de la Lámina "));  
+      
+         }
+    
+    
+    }else{
+        
+      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error!", "Los términos deben ser de una palabra "));   
+    }
+    
+   
+          }
+          
+         public void añadirTerminoAsocDesdeRectificar(Termino termino){
               // desde rectificar terminos estamos agregando una nueva palabra al diccionario con id relato y termino asociado al cual hay que añadirla
              String palabraAñadir=termino.getPalabra();
             int  idRelato=termino.getIdLámina();
-           String   termAsoc= termino.getTerminoAsociado();
+           String  termAsoc= termino.getTerminoAsociado();
               
               System.out.println("ela palabra a añadir es "+palabraAñadir);
               System.out.println(" el id relato es"+idRelato);
@@ -244,8 +317,7 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
            
               
               
-          }
-          
+          }          
             public void añadirNuevoTerminoDesdeRectificar(Termino termino){
               // desde rectificar terminos estamos agregando una nueva palabra al diccionario con id relato y termino asociado al cual hay que añadirla
               
@@ -259,9 +331,8 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
               String nuevoTermino=termino.getTerminoAsociado();
               int connotacion=termino.getConnotacion();
               
-              
-              
-                      
+         
+                if(!existeTermino(term[idRelato], termino.getTerminoAsociado())){      
              //verificar que no exista en la lista para añadirla si existe lanzar mensaje
               if(palabraAñadir.equals(nuevoTermino)){
                   
@@ -273,13 +344,22 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
                   lista.add(palabraAñadir);
                    TerminoLamina nuevo =new TerminoLamina(nuevoTermino, connotacion, lista);
                    this.term[idRelato].add(nuevo);
-                  
+                 
               }
+             
               
+                    System.out.println(" no existe el termino");        
+         }else{
+                   System.out.println("el termino ya existe");
+                 
+                   
+               }
+              RequestContext rc = RequestContext.getCurrentInstance();
+    rc.execute("PF('dlgmodificar3').hide();");
+             
+         }
             
-              
-              
-          }
+           
           
           public int getIndexTerminoLamina (int idRelato,String Palabratermino){
               //este metodo me retorna el indice donde se encuentra el termino lamina asociado a una palabra, si no esta es -1
@@ -641,6 +721,8 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
       
       return existeTerm;
   }
+
+
   
     
     

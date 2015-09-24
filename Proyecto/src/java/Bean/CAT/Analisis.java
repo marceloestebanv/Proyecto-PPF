@@ -174,6 +174,14 @@ public void serializarTest() throws IOException{
 }
 
 public void redireccionarRectificar() throws IOException{
+    
+    
+   // serializaremos los terminos por si se modifican en rectificar
+     ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("Datos.obj"));
+               salida.writeObject(terminosTest);
+             System.out.println(" se serializó");
+             
+   
          System.out.println(" ahora direccionaremos a rectificarTerminos");
         //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
         FacesContext fc=FacesContext.getCurrentInstance();
