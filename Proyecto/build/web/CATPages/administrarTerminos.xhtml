@@ -109,12 +109,15 @@
                    <!-- Este div  le da espacio a todo los formularios-->
                    
                     <div style="padding: 50px">
-                    <h:form id="form2" >  
+                    <h:form id="form2" > 
+                        
+                        <h2>Administrar Términos Diccionario</h2> <br/>
+                        
                      <p:messages id="messages"  showDetail="true" autoUpdate="true" closable="true" />    
-                         <h3>Añadir Termino</h3>
+                         <h4>Añadir Termino</h4>
                                  <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre Termino " />
-                    <p:inputText  value="#{adminTerminosBean.termino.termino}" required="true"/>
+                    <h:outputLabel value="Nombre Termino " for="termino"/>
+                    <p:inputText id="termino"  value="#{adminTerminosBean.termino.termino}" required="true" placeholder=" Ingrese término..." requiredMessage="Ingrese término"/>
                      
                     <p:outputLabel value="Connotación"/>
                     

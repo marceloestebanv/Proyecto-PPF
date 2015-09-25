@@ -63,7 +63,9 @@ public class UsuarioBean {
 
     if(insercion==1){
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito al ingresar usuario.", "Se insertó el usuario.")); 
-    //el 8 lo asignamos arbitrariamente en el metodo insertar
+     
+//el 8 lo asignamos arbitrariamente en el metodo insertar
+        
     }else if(insercion==3){
        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error! El usuario ya existe en el sistema.", "El usuario ya Existe")); 
     }
@@ -75,6 +77,11 @@ public class UsuarioBean {
     //    System.out.println("nobmre: "+usuario.getNombre());
         
     }
+    
+    
+  
+    
+    
     public void modificar(){
         
         System.out.println("a modificicar");

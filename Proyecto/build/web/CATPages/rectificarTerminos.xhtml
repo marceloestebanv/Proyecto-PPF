@@ -47,7 +47,7 @@
         //formMostrar:theButton.click();
           //  document.getElementById(':formMostrar:theButton').click(); 
     //  document.getElementById('menu:hh').click(); 
-        return "¿Seguro que quieres salir?";
+        return "";
     }
 </script>
          
@@ -78,7 +78,7 @@
                 <p:layoutUnit position="west" size="220" header="Menu">
      
     <h:form id="menu">
-        <p:commandButton ajax="false" widgetVar="theButton" id="hh" action="#{terminosBean.destroy()}" style="display:none"/>
+<!--        <p:commandButton ajax="false" widgetVar="theButton" id="hh" action="#{terminosBean.destroy()}" style="display:none"/>-->
         <p:panelMenu style="width:210px">
                               <p:submenu label="Sistema CAT-A">
                             <p:menuitem value="Agregar Examinado" outcome="nuevoExaminado.xhtml" />
@@ -96,7 +96,8 @@
                     
                 <f:metadata>
                         <f:viewParam name="idTest" value="#{terminosBean.test.idTest}" />
-                        <f:viewParam name="rutExaminado" value="#{terminosBean.test.rutExaminado}" />
+<!--                       Este se puede obviar
+                        <f:viewParam name="rutExaminado" value="#{terminosBean.test.rutExaminado}" />-->
                 </f:metadata> 
                     
                 
@@ -105,7 +106,7 @@
                         
                                 
                                
-                        <h3>Rectificar Términos</h3>
+                        <h2>Rectificar Términos</h2>
                         
                         <br/>
                         
@@ -114,7 +115,7 @@
                             
                             
                          <h4>Relato #{loop.index+1}</h4>  
-                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}" style="width: 70%"
+                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}" style="width: 90%"
                          emptyMessage="No hay Términos"
 paginator="true" rows="10" paginatorPosition="bottom"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
@@ -126,12 +127,12 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                                <h:outputText value="#{as.palabra}"/>
                 </p:column>
                            
-                           
+                          
                             <p:column headerText="Clasificación" >
                       
-                    <h:outputText value="#{terminosBean.clasificacion(as.connotacion)}"/>
-
-                                      
+                                <h:outputText rendered="#{as.connotacion eq 0 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #CC6666"/>
+                                 <h:outputText rendered="#{as.connotacion eq 1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #579575"/>
+                                  <h:outputText rendered="#{as.connotacion eq -1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #4BB2C5"/>
                 </p:column>
                             
                         
@@ -309,7 +310,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
       
       
        
-                <p:commandButton actionListener="#{terminosBean.añadirNuevoTerminoDesdeRectificar(terminosBean.terminoTemp2)}"
+                <p:commandButton actionListener="#{terminosBean.validarTerminoDesdeRectificar(terminosBean.terminoTemp2)}"
                          value="Añadir"  onclick="PF('dlgmodificar3').hide();"
                          update=":formMostrar:table#{terminosBean.terminoTemp2.idLámina}" />
        

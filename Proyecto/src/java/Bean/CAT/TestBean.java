@@ -328,8 +328,11 @@ public class TestBean {
   public PieChartModel createPieModel1(MetricaRI metrica) {
        PieChartModel pieModel1 = new PieChartModel();
          
-        pieModel1.set("Coincidencias", metrica.getCoincidencias());
-        pieModel1.set("No Coincidencias", metrica.getCantidadTerminos()-metrica.getCoincidencias());
+           float porcCoinc= (float)metrica.getCoincidencias()/(float)metrica.getCantidadTerminos()*100;
+            float porcNoCoinc= (float)100-porcCoinc;
+       
+        pieModel1.set("Coincidencias "+(int)porcCoinc+"%", metrica.getCoincidencias());
+        pieModel1.set("No Coincidencias "+(int)porcNoCoinc+"%", metrica.getCantidadTerminos()-metrica.getCoincidencias());
        pieModel1.setSeriesColors("4BB2C5,CC6666");
          
         pieModel1.setTitle("Coincidencias");
@@ -343,12 +346,22 @@ public class TestBean {
       public PieChartModel createPieModelConnotacion(MetricaRI metrica) {
        PieChartModel pieModel1 = new PieChartModel();
          
-        pieModel1.set("Neutros", metrica.getCantidadNeutros());
-        pieModel1.set("Positivos",metrica.getCantidadPositivos());
-        pieModel1.set("Negativos",metrica.getCantidadNegativos());
+       float porcNeutros= (float)metrica.getCantidadNeutros()/(float)metrica.getCantidadTerminos()*100;
         
-         
-        pieModel1.setTitle("Connotación");
+       
+       float porcPosi= (float)metrica.getCantidadPositivos()/(float)metrica.getCantidadTerminos()*100;
+      float porcNeg=(float) metrica.getCantidadNegativos()/(float)metrica.getCantidadTerminos()*100;
+ //         System.out.println(porcNeutros);
+ //         System.out.println(porcPosi);
+       
+       
+        pieModel1.set("Neutros "+(int)porcNeutros+"%", metrica.getCantidadNeutros());
+        pieModel1.set("Positivos "+(int)porcPosi+"%",metrica.getCantidadPositivos());
+        pieModel1.set("Negativos "+(int)porcNeg+"%",metrica.getCantidadNegativos());
+        
+       
+        
+         pieModel1.setTitle("Connotación");
         pieModel1.setSeriesColors("4BB2C5, 579575 ,CC6666");
         
                

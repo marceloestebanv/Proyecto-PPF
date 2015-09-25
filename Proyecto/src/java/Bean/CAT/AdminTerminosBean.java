@@ -312,8 +312,13 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
               
               
               //aca se agrega
-              this.term[idRelato].get(getIndexTerminoLamina(idRelato, termAsoc)).getTerminosAsociados().add(palabraAñadir);
               
+              if(!existeTermino(term[idRelato], termino.getPalabra())){  
+              this.term[idRelato].get(getIndexTerminoLamina(idRelato, termAsoc)).getTerminosAsociados().add(palabraAñadir);
+                System.out.println("el termino (palabra) no existe");
+              }else{
+                  System.out.println("el termino (palabra) existe por lo que no se añadirá");
+              }
            
               
               

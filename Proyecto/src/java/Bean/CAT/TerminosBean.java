@@ -371,7 +371,47 @@ public void guardarTerminosDiccionario() throws IOException{
     
             }
         
-        
+        public void validarTerminoDesdeRectificar(Termino termino) throws IOException, FileNotFoundException, ClassNotFoundException{
+            //Este metodo valida la entrada vacía o "-"
+            if(((termino.getTerminoAsociado().length())==0 )||(termino.getTerminoAsociado().equals("-"))){
+                System.out.println("termino invalido : vacio o '-'");
+                //termino invalido es necesario que se vuelva al termino anterior
+                 //recuperar los terminos // setearle el rut del examinado para obtenerlo
+                ObjectInputStream entrada = new ObjectInputStream(new FileInputStream("Datos.obj"));
+                List<Termino>[] terminosTestsClone = (List<Termino>[])entrada.readObject();
+                System.out.println(" se deserializó");
+                
+                
+                Termino terminoOriginal=new Termino();
+               
+                    //hay que devolverlo a su valor real y no al modificado.
+                    
+                    for (Termino terminoRecorrer:terminosTestsClone[termino.getIdLámina()]){
+                        //rescatamos la coincidencia
+                        if (terminoRecorrer.getPalabra().equals(termino.getPalabra())){
+                            terminoOriginal=terminoRecorrer;
+                            //se devuelve al valor anterior
+                            terminoTemp2.setTerminoAsociado(terminoRecorrer.getTerminoAsociado());
+                            break;
+                         //   terminoTemp2.setTerminoAsociado(terminoRecorrer.getTerminoAsociado());
+                            //se cambió a su valor anterior
+
+                          //  System.out.println("se cambió a su valor anterior"+terminoRecorrer.getPalabra());
+                        }
+                        
+                    }
+                    
+                  FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al añadir término! El término es erróneo.", ""));
+                
+                
+                
+            }else{
+               //terminoValido
+                añadirNuevoTerminoDesdeRectificar(termino);
+            }
+            
+            
+        }
         
            public void añadirNuevoTerminoDesdeRectificar(Termino termino) throws FileNotFoundException, IOException, ClassNotFoundException{
               // desde rectificar terminos estamos agregando una nueva palabra al diccionario con id relato y termino asociado al cual hay que añadirla
@@ -407,6 +447,7 @@ public void guardarTerminosDiccionario() throws IOException{
               //tener cuidado con el null en la lista
               TerminoLamina nuevo =new TerminoLamina(palabraAñadir, connotacion, new ArrayList());
                   this.adminTerminos.getTerm()[idRelato].add(nuevo);
+                  
                }else{
                   List<String> lista= new ArrayList<>();
                   lista.add(palabraAñadir);
@@ -423,7 +464,9 @@ public void guardarTerminosDiccionario() throws IOException{
                     
                     
                      FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Éxito se añadió el termino ingresado al Diccionario", "")); 
-                }else{
+                
+           
+           }else{
                     
                
                System.out.println("el termino ya existe");
@@ -456,7 +499,7 @@ public void guardarTerminosDiccionario() throws IOException{
                   
               }
                     
-                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al añadir término! El término  ya existe", "")); 
+                     FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al añadir término! Éste ya existe en el diccionario o es erróneo.", "")); 
                     
                     //terminoTemp2.setTerminoAsociado("mama");
                     
