@@ -103,16 +103,16 @@ rowsPerPageTemplate="10"
                 </p:column>
                 
        
-                <p:column headerText="Accion">
+                <p:column headerText="Acción">
                     
-                    <p:commandButton value="Relatos" actionListener="#{testBean.redireccionar(test.idTest)}">
+                    <p:commandButton value="Relatos" actionListener="#{testBean.redireccionarMostrarRelatos(test.idTest)}">
                          
                         </p:commandButton>
                     
                     </p:column>
                     
                     
-               <p:column headerText="Accion">
+               <p:column headerText="Acción">
                     
                    <p:commandButton value="Resultado" actionListener="#{calcularMetricas.consultarMetricasTestPagina(test.idTest)}">
                          
@@ -122,12 +122,17 @@ rowsPerPageTemplate="10"
                 </p:column>
             
              
-             <p:column headerText="Accion">
+             <p:column headerText="Acción">
                     <p:commandButton value="Eliminar" onclick="PF('dlgeliminar').show();" >
                         <f:setPropertyActionListener target="#{testBean.test}" value="#{test}"/>
                     </p:commandButton>
                    
                 </p:column>
+                           
+             <p:column headerText="Acción">
+                 <p:commandButton value="Editar" actionListener="#{testBean.redireccionarEditarTest(test.idTest)}"/>
+                   
+                </p:column>              
                 
                 
                 </p:dataTable>

@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -42,7 +43,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 public class TestBean {
     
-  
+
     
    // esto es para obtener la info del examinado y del usuario
    private Usuario usuario;
@@ -58,7 +59,9 @@ public class TestBean {
    private MetricaRI metricaGlobalTest;
    
    
-
+@ManagedProperty("#{analisis}")
+    private Analisis analisis;
+   
    
    
 
@@ -101,12 +104,26 @@ public class TestBean {
     }
     
     
-    public void redireccionar(int idTest) throws IOException {
+    public void redireccionarMostrarRelatos(int idTest) throws IOException {
         
         System.out.println(" ahora si");
          FacesContext fc=FacesContext.getCurrentInstance();
          fc.getExternalContext().redirect("/Proyecto/faces/CATPages/mostrarRelatos.xhtml?idTest="+idTest);//redirecciona la página
         
+    
+}
+    
+     public void redireccionarEditarTest(int idTest) throws IOException {
+
+ 
+         FacesContext fc=FacesContext.getCurrentInstance();
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/editarTest.xhtml?idTest="+idTest);//redirecciona la página
+            
+         //aca le seteamos el valor de los relatos desde la bd
+         test.setIdTest(idTest);
+         analisis.setRelatosEditar(getRelatosArray());
+        
+                     
     
 }
     
@@ -129,6 +146,23 @@ public class TestBean {
         
         return relatos;
     }
+      
+      
+      public String[] getRelatosArray(){
+         
+          
+       UsuarioDao dao = new UsuarioDao();
+        
+          System.out.println(" se devolverán los relatos");
+         String[] lista=new String[10];
+        List<String> listaBD= dao.getRelatos(test.getIdTest());
+          for (int i = 0; i < 10; i++) {
+              lista[i]=listaBD.get(i);  
+          }
+        
+          return lista;
+      }
+      
       
      public List<Relato> getRelatosObject(){
          
@@ -443,6 +477,17 @@ public class TestBean {
        
         
     }
+
+    public Analisis getAnalisis() {
+        return analisis;
+    }
+
+    public void setAnalisis(Analisis analisis) {
+        this.analisis = analisis;
+    }
+
+ 
+
         
    
 

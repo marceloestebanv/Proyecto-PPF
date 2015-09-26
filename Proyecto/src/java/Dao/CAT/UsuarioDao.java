@@ -1283,6 +1283,58 @@ public class UsuarioDao {
          
          
      }
+     
+     public boolean existeIdTest(int idTest){
+         
+           Connection con = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean existe = false;
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
+
+           stmt = con.prepareStatement("SELECT idTest FROM test WHERE idTest= ? ");
+           
+            stmt.setInt(1, idTest);
+          
+            rs = stmt.executeQuery();
+
+            if (rs.next()) { //es un result set vacío 
+
+                existe = true;
+
+
+            }
+
+        } catch (SQLException e) {
+            System.out.println("error"+e);
+            
+        } catch (ClassNotFoundException e) {
+            System.out.println("error"+e);
+        
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                    rs = null;
+                }
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+                if (con != null) {
+                    con.close();
+                    con = null;
+                }
+            } catch (SQLException e) {
+            }
+        }
+
+        return existe;
+         
+         
+     } 
       
       
 }

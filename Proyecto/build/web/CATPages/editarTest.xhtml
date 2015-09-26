@@ -15,7 +15,7 @@
                   <link href="/Proyecto/resources/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
         <link href="/Proyecto/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
         <script src="/Proyecto/resources/js/bootstrap.js" type="text/javascript"></script>
-        <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
+     
        
                 
                 
@@ -48,6 +48,10 @@
                 -webkit-border-radius: 20px 20px 20px 20px;
                 border: 0px solid #168db8;
             } 
+              h2{
+font-size:20pt;line-height:0.85em;font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;
+}  
+  
     
             </style>
             
@@ -90,10 +94,16 @@
                   </p:layoutUnit >
 
                 <p:layoutUnit position="center">
+                     
+                    <f:metadata>
+                    <f:viewParam name="idTest" value="#{testBean.test.idTest}" />
+                 
+                    
+</f:metadata>  
                
                     <h:form class="form">               
               
-     <h2>Agregar Test</h2>
+     <h2>Editar Test</h2>
      <br/>
     
       
@@ -101,22 +111,20 @@
     
    
    
-    <h:panelGrid columns="2" style="margin-bottom:10px"  >
-        
-       <p:outputLabel value="Seleccione examinado " for="selectExaminado"/>    
-      <p:selectOneMenu id="selectExaminado" effect="drop" 
-                       value="#{analisis.rutExaminado}" required="true">
-          <f:selectItem itemLabel="Elija examinado" itemValue="0" noSelectionOption="true"/>
-          <f:selectItems value="#{examinadoBean.examinados}"
-                         var="examinado" itemLabel="#{examinado.nombre}"
-                         itemValue="#{examinado.rut}" />
-    </p:selectOneMenu>
-   
-    </h:panelGrid>
+    <p:fieldset legend="Información del Test" style="width: 90%" > 
+                            <h:panelGrid columns="2" >
+                             <b>ID del Test  :  </b>  <h:outputText value= "#{testBean.test.idTest} " />
+                             <b>Nombre  Examinado  :  </b> <h:outputText value=" #{testBean.examinado.nombre} " />
+                               <b>Nombre  Examinador  :  </b> <h:outputText value=" #{testBean.usuario.nombre} " />
+                              <b>Fecha Test: </b> <h:outputText value="  #{testBean.test.fecha} " />
+                             
+                         </h:panelGrid >
+                         
+                         </p:fieldset>
      
-     <br/>
+     <br/> <br/>
     
-     <c:forEach items="#{analisis.relatos}" var="item" varStatus="loop">  
+     <c:forEach items="#{analisis.relatosEditar}" var="item" varStatus="loop">  
    
     <div class="row" >
                 <div class="col-md-2">
@@ -125,7 +133,7 @@
             
             </div>
         <div class="col-md-10">
-            <p:inputTextarea value="#{analisis.relatos[loop.index]}"   requiredMessage="Ingrese Relato #{loop.index+1}" validatorMessage="Ingrese más de una palabra para relato  #{loop.index+1}" required="true"  placeholder="Ingrese Relato #{loop.index+1}..." rows="6" cols="50" >
+            <p:inputTextarea  value="#{item}" requiredMessage="Ingrese Relato #{loop.index+1}" validatorMessage="Ingrese más de una palabra para relato  #{loop.index+1}" required="true"  placeholder="Ingrese Relato #{loop.index+1}..." rows="6" cols="50" >
               <f:validateLength  minimum="10" /> 
               
             </p:inputTextarea>           
@@ -145,7 +153,7 @@
     
     
    
-    <p:commandButton value="Analizar Test" action="#{analisis.analizarTest()}"     style="width:20%;"/><br/> 
+    <p:commandButton value="Analizar y Editar Test" action="#{analisis.analizarTestEditar(testBean.test.idTest)}"     style="width:25%;"/><br/> 
 
                    
                     </h:form>

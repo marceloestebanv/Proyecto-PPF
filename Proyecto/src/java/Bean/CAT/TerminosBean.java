@@ -168,22 +168,36 @@ public void guardarTerminosDiccionario() throws IOException{
              UsuarioDao dao= new UsuarioDao();
           //aca debemos insertar en la bd el test y los relatos 
           // primero insertamos, luego seteamos el valor del idTest a analisis
-        dao.insertarTest(terminosAnalisis.getRelatos(),terminosAnalisis.getRutExaminado(),terminosAnalisis.getRutUsuario()); 
+             
+             System.out.println("el test a ingresar es "+test.getIdTest());
+       
+             //acá hay que ver cuando se edita el test en la base de datos
+             
+             if(!dao.existeIdTest(test.getIdTest())){ 
+                dao.insertarTest(terminosAnalisis.getRelatos(),terminosAnalisis.getRutExaminado(),terminosAnalisis.getRutUsuario()); 
+                System.out.println("No existe el idTest así que se insertó");
       
-        // si es el primer test
-        if(terminosAnalisis.getIdTest()==1){
+              // si es el primer test el que se insertó
+                if(terminosAnalisis.getIdTest()==1){
       
-            //No ocuparemos Analisis = analisis = new Analisis(); porque esto me lo crea de 0
-            //terminosAnalisis es una copia de Analisis.
-            terminosAnalisis.setIdTest(dao.getUltimoTest());
-       test.setIdTest(dao.getUltimoTest());
-       System.out.println(" el test =1 y se cambió a"+(dao.getUltimoTest())+1);
+                    //No ocuparemos Analisis = analisis = new Analisis(); porque esto me lo crea de 0
+                    //terminosAnalisis es una copia de Analisis.
+                    terminosAnalisis.setIdTest(dao.getUltimoTest());
+                    test.setIdTest(dao.getUltimoTest());
+                    System.out.println(" el test =1 y se cambió a"+(dao.getUltimoTest())+1);
         }
+             
+          
+             
+             
+             }
+       
+       
         
         
         
-        
-          //serilizar el test
+              
+                   //serilizar el test
         //luego calcular las metricas
         
         serializarTest();
@@ -192,6 +206,7 @@ public void guardarTerminosDiccionario() throws IOException{
         
         metricas.calcularMetricaTest(test.getIdTest());
         
+       
        
          
         
