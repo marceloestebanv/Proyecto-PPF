@@ -397,6 +397,8 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
         term[idLamina].remove(termino);
         System.out.println(" se ha eliminado");
         
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito! El término fue eliminado", "El término fue eliminado "));
+        
         for (TerminoLamina termi: term[idLamina]){
             System.out.println("termino lamina: "+termi.getTermino());
         }
@@ -412,7 +414,7 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
     
           
     public void editar( int idLamina ){
-        
+          FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito! Se han guardado los cambios", ""));
         System.out.println(" vamos a editar");
     }
 

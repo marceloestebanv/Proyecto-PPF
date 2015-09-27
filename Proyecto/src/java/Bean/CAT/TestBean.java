@@ -444,6 +444,11 @@ public class TestBean {
         usuario=dao.getUsuario(test.getRutUsuario());
         return usuario;
     }
+    public Usuario getUsuario(String rutUsuario) {
+        UsuarioDao dao= new UsuarioDao();
+        usuario=dao.getUsuario(rutUsuario);
+        return usuario;
+    }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
@@ -455,6 +460,13 @@ public class TestBean {
         examinado=dao.getExaminado(test.getRutExaminado());
         return examinado;
     }
+      public Examinado getExaminado(String rutUsuario) {
+        
+        UsuarioDao dao= new UsuarioDao();
+        examinado=dao.getExaminado(rutUsuario);
+        return examinado;
+    }
+
 
     public void setExaminado(Examinado examinado) {
         this.examinado = examinado;

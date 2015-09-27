@@ -117,8 +117,15 @@ public class CalcularMetricas {
         int coincidencias=0;
         
         List<TerminosGenerales> termGenerales=new ArrayList<>();
-        List<String> termCoinci= new ArrayList<>();
+       
+       
+       List<String> termCoinci= new ArrayList<>();
+       
+       //aca se guarda el término coincidente completo para luego consultar su frecuencia
+       List<Termino> terminosCoincCompletos = new ArrayList<>();
       
+  
+            
             
             cantTotalTerminos=listaTermino.size();
             
@@ -136,6 +143,7 @@ public class CalcularMetricas {
                 if(!terminoTest.getTerminoAsociado().equals("-")){
                     coincidencias++;
                     termCoinci.add((String)terminoTest.getTerminoAsociado());
+                    terminosCoincCompletos.add(terminoTest);
                 }    
                 
                 
@@ -145,16 +153,24 @@ public class CalcularMetricas {
             Set<String> unique = new HashSet<String>(termCoinci);
             
         
-            
+             
             //contamos la coincidencia de cada termino unico y lo agregamos a la lista
             for (String unico:unique){
                
-                int count=0;
-                for(String term:termCoinci){
-                    if(unico.equals(term))
-                        count++;
+                int countDistintos=0;
+                int totalFrecuencias=0;
+                for(Termino term:terminosCoincCompletos){
+                     
+                    if(unico.equals(term.getTerminoAsociado())){
+                    countDistintos++;
+                  totalFrecuencias  =(int)term.getFrecuencia()+totalFrecuencias;
+                    }
+
                 }
-                TerminosGenerales termGeneral=new TerminosGenerales(unico, count);
+                
+                
+                
+                TerminosGenerales termGeneral=new TerminosGenerales(unico, countDistintos,totalFrecuencias);
                 termGenerales.add(termGeneral);
             }
             
@@ -455,6 +471,9 @@ public class CalcularMetricas {
                  int frecuencia=termGenerales.get(index).getFrecuencia();
                  termGenerales.get(index).setFrecuencia(termGeneral.getFrecuencia()+frecuencia);
                  
+                 int total=termGenerales.get(index).getTotal();
+                 termGenerales.get(index).setTotal(termGeneral.getTotal()+total);
+                 
                   
               }else{
                   termGenerales.add(termGeneral);
@@ -635,6 +654,7 @@ public class CalcularMetricas {
        int index= metricasTest.indexOf(metrica);
        
        return metricasTest.get(index).getTerminosGenerales();
+       
    }
    
      public List<TerminosGenerales> getTerminosGeneralesMetricaTestsExaminado(MetricaRI metrica){
