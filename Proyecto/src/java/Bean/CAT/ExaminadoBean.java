@@ -118,6 +118,13 @@ public class ExaminadoBean {
         return examinados;
     }
     
+      public List<Examinado> getExaminadosConTest() {
+       UsuarioDao linkDAO= new UsuarioDao();
+        examinados=linkDAO.mostrarExaminadosConTest();
+        return examinados;
+    }
+    
+    
 
     public void setExaminados(List<Examinado> examinados) {
         this.examinados = examinados;
@@ -131,6 +138,14 @@ public class ExaminadoBean {
         return causasIngreso;
     }
 
+      public List<CausaIngresoExaminado> getCausasIngresoConTest() {
+        
+         UsuarioDao linkDAO= new UsuarioDao();
+        causasIngreso= linkDAO.getCausasIngresoConTest();
+        
+        return causasIngreso;
+    }
+    
     public void setCausasIngreso(List<CausaIngresoExaminado> causasIngreso) {
         this.causasIngreso = causasIngreso;
     }

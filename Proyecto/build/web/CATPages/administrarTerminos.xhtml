@@ -65,7 +65,7 @@
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -114,9 +114,9 @@
                         <h2>Administrar Términos Diccionario</h2> <br/>
                         
                      <p:messages id="messages"  showDetail="true" autoUpdate="true" closable="true" />    
-                         <h4>Añadir Termino</h4>
+                         <h4>Añadir Término</h4>
                                  <h:panelGrid columns="2">
-                    <h:outputLabel value="Nombre Termino " for="termino"/>
+                    <h:outputLabel value="Nombre Término " for="termino"/>
                     <p:inputText id="termino"  value="#{adminTerminosBean.termino.termino}" required="true" placeholder=" Ingrese término..." requiredMessage="Ingrese término"/>
                      
                     <p:outputLabel value="Connotación"/>
@@ -142,14 +142,14 @@
                         <h3>Terminos existentes</h3>
                         
                         <p:dataTable var="as" style="width: 90% " value="#{adminTerminosBean.getTerminosLaminaId(adminTerminosBean.idLaminaPagina)}" id="tableTerm"
-                         emptyMessage="No hay Terminos"
+                         emptyMessage="No hay Términos"
 paginator="true" rows="10" paginatorPosition="bottom"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 
                          >
                 
-                            <p:column headerText="Termino " >
+                            <p:column headerText="Término " >
                                 <h:outputText value="#{as.termino}"/>
                 </p:column>
                             
@@ -158,7 +158,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                 </p:column>
                             
                               
-                           <p:column headerText="Terminos Asociados " >
+                           <p:column headerText="Términos Asociados " >
                                <h:outputText value="#{as.terminosAsociadosString}"/>
                 </p:column>
                        
@@ -175,12 +175,12 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                         title="Delete this actor"
                         actionListener="#{adminTerminosBean.remove(as,adminTerminosBean.idLaminaPagina)}" update=":formMostrar"
                          />
-                </p:column>
+               </p:column>
                 
                             
                             
                 </p:dataTable>
-                          <p:commandButton value="ImportarTerminos desde archivo"  action="#{adminTerminosBean.cargarDiccionario()}"/>
+                     <!--      ImportarTérminos desde archivo"  action adiminterminosbean importar diccionario -->
                         <br/>
                          <br/>
                         <h:commandButton value="Guardar Cambios" action="#{adminTerminosBean.serializarTerminos()}" class="btn btn-primary"/>
@@ -197,7 +197,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                    
                    <h:form id="formModificar" >
                 <p:panelGrid columns="2">
-                    <p:outputLabel value="Termino"/>
+                    <p:outputLabel value="Término"/>
                     <p:inputText value="#{adminTerminosBean.terminoLamina.termino}" disabled="true" />
                     
                 
@@ -224,7 +224,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                  
                 
               
-                    <h:outputLabel  value="Nombre Termino " />
+                    <h:outputLabel  value="Nombre Término " />
                     <p:inputText  value="#{adminTerminosBean.palabra}" />
                      
                     
@@ -240,14 +240,14 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                 <h3>Terminos Asociados Existentes</h3>
                 
                 <p:dataTable id="table" var="term" value="#{adminTerminosBean.terminoLamina.terminosAsociados}" style="width: 70%"
-                         emptyMessage="No hay Terminos"
+                         emptyMessage="No hay Términos"
 paginator="true" rows="4" paginatorPosition="bottom"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 
                          >
                 
-                            <p:column headerText="Termino " >
+                            <p:column headerText="Término " >
                                 <h:outputText value="#{term}"/>
                 </p:column>
                             

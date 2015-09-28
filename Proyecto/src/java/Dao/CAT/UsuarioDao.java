@@ -631,6 +631,64 @@ public class UsuarioDao {
 
     }
     
+    
+     public List<Examinado> mostrarExaminadosConTest() {
+        
+         Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+       List<Examinado> lista= new ArrayList();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM examinado where rut in (SELECT DISTINCT Examinado_rut\n" +
+"FROM test\n" +
+")");
+
+            while (rs.next()) {
+               Examinado tempExaminado = new Examinado();
+                tempExaminado.setRut(rs.getObject(1).toString());
+                tempExaminado.setNombre(rs.getObject(2).toString());
+                tempExaminado.setDireccion(rs.getObject(3).toString());
+                tempExaminado.setFechaNac(rs.getObject(4).toString());
+                tempExaminado.setEscolaridad(rs.getObject(5).toString());
+                tempExaminado.setNombreRespons(rs.getObject(6).toString());
+                tempExaminado.setParentescoRespons(rs.getObject(7).toString());
+                tempExaminado.setIdCausaIngreso(Integer.parseInt(rs.getObject(8).toString()));
+                lista.add(tempExaminado);
+            } 
+
+        } catch (SQLException e) {
+           
+        } catch (ClassNotFoundException e) {
+            
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                    rs = null;
+                }
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+                if (con != null) {
+                    con.close();
+                    con = null;
+                }
+            } catch (SQLException e) {
+            }
+        }
+
+        return lista;
+
+    }
+    
+    
+    
     public Examinado getExaminado(String rutExaminado){
         
              Connection con = null;
@@ -1231,6 +1289,64 @@ public class UsuarioDao {
          
      } 
      
+     
+          public List<CausaIngresoExaminado> getCausasIngresoConTest(){
+
+
+                   Connection con = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+
+       List<CausaIngresoExaminado> lista= new ArrayList();
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM razoningreso where idRazon in (SELECT DISTINCT idRazonIngreso\n" +
+"FROM test\n" +
+"INNER JOIN examinado\n" +
+"WHERE test.Examinado_rut = examinado.rut)");
+            
+            while (rs.next()) {
+              
+                lista.add(new CausaIngresoExaminado(Integer.parseInt(rs.getObject(1).toString()), rs.getObject(2).toString()));
+                
+            } 
+
+            
+            System.out.println(" paos la lista");
+        } catch (SQLException e) {
+           
+        } catch (ClassNotFoundException e) {
+            
+        } finally {
+            try {
+                if (rs != null) {
+                    rs.close();
+                    rs = null;
+                }
+                if (stmt != null) {
+                    stmt.close();
+                    stmt = null;
+                }
+                if (con != null) {
+                    con.close();
+                    con = null;
+                }
+            } catch (SQLException e) {
+            }
+        }
+
+        return lista;
+
+         
+         
+         
+         
+     } 
+     
+     
      public CausaIngresoExaminado getCausaIngreso(int idCausa){
 
 
@@ -1336,6 +1452,59 @@ public class UsuarioDao {
          
      } 
       
+     
+    public int modificarRelatosTest(int idTest, String[]relatos) {
+        int retorno=-100;
+        
+    
+       Connection con = null;
+        PreparedStatement stmt = null;
+
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+           con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
+
+            for (int i = 0; i < 10; i++) {
+               stmt = con.prepareStatement("UPDATE relato SET relato= ? WHERE test_idTest ='"+idTest+"' AND idLamina='"+i+"'"); 
+            stmt.setString(1, relatos[i]);
+      
+           
+            retorno = stmt.executeUpdate();
+                
+                
+            }
+         
+            
+        } catch (SQLException sqle) {
+            System.out.println("SQLState: "
+                    + sqle.getSQLState());
+            System.out.println("SQLErrorCode: "
+                    + sqle.getErrorCode());
+            sqle.printStackTrace();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (con != null) {
+                try {
+                    stmt.close();
+                    con.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+
+    return retorno;
+      
+    }
+
+     
+     
+     
       
 }
 

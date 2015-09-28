@@ -186,11 +186,15 @@ public void guardarTerminosDiccionario() throws IOException{
                     test.setIdTest(dao.getUltimoTest());
                     System.out.println(" el test =1 y se cambió a"+(dao.getUltimoTest())+1);
         }
+
              
-          
+             }else{
+                    //si existe se actualizan los relatos
+                    
+                    dao.modificarRelatosTest(test.getIdTest(),terminosAnalisis.getRelatosEditar());
+                    System.out.println("se modificaron los relatos");
+                }
              
-             
-             }
        
        
         
@@ -243,11 +247,14 @@ public void guardarTerminosDiccionario() throws IOException{
         System.out.println("id lamina a eliminar "+idLamina);
         System.out.println("termino "+ termino.getPalabra());
         
+        if(terminosTest[idLamina].size()!=1){
         //hay que borrar tambien los terminos del tesauro
         terminosTest[idLamina].remove(termino);
         System.out.println(" se ha eliminado");
         //terminoTemp=new Termino();
-   
+        }else{
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error al eliminar el término! La cantidad de términos para el relato no puede ser 0.", ""));  
+        }
        
     } catch (Exception e) {
         e.printStackTrace();

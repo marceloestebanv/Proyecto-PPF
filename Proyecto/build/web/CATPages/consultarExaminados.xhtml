@@ -64,7 +64,7 @@
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -80,7 +80,7 @@
                                 <p:selectOneMenu id="CausaSENAINFO" effect="drop"  
                                  value="#{examinadoBean.examinado.idCausaIngreso}" required="true">
           <f:selectItem itemLabel="Elija causa Ingreso" itemValue="0" noSelectionOption="true"/>
-          <f:selectItems value="#{examinadoBean.causasIngreso}"
+          <f:selectItems value="#{examinadoBean.causasIngresoConTest}"
                          var="causa" itemLabel="#{causa.causa}"
                          itemValue="#{causa.idCausa}" />
     </p:selectOneMenu>
@@ -102,7 +102,7 @@
 
                         <h2>Estadísticas por Examinado</h2>
                         
-                        <p:dataTable var="examinado" value="#{examinadoBean.examinados}"
+                        <p:dataTable var="examinado" value="#{examinadoBean.examinadosConTest}"
                          emptyMessage="No hay examinados"
 paginator="true" rows="10" paginatorPosition="bottom"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}

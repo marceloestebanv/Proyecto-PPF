@@ -66,7 +66,7 @@
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -87,7 +87,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 rowsPerPageTemplate="10"
                          >
                 
-                           <p:column headerText="idTest">
+                           <p:column headerText="ID" style="width: 5%">
                                <h:outputText value="#{test.idTest}"/>
                 </p:column>
                            
@@ -103,7 +103,7 @@ rowsPerPageTemplate="10"
                 </p:column>
                 
        
-                <p:column headerText="Acción">
+                <p:column headerText="Acción" style="width: 13%">
                     
                     <p:commandButton value="Relatos" actionListener="#{testBean.redireccionarMostrarRelatos(test.idTest)}">
                          
@@ -112,9 +112,9 @@ rowsPerPageTemplate="10"
                     </p:column>
                     
                     
-               <p:column headerText="Acción">
+               <p:column headerText="Acción" style="width: 13%">
                     
-                   <p:commandButton value="Resultado" actionListener="#{calcularMetricas.consultarMetricasTestPagina(test.idTest)}">
+                   <p:commandButton value="Result." actionListener="#{calcularMetricas.consultarMetricasTestPagina(test.idTest)}">
                          
                         </p:commandButton>
                     
@@ -122,19 +122,21 @@ rowsPerPageTemplate="10"
                 </p:column>
             
              
-             <p:column headerText="Acción">
-                    <p:commandButton value="Eliminar" onclick="PF('dlgeliminar').show();" >
+           
+                           
+             <p:column headerText="Acción" style="width: 13%">
+                 <p:commandButton value="Editar" actionListener="#{testBean.redireccionarEditarTest(test.idTest)}"/>
+                   
+                </p:column>              
+                
+                  <p:column headerText="Acción" style="width: 13%">
+                    <p:commandButton value="Eliminar"  onclick="PF('dlgeliminar').show();" >
                         <f:setPropertyActionListener target="#{testBean.test}" value="#{test}"/>
                     </p:commandButton>
                    
                 </p:column>
                            
-             <p:column headerText="Acción">
-                 <p:commandButton value="Editar" actionListener="#{testBean.redireccionarEditarTest(test.idTest)}"/>
-                   
-                </p:column>              
-                
-                
+                           
                 </p:dataTable>
             
         </h:form>
