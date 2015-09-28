@@ -119,8 +119,9 @@ public void analizarTest() throws IOException, ClassNotFoundException{
         
        
          
-        //obtenemos el id del ultimo test insertado y agregamos uno ya que este es nuevo
+        //obtenemos el id del ultimo test (ACTUALIZADO: entrega el valor que deberia tener el autoincremental pero le restamos 1)
          idTest=(dao.getUltimoTest())+1;
+      //  idTest=(dao.getUltimoTest());
          System.out.println(" el id test es"+ idTest);
          
  

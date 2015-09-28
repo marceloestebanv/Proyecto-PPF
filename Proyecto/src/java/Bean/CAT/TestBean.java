@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean.CAT;
 
 import Dao.CAT.UsuarioDao;
@@ -413,7 +408,29 @@ public class TestBean {
          System.out.println("el test id es "+test.getIdTest());  
     UsuarioDao linkDAO= new UsuarioDao();
         linkDAO.eliminarTest(test);
-        test= new Test();
+        
+                
+          ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+ String realPath=(String) servletContext.getRealPath("/");
+ 
+
+        File ficheroTest= new File(realPath+"/Tests/"+test.getIdTest()+".obj");
+        if (ficheroTest.delete())
+            System.out.println("El fichero de test ha sido borrado satisfactoriamente");
+        else
+         System.out.println("El fichero  de test no puede ser borrado "+realPath+"/Tests/Metricas/"+test.getIdTest()+".obj");
+        
+        File ficheroMetrica= new File(realPath+"/Tests/Metricas/"+test.getIdTest()+".obj");
+        
+          if (ficheroMetrica.delete())
+            System.out.println("El fichero de test ha sido borrado satisfactoriamente");
+        else
+         System.out.println("El fichero  de test no puede ser borrado");
+        
+     test= new Test();  
+        
+        
+       
     }
 
     public void setTests(List<Test> tests) {
@@ -503,10 +520,6 @@ public class TestBean {
         
    
 
-    
-    
-    
-    
     
     
     

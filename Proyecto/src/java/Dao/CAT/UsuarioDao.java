@@ -879,7 +879,11 @@ public class UsuarioDao {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ppf", "pma", "pmapass");
             stmt = con.createStatement();
-            rs = stmt.executeQuery("SELECT MAX(idTest) as id FROM test");
+           // rs = stmt.executeQuery("SELECT MAX(idTest) as id FROM test"); // con esto obtengo el último id pero si borran los anteriores el auto increment no se reincia
+            rs = stmt.executeQuery("SELECT `AUTO_INCREMENT`\n" +
+"FROM  INFORMATION_SCHEMA.TABLES\n" +
+"WHERE TABLE_SCHEMA = 'ppf'\n" +
+"AND   TABLE_NAME   = 'test';");
 
             while (rs.next()) {
                 if(rs.getObject(1)!=null)
@@ -912,7 +916,7 @@ public class UsuarioDao {
         }
 
           
-          return id;
+          return id-1;
       }
       
       public List<Test> getTests(){
