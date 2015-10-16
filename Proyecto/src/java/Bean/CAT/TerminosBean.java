@@ -17,8 +17,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -40,6 +41,9 @@ public class TerminosBean {
 
     
    
+    
+ 
+    
    private Usuario usuario;
    private Test test;
    
@@ -52,7 +56,8 @@ public class TerminosBean {
     @ManagedProperty("#{analisis}")
     private Analisis terminosAnalisis;
    
-    
+     @ManagedProperty("#{modifTestBean}")
+    private ModifTestBean modifTestBean;
  
   
    
@@ -64,7 +69,7 @@ public class TerminosBean {
    private Termino terminoTemp2;
     private Termino terminoTemp2Copia;
    
-   
+    private int relatoActual;
     
     
     public TerminosBean() throws IOException, FileNotFoundException, ClassNotFoundException {
@@ -75,7 +80,9 @@ public class TerminosBean {
          usuario= new Usuario();
         terminoTemp2= new Termino();
        terminoTemp2Copia=new Termino();
-        
+  
+       
+      
          }
    
 //    public List<Termino> getTerminosRelato(int idRelato) throws IOException, FileNotFoundException, ClassNotFoundException{
@@ -250,6 +257,12 @@ public void guardarTerminosDiccionario() throws IOException{
         if(terminosTest[idLamina].size()!=1){
         //hay que borrar tambien los terminos del tesauro
         terminosTest[idLamina].remove(termino);
+        
+        
+        //añadir a los terminos eliminados para ese test
+        modifTestBean.listEliminTest[idLamina].add(termino);
+        
+        
         System.out.println(" se ha eliminado");
         //terminoTemp=new Termino();
         }else{
@@ -260,6 +273,42 @@ public void guardarTerminosDiccionario() throws IOException{
         e.printStackTrace();
     }
 }
+       
+       public void devolverTermino(Termino termino, int idLamina){
+           //este método devuelve los términos a la lista y los quita de la lista de terminos eliminados
+           
+           for (Termino term: modifTestBean.listEliminTest[idLamina] ){
+              
+               if (term.equals(termino)){
+                   terminosTest[idLamina].add(termino);
+                   modifTestBean.listEliminTest[idLamina].remove(term);
+                   
+                        //ordenamos nuevamente la coleccion
+           
+            Comparator<Termino> ordenAlfabetico = new Comparator<Termino>(){
+           @Override
+           
+          
+           public int compare(Termino a, Termino b){
+               return a.getPalabra().compareTo(b.getPalabra());
+               
+              
+        }};
+            
+          Collections.sort(terminosTest[idLamina],ordenAlfabetico);
+           
+                   
+                   
+                   
+                   return;
+               }
+               
+           }
+           
+      
+           
+           
+       }
     
        
        public void editarTermino(int idLamina){
@@ -552,6 +601,32 @@ public void guardarTerminosDiccionario() throws IOException{
               }
                
            }
+
+    public ModifTestBean getModifTestBean() {
+        return modifTestBean;
+    }
+
+    public void setModifTestBean(ModifTestBean modifTestBean) {
+        this.modifTestBean = modifTestBean;
+    }
+
+    public int getRelatoActual() {
+        return relatoActual;
+    }
+
+    public void setRelatoActual(int relatoActual) {
+        this.relatoActual = relatoActual;
+    }
+
+  
+
+
+
+
+
+ 
+           
+           
            
        
 }

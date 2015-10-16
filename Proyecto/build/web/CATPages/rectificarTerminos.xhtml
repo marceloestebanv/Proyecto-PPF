@@ -114,7 +114,19 @@
                         <c:forEach items="#{terminosBean.terminosTest}" var="item" varStatus="loop">     
                             
                             
-                         <h4>Relato #{loop.index+1}</h4>  
+                         <h4>Relato #{loop.index+1}</h4> 
+                         
+                         <p:commandLink value="Ver Relato |"  update=":formEliminar" onclick="PF('dlgRedirect').show();" style="color: #036fab" >
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>
+                         
+                          <p:commandLink value=" Ver Términos Eliminados"  update=":formEliminados" onclick="PF('dlgEliminados').show();"  style="color: #036fab"> 
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>
+                           
+                                        
                          <p:dataTable var="as" id="table#{loop.index}" value="#{item}" style="width: 90%"
                          emptyMessage="No hay Términos"
 paginator="true" rows="10" paginatorPosition="bottom"
@@ -320,6 +332,55 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
             </h:form>
               </p:dialog> 
             
+            
+              <p:dialog id="dlgRedirecta" header="Revisar relato ingresado"  showEffect="explode" hideEffect="bounce"
+                        widgetVar="dlgRedirect" width="800" height="200" modal="true" resizable="false"  >
+            <h:form id="formEliminar">
+                <p:fieldset  style="margin-bottom:20px">
+                <p:outputLabel value="Relato #{terminosBean.relatoActual+1}" /> <br/> <br/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:graphicImage name="imagen/#{terminosBean.relatoActual+1}.jpg" style="width: 95%" />
+                 <h:outputText value=" #{analisis.relatoIndex(terminosBean.test.idTest,terminosBean.relatoActual)}" /> <br/> <br/>
+                
+                </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+                   </p:dialog>
+            
+                   <p:dialog id="dlgEliminadosa" header="Términos eliminados"  showEffect="explode" hideEffect="bounce"
+                        widgetVar="dlgEliminados" width="800" height="200" modal="true" resizable="false"  >
+            
+                       <h:form id="formEliminados">
+               
+                <p:outputLabel value="Relato #{terminosBean.relatoActual+1}" /> <br/> <br/>
+                
+                
+                <p:dataTable var="asd" id="tablaElimin" value="#{modifTestBean.TermElimID(terminosBean.relatoActual)}" style="width: 90%"
+                         emptyMessage="No se han eliminado términos"
+paginator="true" rows="10" paginatorPosition="bottom"
+paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+{PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+
+>
+                
+                            <p:column headerText="Término " >
+                                <h:outputText value="#{asd.palabra}"/>
+                </p:column>
+                      <p:column headerText="Acción" >
+                    <p:commandButton actionListener="#{terminosBean.devolverTermino(asd,terminosBean.relatoActual)}"
+                         value="Devolver"  
+                         update=":formMostrar:table#{terminosBean.relatoActual}" oncomplete="updateTableDiv()" />
+                    </p:column>
+                    
+                    
+                </p:dataTable>
+           <p:remoteCommand name="updateTableDiv" update="tablaElimin" />
+                
+                
+            </h:form>
+                  
+                  
+        </p:dialog>
             
             
         </h:body>

@@ -302,6 +302,24 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
           
          public void añadirTerminoAsocDesdeRectificar(Termino termino){
               // desde rectificar terminos estamos agregando una nueva palabra al diccionario con id relato y termino asociado al cual hay que añadirla
+             
+             
+             System.out.println("el id de la lamina  es"+termino.getIdLámina());
+             
+             //aca obtenemos el terminoLamina al que añadiremos  el temino asociado
+             TerminoLamina termLaminaAñadir=null;
+            
+             for(TerminoLamina termi:term[termino.getIdLámina()]){
+                 if (termi.getTermino().equals(termino.getTerminoAsociado())){
+                     termLaminaAñadir=termi;
+                     
+                 }
+                 
+             }
+             
+             
+            
+             
              String palabraAñadir=termino.getPalabra();
             int  idRelato=termino.getIdLámina();
            String  termAsoc= termino.getTerminoAsociado();
@@ -312,8 +330,10 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
               
               
               //aca se agrega
+             
+              if(!existsTerminoAsoc(palabraAñadir,idRelato, termLaminaAñadir)){
               
-              if(!existeTermino(term[idRelato], termino.getPalabra())){  
+              
               this.term[idRelato].get(getIndexTerminoLamina(idRelato, termAsoc)).getTerminosAsociados().add(palabraAñadir);
                 System.out.println("el termino (palabra) no existe");
               }else{

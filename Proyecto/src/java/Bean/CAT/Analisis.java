@@ -723,7 +723,18 @@ System.out.println(" el ral path es"+ realPath);
 
 
  
-
+public String relatoIndex(int idTest, int index){
+   UsuarioDao dao = new UsuarioDao();
+   
+   // si no existe en el sistema el id test, se retorna los relatos en memoria principal.
+   if (!dao.existeIdTest(idTest)){
+    return relatos[index];
+   }else{
+       // si existe el id test en el sistema, hay que devolver los relatos editar.
+       return relatosEditar[index];
+   }
+   
+   }
   
 
  
