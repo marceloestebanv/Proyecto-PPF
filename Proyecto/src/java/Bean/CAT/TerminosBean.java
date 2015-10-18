@@ -27,8 +27,11 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import javax.servlet.ServletContext;
+import org.apache.commons.collections.ListUtils;
+import org.apache.poi.util.ArrayUtil;
 import org.primefaces.context.RequestContext;
 import org.primefaces.event.CellEditEvent;
+import org.primefaces.util.ArrayUtils;
 
 /**
  *
@@ -168,6 +171,18 @@ public void guardarTerminosDiccionario() throws IOException{
     
     public void calcularMetricasTest() throws IOException, FileNotFoundException, ClassNotFoundException{
         
+       // se setean como null y se calcularán de nuevo 
+    //  modifTestBean.setListNuevosTermAsocDiccTest(null);
+    //  modifTestBean.setListNuevosTermDiccTest(null);
+      
+
+      
+   //calcularCambios me genera nuevas listas, hay que unirlas con la global
+      
+     // List<TerminoLamina>[] newList = new ArrayList[10];
+    //  newList=modifTestBean.listNuevosTermAsocDicc;
+    //CONCATENAR
+    
       
         
          //guardamos el test
@@ -213,9 +228,29 @@ public void guardarTerminosDiccionario() throws IOException{
         
         serializarTest();
         //hay que serializar los terminos;
-        adminTerminos.serializarTerminos();
+        
+           
+        
+ 
+      
+  //  estos no se debe guardar ya que se guardan antes
+  //    adminTerminos.serializarTerminos();
         
         metricas.calcularMetricaTest(test.getIdTest());
+       
+            calcularCambiosDicc();
+     
+     //añade y serializa los terminos en diccionario
+     añadirNuevosTerminosListaDicc();
+     modifTestBean.unirListas();
+     
+        System.out.println("seteando listas no globales null");
+     modifTestBean.setListNuevosTermAsocDicc(null);
+     modifTestBean.setListNuevosTermDicc(null);
+      
+        
+     
+        modifTestBean.setListEliminTest(null);
         
        
        
@@ -231,6 +266,142 @@ public void guardarTerminosDiccionario() throws IOException{
         
     }
     
+    public void calcularCambiosDicc() throws IOException, FileNotFoundException, ClassNotFoundException{
+        
+        System.out.println("calculando cambios");
+        
+     //   for (List<TerminoLamina> terminosLamina: adminTerminos.getTerm() ){
+ //
+   //     }
+        
+       
+        List<TerminoLamina>[] termLaminasTemp=RI.deserializarTerminos();
+        
+         // recorreremos todos los cambios que se hicieron en el diccionario en admin terminos // los cuales no guardaremos
+        // porque se guardaran una vez se contabilizen todos y no mientras se vayan añadiendo
+        
+        for (int i = 0; i < 10; i++) {
+           
+            for(Termino termino:terminosTest[i]){
+ 
+                // si el termino no tiene termino asociado
+                
+               if (!termino.getTerminoAsociado().equals("-")){
+                
+                if(!adminTerminos.existeTermino(termLaminasTemp[i],termino.getTerminoAsociado())){
+                    System.out.println(" el termino no existe en el diccionario" +termino.getPalabra()+ "termino asociado: "+termino.getTerminoAsociado());
+                  // no existe el término en el diccionario, hay que añadirlo a la lista de términos
+                   
+                    if(!adminTerminos.existeTermino(modifTestBean.listNuevosTermDicc[i],termino.getTerminoAsociado())){
+                    // si no existe en los nuevos terminos a añadir, lo añadimos a la lista 
+                        System.out.println(" no existe el termino en la lista de nuevos terminos: "+termino.getPalabra()+" el termino asociado es: "+termino.getTerminoAsociado());
+                    List termAsoc=new ArrayList();
+                    
+                    if(!termino.getTerminoAsociado().equals(termino.getPalabra())){
+                        // si son distintos el termino y su asociado, se añade a la lista de asociados
+                        termAsoc.add(termino.getPalabra());
+                    }
+                    
+                    TerminoLamina nuevoTermLam= new TerminoLamina(termino.getTerminoAsociado(),termino.getConnotacion(), termAsoc);
+                       modifTestBean.listNuevosTermDicc[i].add(nuevoTermLam);
+                    }else{
+                        System.out.println(" este termino ya se encontró en la lista de nuevos terminos: "+termino.getPalabra());
+                        
+                        System.out.println(" pasando a añadirlo a termino asociado");
+                       // si ya existe en esta lista hay que añadirlo a termino asociado
+                        modifTestBean.añadirTerminoAsocNuevoTerm(i, termino);
+                        
+                    }
+                       
+                }else{
+                    // si el termino ya existe hay que añadirlo a terminos asociados
+                    System.out.println(" el termino ya existe en el diccionario"+termino.getPalabra()+" asociado: "+termino.getTerminoAsociado());
+                  for(TerminoLamina termiLami: termLaminasTemp[i]) {
+                      if(termiLami.getTermino().equals(termino.getTerminoAsociado())&&(!termiLami.getTerminosAsociados().contains(termino.getPalabra()))){
+                          
+                                  
+                                // si coinciden los terminos y no está el termino asociado ya en él se añadirá un nuevo objeto
+                         if(!adminTerminos.existeTermino(modifTestBean.listNuevosTermAsocDicc[i],termino.getTerminoAsociado())){
+                             System.out.println(" no existe el termino "+ termino.getPalabra()+" en la nueva lista de terminos existentes");
+                             System.out.println("creamos el objeto");
+                             List terminosAsocExist= new ArrayList();
+                             
+                              if(!termino.getTerminoAsociado().equals(termino.getPalabra())){
+                        // si son distintos el termino y su asociado, se añade a la lista de asociados
+                         terminosAsocExist.add(termino.getPalabra());
+                    }
+                             
+                         
+                          
+                          TerminoLamina nuevoTermAsocExist = new TerminoLamina(termiLami.getTermino(),termiLami.getConnotacion(), terminosAsocExist);
+                          modifTestBean.listNuevosTermAsocDicc[i].add(nuevoTermAsocExist);
+                          
+                         }else{
+                             
+                             System.out.println(" ya existe el termino "+termino.getPalabra() + "y termino asoc"+termino.getTerminoAsociado() +"en terminos asociados de terminos asoc");
+                           // si ya existe en esta lista hay que añadirlo a termino asociado
+                        modifTestBean.añadirTerminoAsocNuevoTerminAsoc(i, termino);   
+                         }
+                         
+                         break;
+                      }
+                  } 
+                    
+                    
+                    
+                }
+                
+             } 
+            }
+            
+            
+            
+        }
+        
+        
+    }
+    
+    
+    public void añadirNuevosTerminosListaDicc() throws IOException, FileNotFoundException, ClassNotFoundException {
+      //primero los de la lista de nuevos términos
+        
+        System.out.println("añadiendo nuevos terminos en el diccionario");
+        
+   List<TerminoLamina>[] diccionario= RI.deserializarTerminos(); 
+        
+        //añadimos los nuevos términos
+        for (int i = 0; i < 10; i++) {
+            for(TerminoLamina termLamAñadir:modifTestBean.listNuevosTermDicc[i]){
+                diccionario[i].add(termLamAñadir);
+                System.out.println("    añadiendo nuevo termino al diccionario encontrado"+termLamAñadir.getTermino()+" y terminos asociados" +termLamAñadir.getTerminosAsociadosString());
+                 }
+    
+            }
+        
+        //añadimos los términos asociados
+        for (int i = 0; i < 10; i++) {
+            for(TerminoLamina termLamAñadir:modifTestBean.listNuevosTermAsocDicc[i]){
+                  for(TerminoLamina termLam:diccionario[i]){
+                     if (termLam.getTermino().equals(termLamAñadir.getTermino())){
+                         //añadir los términos asociados 
+                    List<String> listaNueva =  ListUtils.union(termLamAñadir.getTerminosAsociados(),termLam.getTerminosAsociados());
+                        termLam.setTerminosAsociados(listaNueva);
+                        
+                         System.out.println("añadiendo al diccionario terminosasoc"+termLamAñadir.getTerminosAsociadosString());
+
+                     }
+
+                  }
+
+                 }
+            }
+        
+        //terminado el proceso se serializan los términos que se modificaron
+        adminTerminos.serializarTerminos(diccionario);
+        System.out.println(" se serializaron nuevos terminos");
+        System.out.println("finalizó añadir nuevos terminos");
+        
+    }
     
     public void serializarTest() throws IOException{
     

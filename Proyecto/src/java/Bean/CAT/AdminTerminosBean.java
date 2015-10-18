@@ -458,6 +458,23 @@ String[] palabrasSeparadas =termAsoc.split(delimitadores);
        
        
        
+              public void serializarTerminos(List<TerminoLamina>[] term) throws FileNotFoundException, IOException{
+  //serialización
+          ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+ String realPath=(String) servletContext.getRealPath("/"); // Sustituye "/" por el directorio ej: "/upload"
+
+          //serialización
+            try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(realPath+"/Terminos/Terminos.obj"))) {
+                salida.writeObject(term);
+           
+              
+            } 
+           
+       }
+       
+       
+       
+       
        
        public void deserializarTerminos() throws FileNotFoundException, IOException, ClassNotFoundException{
            
