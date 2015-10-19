@@ -1,6 +1,6 @@
 package Bean.NCFAS;
 
-import Dao.NCFAS.DAOException;
+
 import Dao.NCFAS.IdDAO;
 import Dao.NCFAS.ItemDao;
 import Model.NCFAS.Item;
@@ -8,8 +8,7 @@ import Model.NCFAS.Ncfas;
 import java.util.List;
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
@@ -32,6 +31,100 @@ public class ItemBean implements Serializable{
     private Integer[] valoresID;
     private List<Item> items; 
     private int idamandar;
+    private int idncfasEliminar;
+    private String observacion;
+    private int itemgeneral1;
+    private int itemgeneral2;
+    private int itemgeneral3;
+    private int itemgeneral4;
+    private int itemgeneral5;
+    private int itemgeneral6;
+    private int itemgeneral7;
+    private int itemgeneral8;
+    private Integer[] valoresGenerales;
+
+    public int getItemgeneral1() {
+        return itemgeneral1;
+    }
+
+    public void setItemgeneral1(int itemgeneral1) {
+        this.itemgeneral1 = itemgeneral1;
+    }
+
+    public int getItemgeneral2() {
+        return itemgeneral2;
+    }
+
+    public void setItemgeneral2(int itemgeneral2) {
+        this.itemgeneral2 = itemgeneral2;
+    }
+
+    public int getItemgeneral3() {
+        return itemgeneral3;
+    }
+
+    public void setItemgeneral3(int itemgeneral3) {
+        this.itemgeneral3 = itemgeneral3;
+    }
+
+    public int getItemgeneral4() {
+        return itemgeneral4;
+    }
+
+    public void setItemgeneral4(int itemgeneral4) {
+        this.itemgeneral4 = itemgeneral4;
+    }
+
+    public int getItemgeneral5() {
+        return itemgeneral5;
+    }
+
+    public void setItemgeneral5(int itemgeneral5) {
+        this.itemgeneral5 = itemgeneral5;
+    }
+
+    public int getItemgeneral6() {
+        return itemgeneral6;
+    }
+
+    public void setItemgeneral6(int itemgeneral6) {
+        this.itemgeneral6 = itemgeneral6;
+    }
+
+    public int getItemgeneral7() {
+        return itemgeneral7;
+    }
+
+    public void setItemgeneral7(int itemgeneral7) {
+        this.itemgeneral7 = itemgeneral7;
+    }
+
+    public int getItemgeneral8() {
+        return itemgeneral8;
+    }
+
+    public void setItemgeneral8(int itemgeneral8) {
+        this.itemgeneral8 = itemgeneral8;
+    }
+    
+    
+
+    public int getIdncfasEliminar() {
+        return idncfasEliminar;
+    }
+
+    public void setIdncfasEliminar(int idncfasEliminar) {
+        this.idncfasEliminar = idncfasEliminar;
+    }
+    
+    public String getObservacion() {
+        return observacion;
+    }
+
+    public void setObservacion(String observacion) {
+        this.observacion = observacion;
+    }
+
 
     public int getIdamandar() {
         return idamandar;
@@ -99,6 +192,7 @@ public class ItemBean implements Serializable{
         System.out.println("entramos al contructor");
         valores = new Integer[59];
         valoresID = new Integer[4];
+        valoresGenerales = new Integer[9];
 
         FacesContext facesContext = FacesContext.getCurrentInstance();
         ExternalContext externalContext = facesContext.getExternalContext();
@@ -109,150 +203,183 @@ public class ItemBean implements Serializable{
             valoresID[i] = 0;
         }
         
+        
+        
         for (int i = 1; i < valores.length; i++) {
             valores[i] = 0;
         }
+        /*itemgeneral1=0;
+        itemgeneral2=0;
+        itemgeneral3=0;
+        itemgeneral4=0;
+        itemgeneral5=0;
+        itemgeneral6=0;
+        itemgeneral7=0;
+        itemgeneral8=0;*/
     }
   
-
-    public void registrarEntorno() throws Exception {
-        int bandera=0;
-        for (int i = 1; i<=7; i++) {
-            System.out.println(valores[i]);
+/*public void eliminarNcfas() throws Exception{
+    
         ItemDao dao;
         try {       
            dao = new ItemDao();
-           if(i==7){
-               bandera=1;
-           dao.ingresarItems1(valores[i],bandera);   
-           }else{
-           dao.ingresarItems1(valores[i],bandera);
-           }
+         
+           dao.eliminarNcfas(idncfasEliminar);   
+           
            } catch (Exception e) {
+            throw e;}
+       
+
+}*/
+
+    public void registrarEntorno() throws Exception {
+        int bandera=0;
+        
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[7],1);
+         
+        for (int i = 1; i<=7; i++) {
+            System.out.println(valores[i]);
+        
+        try {       
+           dao.actualizarItems1(valores[i],i);
+           }
+            catch (Exception e) {
             throw e;}
         }
 }
 
     public void registrarCompetencias() throws Exception {
-        int bandera=0;
+        
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[15],2);
         for (int i = 8; i<=15; i++) {
             System.out.println(valores[i]);
-        ItemDao dao;
+        
         try {       
-           dao = new ItemDao();
-           if(i==15){
-               bandera=1;
-           dao.ingresarItems2(valores[i],bandera);   
-           }else{
-           dao.ingresarItems2(valores[i],bandera);
+           
+           
+           dao.actualizarItems2(valores[i],i);
            }
-           } catch (Exception e) {
+            catch (Exception e) {
             throw e;}
         }
 }
     public void registrarInteracciones() throws Exception {
-        int bandera=0;
+      
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[23],3);
+        
         for (int i = 16; i<=23; i++) {
             System.out.println(valores[i]);
-        ItemDao dao;
+        
         try {       
-           dao = new ItemDao();
-           if(i==23){
-               bandera=1;
-           dao.ingresarItems3(valores[i],bandera);   
-           }else{
-           dao.ingresarItems3(valores[i],bandera);
-           }
+           
+           
+           dao.actualizarItems3(valores[i],i);
+           
            } catch (Exception e) {
             throw e;}
         }
 }
     public void registrarSeguridad() throws Exception {
-        int bandera=0;
-        for (int i = 24; i<=31; i++) {
-            System.out.println(valores[i]);
+        
         ItemDao dao;
-        try {       
-           dao = new ItemDao();
-           if(i==31){
-               bandera=1;
-           dao.ingresarItems4(valores[i],bandera);   
-           }else{
-           dao.ingresarItems4(valores[i],bandera);
-           }
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[31],4);
+        
+        for (int i = 24; i<=31; i++) {
+            System.out.println(valores[i]);  
+            
+        try { 
+            dao.actualizarItems4(valores[i],i);
            } catch (Exception e) {
             throw e;}
         }
 }
     public void registrarBienestar() throws Exception {
-        int bandera=0;
+        
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[38],5);
+        
         for (int i = 32; i<=38; i++) {
             System.out.println(valores[i]);
-        ItemDao dao;
+        
         try {       
-           dao = new ItemDao();
-           if(i==38){
-               bandera=1;
-           dao.ingresarItems5(valores[i],bandera);   
-           }else{
-           dao.ingresarItems5(valores[i],bandera);
-           }
+           
+           
+           dao.actualizarItems5(valores[i],i);
+           
            } catch (Exception e) {
             throw e;}
         }
 }
     public void registrarVidaSocial() throws Exception {
-        int bandera=0;
+        
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[44],6);
         for (int i = 39; i<=44; i++) {
             System.out.println(valores[i]);
-        ItemDao dao;
+        
         try {       
-           dao = new ItemDao();
-           if(i==44){
-               bandera=1;
-           dao.ingresarItems6(valores[i],bandera);   
-           }else{
-           dao.ingresarItems6(valores[i],bandera);
+           
+           
+           dao.actualizarItems6(valores[i],i);
            }
-           } catch (Exception e) {
+            catch (Exception e) {
             throw e;}
         }
 }
     public void registrarAutonomia() throws Exception {
-        int bandera=0;
+        
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[50],7);
         for (int i = 45; i<=50; i++) {
             System.out.println(valores[i]);
-        ItemDao dao;
         try {       
-           dao = new ItemDao();
-           if(i==50){
-               bandera=1;
-           dao.ingresarItems7(valores[i],bandera);   
-           }else{
-           dao.ingresarItems7(valores[i],bandera);
-           }
+           dao.actualizarItems7(valores[i],i);
+           
            } catch (Exception e) {
             throw e;}
         }
 }
     public void registrarSalud() throws Exception {
-        int bandera=0;
+        
+        ItemDao dao;
+        dao = new ItemDao();
+        guardarItemsGenerales(valores[58],8);
+        dao.insertarEnArff(itemgeneral1,itemgeneral2,itemgeneral3,itemgeneral4,itemgeneral5,itemgeneral6,itemgeneral7,itemgeneral8);
+           System.out.println(itemgeneral1 + itemgeneral3 +  itemgeneral4 + itemgeneral6 +itemgeneral8);
+        
         for (int i = 51; i<=58; i++) {
             System.out.println(valores[i]);
-        ItemDao dao;
         try {       
-           dao = new ItemDao();
-           if(i==58){
-               bandera=1;
-           dao.ingresarItems8(valores[i],bandera);   
-           }else{
-           dao.ingresarItems8(valores[i],bandera);
-           }
+           dao.actualizarItems8(valores[i],i);  
            } catch (Exception e) {
             throw e;}
         }
 }
     
+public void registrarObservacion() throws Exception {
+        int bandera=0;
+       
+            
+        ItemDao dao;
+        try {       
+           dao = new ItemDao();
+           
+           dao.actualizarObs(observacion);   
+           
+           } catch (Exception e) {
+            throw e;}
+        
+}    
 
 public void obtenerUltimoid() throws Exception {
     
@@ -272,7 +399,37 @@ public void mostrarID(int idncfas) throws Exception{
     iddao.guardarID(idncfas);
 }
 
+public void guardarItemsGenerales(int itemgeneral,int dim){
+    
+    valoresGenerales[dim]=itemgeneral;
 
+    
+    if(valoresGenerales[1]!=null){
+    System.out.println(valoresGenerales[1]);
+    }
+    if(valoresGenerales[2]!=null){
+    System.out.println(valoresGenerales[2]);
+    }
+    if(valoresGenerales[3]!=null){
+    System.out.println(valoresGenerales[3]);
+    }
+    if(valoresGenerales[4]!=null){
+    System.out.println(valoresGenerales[4]);
+    }
+    if(valoresGenerales[5]!=null){
+    System.out.println(valoresGenerales[5]);
+    }
+    if(valoresGenerales[6]!=null){
+    System.out.println(valoresGenerales[6]);
+    }
+    if(valoresGenerales[7]!=null){
+    System.out.println(valoresGenerales[7]);
+    }
+    if(valoresGenerales[8]!=null){
+    System.out.println(valoresGenerales[8]);
+    }
+    
+}
    
 
 

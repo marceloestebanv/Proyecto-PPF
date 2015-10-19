@@ -7,6 +7,7 @@ package Bean.NCFAS;
 
 import Dao.NCFAS.PruebaWekaDao;
 import Model.NCFAS.NcfasReport;
+import Model.NCFAS.reglasEncontradas;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
@@ -62,6 +63,8 @@ public class ReportesBean implements Serializable {
     ListarItemsBean beanItems;
     beanItems= new ListarItemsBean();
     
+    String obs = beanItems.getObservaciones();
+    String razoningreso=beanItems.getRazoningreso();
     String nombrefamilia = beanItems.getNombrefamilia();
     String rutUuario =beanItems.getRutUsuario();
     Date fechaIngreso =beanItems.getFechaIngreso();
@@ -169,6 +172,9 @@ public class ReportesBean implements Serializable {
     parametros.put("examinador",rutUuario);
     parametros.put("fechaAplica",fechaIngreso);
     parametros.put("parteProceso",parteProceso);
+    
+    parametros.put("observaciones",obs);
+    parametros.put("razoningreso", razoningreso);
         
     
    // parametros.put("nombreUs",testBean.getUsuario().getNombre());
@@ -191,7 +197,7 @@ public class ReportesBean implements Serializable {
      
       public void reporMineriaPDF() throws JRException, IOException, Exception{
         
-    List<String> reglasEncontradas;
+    List<reglasEncontradas> reglasEncontradas;
             
      
      ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -206,12 +212,20 @@ public class ReportesBean implements Serializable {
         
     Map<String,Object> parametros= new HashMap<>();
     
+    
+    /*parametros.put("cumpleregla",reglasEncontradas.get(1).getValorX());
+          parametros.put("nocumpleregla",(reglasEncontradas.get(1).getValorX()-reglasEncontradas.get(1).getValorY()));
+          parametros.put("resto",(182-reglasEncontradas.get(1).getValorX()));
+          parametros.put("totalNCFAS",182);*/
+    
           for(int i=0; i<reglasEncontradas.size();i++){
    System.out.println( reglasEncontradas.size());
-              System.out.println(reglasEncontradas.get(2));
-    parametros.put("regla"+i, reglasEncontradas.get(i));
+              
+    parametros.put("regla"+i, reglasEncontradas.get(i).getContenido());
           }
-   /* parametros.put("regla1", reglasEncontradas.get(0));
+          
+          
+   /* parametros.put("regla1", reglasEncontradas.get(0));.
     parametros.put("regla2", reglasEncontradas.get(1));
     parametros.put("regla3", reglasEncontradas.get(2));
     parametros.put("regla4", reglasEncontradas.get(3));
@@ -221,9 +235,7 @@ public class ReportesBean implements Serializable {
     parametros.put("regla8", reglasEncontradas.get(7));
     parametros.put("regla9", reglasEncontradas.get(8));
     parametros.put("regla10", reglasEncontradas.get(9));*/
-    
-    
-          System.out.println(reglasEncontradas.get(1));
+   
    // parametros.put("nombreUs",testBean.getUsuario().getNombre());
         
         

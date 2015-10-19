@@ -105,4 +105,10 @@ public class MenuBeanAdministrador {
    contex.getExternalContext().redirect("/Proyecto/faces/CATPages/inicioCAT.xhtml");
      }
      
+     public void outcomeNCFASFinal() throws IOException {
+   contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/ingresarNcfasfinal.xhtml");
+     }
+     
+     
+     
 }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="reporteMineriaFinal" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6c2f58dd-bc91-46ad-b257-b4122f404d68">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="144"/>
+	<property name="ireport.y" value="359"/>
 	<parameter name="regla1" class="java.lang.String"/>
 	<parameter name="regla2" class="java.lang.String"/>
 	<parameter name="regla3" class="java.lang.String"/>
@@ -14,6 +14,10 @@
 	<parameter name="regla9" class="java.lang.String"/>
 	<parameter name="regla10" class="java.lang.String"/>
 	<parameter name="regla0" class="java.lang.String"/>
+	<parameter name="cumpleregla" class="java.lang.Integer"/>
+	<parameter name="nocumpleregla" class="java.lang.Integer"/>
+	<parameter name="resto" class="java.lang.Integer"/>
+	<parameter name="totalNCFAS" class="java.lang.Integer"/>
 	<group name="Group1">
 		<groupHeader>
 			<band height="36">
@@ -129,6 +133,86 @@
 					</textElement>
 					<textFieldExpression><![CDATA[$P{regla9}]]></textFieldExpression>
 				</textField>
+			</band>
+			<band height="159">
+				<textField>
+					<reportElement uuid="50a8341f-ad11-4331-a5fe-299140859f66" x="454" y="37" width="100" height="37"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$P{nocumpleregla}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="96492661-f1df-470d-a51f-b8c6be74a528" x="454" y="0" width="100" height="37"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$P{cumpleregla}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement uuid="63657a4e-e79e-451f-a7ad-b27b555c4cb2" x="454" y="74" width="100" height="35"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$P{resto}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="8b4fe706-5ec5-437b-8931-4ad85ed4b2d1" mode="Opaque" x="210" y="0" width="244" height="37" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad de veces que se cumple la regla:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8b4fe706-5ec5-437b-8931-4ad85ed4b2d1" mode="Opaque" x="210" y="37" width="244" height="37" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Cantidad de veces que no se cumple la regla:]]></text>
+				</staticText>
+				<textField>
+					<reportElement uuid="fd5b015a-5727-491b-97d9-586b26cbe02b" x="455" y="111" width="100" height="37"/>
+					<textElement/>
+					<textFieldExpression><![CDATA[$P{totalNCFAS}]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement uuid="8b4fe706-5ec5-437b-8931-4ad85ed4b2d1" mode="Opaque" x="209" y="111" width="244" height="37" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Total NCFAS en el sistema:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement uuid="8b4fe706-5ec5-437b-8931-4ad85ed4b2d1" mode="Opaque" x="209" y="74" width="244" height="37" forecolor="#006699" backcolor="#E6E6E6"/>
+					<textElement textAlignment="Center">
+						<font size="14" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Resto:]]></text>
+				</staticText>
+				<pie3DChart>
+					<chart isShowLegend="false">
+						<reportElement uuid="5a5c8349-d740-4f50-b394-4b4138a2df51" x="0" y="13" width="197" height="135"/>
+						<chartTitle/>
+						<chartSubtitle/>
+						<chartLegend/>
+					</chart>
+					<pieDataset maxCount="5">
+						<pieSeries>
+							<keyExpression><![CDATA["cumpleregla"]]></keyExpression>
+							<valueExpression><![CDATA[$P{cumpleregla}]]></valueExpression>
+							<labelExpression><![CDATA["Cumple Regla"]]></labelExpression>
+						</pieSeries>
+						<pieSeries>
+							<keyExpression><![CDATA["nocumpleregla"]]></keyExpression>
+							<valueExpression><![CDATA[$P{nocumpleregla}]]></valueExpression>
+							<labelExpression><![CDATA["No cumple"]]></labelExpression>
+						</pieSeries>
+						<pieSeries>
+							<keyExpression><![CDATA["resto"]]></keyExpression>
+							<valueExpression><![CDATA[$P{resto}]]></valueExpression>
+							<labelExpression><![CDATA["Resto"]]></labelExpression>
+						</pieSeries>
+						<otherLabelExpression><![CDATA["All the others"]]></otherLabelExpression>
+					</pieDataset>
+					<pie3DPlot>
+						<plot backgroundAlpha="0.5" foregroundAlpha="0.5"/>
+						<itemLabel color="#000000" backgroundColor="#FFFFFF"/>
+					</pie3DPlot>
+				</pie3DChart>
 			</band>
 		</groupFooter>
 	</group>

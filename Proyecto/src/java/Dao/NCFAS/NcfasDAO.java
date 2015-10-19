@@ -21,7 +21,7 @@ public class NcfasDAO extends DAO {
     
     
     
-    public void ingresarNcafas(String nombrefamilia ,int parteproceso ,String rutUsuario)  {
+    public void ingresarNcafas(String nombrefamilia ,int parteproceso ,String rutUsuario, int idRazonIngreso)  {
     String fechaactual;
     Date fecha= new Date(); 
         SimpleDateFormat formatoFecha = new SimpleDateFormat("YYYY-MM-dd");
@@ -31,14 +31,16 @@ public class NcfasDAO extends DAO {
     try{
            
         this.Conectar();
+        
         PreparedStatement stmt = null;
         
-            stmt = con.prepareStatement("INSERT INTO ncfas (nombrefamilia,parteproceso,fecha,Usuario_rut)"
-            + " values (?,?,?,?)");  
+            stmt = con.prepareStatement("INSERT INTO ncfas (nombrefamilia,parteproceso,fecha,Usuario_rut, idRazonIngreso)"
+            + " values (?,?,?,?,?)");  
             stmt.setString(1, nombrefamilia);
             stmt.setInt(2, parteproceso);
             stmt.setString(3, fechaactual);
             stmt.setString(4, rutUsuario);
+            stmt.setInt(5, idRazonIngreso);
             /*stmt.setString(4, usuario.getRut())*/
             int retorno = stmt.executeUpdate();
             System.out.println("biiieennntoo");
@@ -53,6 +55,8 @@ public class NcfasDAO extends DAO {
             this.Cerrar();
         }
     }
+    
+   
     
     
     public List<Ncfas> mostrarListNcfas() {
@@ -177,17 +181,29 @@ public class NcfasDAO extends DAO {
         return lista;
     }
     
-     public List<Ncfas> mostrarNcfasesporFechas(String date1, String date2) throws Exception {
+     public List<Ncfas> mostrarNcfasesporFechas(Date date1, Date date2) throws Exception {
         ResultSet rs = null;
         List<Ncfas> lista;
+        
+        String fecha1;
+         String fecha2;
+         
+        SimpleDateFormat formatoFecha = new SimpleDateFormat("YYYY-MM-dd");
+        fecha1=formatoFecha.format(date1);
+        fecha2=formatoFecha.format(date2);
+        
+        System.out.println(fecha1);
+        System.out.println(fecha2);
+        
+        
         try {
             this.Conectar();
             PreparedStatement stmt = null;
             
-            System.out.println("Haremos la query con"+date1);
+            System.out.println("Haremos la query con"+fecha1+" y con " +fecha2);
             stmt = con.prepareStatement("select * from ncfas where fecha between ? and ? ");
-            stmt.setString(1,  date1);
-            stmt.setString(2,  date2);
+            stmt.setString(1,  fecha1);
+            stmt.setString(2, fecha2);
             rs = stmt.executeQuery();
             lista = new ArrayList();
             while (rs.next()) {
@@ -471,6 +487,64 @@ public int obtenerParteProceso(int id) throws Exception {
         this.Cerrar();
         }
         return parteProceso;
+    }
+
+public String obtenerObs(int id) throws Exception {
+        ResultSet rs = null;
+        Ncfas tempNcfas;
+        tempNcfas = new Ncfas();
+        String obs=null;
+        //String rutUsuario=null;
+        int i=1;
+        try {
+            this.Conectar();
+            PreparedStatement stmt = null;
+            stmt = con.prepareStatement("SELECT observacion FROM ncfas where idncfas=?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                
+                
+                obs=((String)rs.getObject(1));
+                
+            }
+        }catch(Exception e){
+        throw e;
+        }finally{
+        this.Cerrar();
+        }
+        return obs;
+    }
+
+public String obtenerRazonIngreso(int id) throws Exception {
+        ResultSet rs = null;
+        Ncfas tempNcfas;
+        tempNcfas = new Ncfas();
+        
+        String razoningreso=null;
+        
+//String rutUsuario=null;
+        int i=1;
+        try {
+            this.Conectar();
+            PreparedStatement stmt = null;
+            stmt = con.prepareStatement("SELECT nombreRazon FROM razoningreso JOIN ncfas ON razoningreso.idRazon=ncfas.idRazonIngreso WHERE idncfas=?");
+            stmt.setInt(1, id);
+            rs = stmt.executeQuery();
+            while(rs.next()){
+                
+                
+                
+                razoningreso=((String)rs.getObject(1));
+                
+            }
+        }catch(Exception e){
+        throw e;
+        }finally{
+        this.Cerrar();
+        }
+        return razoningreso;
     }
 
 public Date obtenerFechaIngreso(int id) throws Exception {

@@ -46,49 +46,80 @@
     <h:form>
         <p:panelMenu style="width:210px">
         <p:submenu label="Gestionar NCFAS">
-            <p:menuitem value="Ingresar NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
-            <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
-            <p:menuitem value="Ver NCFAS de tipo Inical"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
+            <p:menuitem value="Ingresar NCFAS Inicial" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
+            <p:menuitem value="Ingresar NCFAS Final" actionListener="#{menuBeanAdministrador.outcomeNCFASFinal}" />
+            <p:menuitem value="Ver NCFAS Guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
+            <p:menuitem value="Ver NCFAS de tipo Inicial"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
             <p:menuitem value="Ver NCFAS de tipo Final"  actionListener="#{menuBeanAdministrador.verNcfasFinales}"  />
-            <p:menuitem value="Ver NCFAS por rengo de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
+            <p:menuitem value="Ver NCFAS por rango de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
         </p:submenu>
         <p:submenu label="Minería de Datos">
-            <p:menuitem value="Reglas de Asociación a Competencias Familiares" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
-            <p:menuitem value="Reglas de Asociación a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
+            <p:menuitem value="Minería a Competencias Parentales" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
+            <p:menuitem value="Minería a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
         </p:submenu>
         <p:submenu label="Estadística Desciptiva">
-            <p:menuitem value="Ver Gráfico Seleccionando NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
-            <p:menuitem value="Ver Gráfico de Comparación por Items " actionListener="#{menuBeanAdministrador.comparar}" />
-            <p:menuitem value="Ver Gráfico de Comparación por Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" />
-            <p:menuitem value="Ver Gráfico de Comparación por fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" />
+            <p:menuitem value="Ver Gráfico NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
+            <p:menuitem value="Ver Gráfico Comparación (Items) " actionListener="#{menuBeanAdministrador.comparar}" />
+            <p:menuitem value="Ver Gráfico Comparación (Items Generales)" actionListener="#{menuBeanAdministrador.comparar2}" />
+            <p:menuitem value="Ver Gráfico Comparación Fecha (Inicio/Final)" actionListener="#{menuBeanAdministrador.comparar3}" />
         </p:submenu>
+         <p:submenu label="Sistema">
+             <p:menuitem value="CAT-A" actionListener="#{menuBeanAdministrador.outcomeCATA()}" />
+             <p:menuitem value="NCFAS" actionListener="#{menuBeanAdministrador.outcomeNCFAS()}" />
+        </p:submenu>   
         </p:panelMenu>      
 <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
 </h:form> 
-</p:layoutUnit>
+</p:layoutUnit>  
 
-        <p:layoutUnit position="center">
-        
           
+        
+ <p:dialog id="dlg" header="Datos Generados" showEffect="explode" hideEffect="bounce"
+                    widgetVar="dlgmodificar" modal="true" resizable="false" minWidth="200">
+                <h:form id="formGRAFICOS">          
+                    <p:commandButton value="Visualizar Datos" actionListener="#{ncfasBean.outcome2}"/>                                                  
+                </h:form>
+            </p:dialog>         
  
-    <h2> Al realizar Minería de Datos se obtubierón los siguientes resultados: </h2>
+         <p:layoutUnit position="center">   
+    <h2> Al realizar Minería de Datos se obtuvieron los siguientes resultados: </h2>
     
     <div class="row">
         <div class="container">
             <div class="col-md-9 col-md-offset-1">
-    <ui:repeat var="item" varStatus="status" value="#{mineriaBean.obtenerNum()}">  
+  
+
 	
-        <h:outputText value="#{item}"/> 
-        <br>
-        </br>     
-	
-</ui:repeat>
-                <h:form>
+       
+        
+        <h:form>   
+            <p:dataTable var="reglas" value="#{mineriaBean.obtenerNum()}" emptyMessage="No hay reglas disponibles"
+paginator="true" rows="10" paginatorPosition="top"
+paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+{PageLinks} {NextPageLink} {RowsPerPageDropdown}"
+rowsPerPageTemplate="10">  
+            
+            
+                     <p:column headerText="Contenido">
+                         <h:outputText value="#{reglas.contenido}">
+                    </h:outputText>    
+                </p:column>  
+               
+                
+                
+                
+        </p:dataTable>
+            </h:form>
+
+                
+    <h:form>
         <h:commandButton value=" Exportar Datos como PDF" action="#{reportesBean.reporMineriaPDF()}" />
     </h:form>
                 </div>
             </div>
     </div>
+    
+    
     
 </p:layoutUnit>
  </p:layout>

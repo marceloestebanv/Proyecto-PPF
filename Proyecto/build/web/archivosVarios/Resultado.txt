@@ -1,0 +1,35 @@
+
+Apriori
+=======
+
+Minimum support: 0.95 (10 instances)
+Minimum metric <confidence>: 0.9
+Number of cycles performed: 1
+
+Generated sets of large itemsets:
+
+Size of set of large itemsets L(1): 6
+
+Size of set of large itemsets L(2): 15
+
+Size of set of large itemsets L(3): 20
+
+Size of set of large itemsets L(4): 15
+
+Size of set of large itemsets L(5): 6
+
+Size of set of large itemsets L(6): 1
+
+Best rules found:
+
+ 1. DIM4=0 11 ==> DIM1=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 2. DIM1=0 11 ==> DIM4=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 3. DIM5=0 11 ==> DIM1=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 4. DIM1=0 11 ==> DIM5=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 5. DIM6=0 11 ==> DIM1=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 6. DIM1=0 11 ==> DIM6=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 7. DIM7=0 11 ==> DIM1=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 8. DIM1=0 11 ==> DIM7=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+ 9. DIM8=0 11 ==> DIM1=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+10. DIM1=0 11 ==> DIM8=0 11    <conf:(1)> lift:(1) lev:(0) [0] conv:(0)
+
