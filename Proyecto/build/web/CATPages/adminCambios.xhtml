@@ -16,7 +16,7 @@
        
                 
                 
-                <title>Rectificar Terminos</title>
+                <title>Administrar Cambios Diccionario</title>
                 <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
 <link rel="icon" href="/Proyecto/favicon.ico" type="image/x-icon"/>
             </f:facet>
@@ -35,21 +35,7 @@
             
             </style>
             
-            <script language="JavaScript" type="text/javascript">
-     
-    var bPreguntar = true;
-     
-    window.onbeforeunload = preguntarAntesDeSalir;
-     
-    function preguntarAntesDeSalir()
-    {
-    //  if (bPreguntar)
-        //formMostrar:theButton.click();
-          //  document.getElementById(':formMostrar:theButton').click(); 
-    //  document.getElementById('menu:hh').click(); 
-        return "";
-    }
-</script>
+
          
             
         </h:head>
@@ -78,6 +64,8 @@
                 <p:layoutUnit position="west" size="220" header="Menu">
      
     <h:form id="menu">
+        
+        
 <!--        <p:commandButton ajax="false" widgetVar="theButton" id="hh" action="#{terminosBean.destroy()}" style="display:none"/>-->
         <p:panelMenu style="width:210px">
                               <p:submenu label="Sistema CAT-A">
@@ -102,18 +90,31 @@
                         
                                 
                                
-                        <h2>Rectificar Términos</h2>
+                        <h2>Nuevos Términos Agregados</h2>
                         
                         <br/>
                         
+             <div class="row">
+                
                         
-                        <c:forEach items="#{modifTestBean.deserializarlistNuevosTermDiccGlobal()}" var="item" varStatus="loop">     
+                 <c:forEach items="#{modifTestBean.listNuevosTermDiccGlobalTemp}" var="item" varStatus="loop">     
+                             <div class="col-md-6" >
+                            <h:panelGrid columns="1">
+                            
+                            <h:panelGrid columns="2"   style="margin-top:20px">
+                            
+                           <h4>Relato #{loop.index+1}</h4>  
+                          
                             
                             
+                              <p:commandLink value=" (Ver Lámina)"  update=":formEliminar" onclick="PF('dlgRedirect').show();" style="color: #036fab" >
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>  
+                        </h:panelGrid>
                         
-                        
-                                        
-                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}" rendered="#{!(item.size()==0)}" style="width: 90%"
+                                    
+                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}"  style="width: 90%"
                         
                                       emptyMessage="No hay Términos"
 paginator="true" rows="10" paginatorPosition="bottom"
@@ -121,10 +122,93 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 
                          >
-                              <f:facet name="header">
-      Relato #{loop.index+1}
-    </f:facet>
- 
+                
+                 
+                            <p:column headerText="Término " >
+                               <h:outputText value="#{as.termino}"/>
+                </p:column>
+                           
+                          
+                            <p:column headerText="Clasificación" >
+                      
+                                <h:outputText rendered="#{as.connotacion eq 0 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #CC6666"/>
+                                 <h:outputText rendered="#{as.connotacion eq 1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #579575"/>
+                                  <h:outputText rendered="#{as.connotacion eq -1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #4BB2C5"/>
+                </p:column>
+                            
+                        
+                            
+                            <p:column headerText="Términos Asociados" >
+                    <h:outputText value="#{as.getTerminosAsociadosString()}"/>
+                </p:column>
+                            
+                        
+                     <p:column headerText="Aceptar " >
+                    <p:commandButton icon="ui-icon-ok-2"
+                        title="Aceptar"
+                        actionListener="#{modifTestBean.removeNuevosTerminos(as,loop.index)}"   update=":formMostrar:table#{loop.index}"
+                         />
+               </p:column> 
+                             
+                               <p:column headerText="Rechazar " >
+                    <p:commandButton icon="ui-icon-cancel-2"
+                        title="Rechazar"
+                        actionListener="#{modifTestBean.rechazarNuevoTermino(as,loop.index)}"   update=":formMostrar:table#{loop.index}"
+                         />
+               </p:column> 
+                         
+        
+         
+                
+                </p:dataTable>
+                        
+                        </h:panelGrid> 
+                             </div >
+                        </c:forEach>
+                        
+                   
+                    
+                      
+                      
+                </div >
+                      
+                          <br/>
+                        
+                            <br/>
+                          
+                           <h2>Cambios en Términos Existentes </h2>
+                        
+                        <br/>
+                        
+             <div class="row">
+                
+                        
+                 <c:forEach items="#{modifTestBean.listNuevosTermAsocDiccGlobalTemp}" var="item" varStatus="loop">     
+                             <div class="col-md-6" >
+                            <h:panelGrid columns="1">
+                            
+                            <h:panelGrid columns="2"   style="margin-top:20px">
+                            
+                           <h4>Relato #{loop.index+1}</h4>  
+                          
+                         
+                            
+                              <p:commandLink value=" (Ver Lámina)"  update=":formEliminar" onclick="PF('dlgRedirect').show();" style="color: #036fab" >
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>  
+                        </h:panelGrid>
+                        
+                                    
+                         <p:dataTable var="as" id="table#{loop.index}0" value="#{item}"  style="width: 90%"
+                        
+                                      emptyMessage="No hay Términos"
+paginator="true" rows="10" paginatorPosition="bottom"
+paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+{PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+
+                         >
+                
                  
                             <p:column headerText="Término " >
                                <h:outputText value="#{as.termino}"/>
@@ -148,23 +232,32 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                      <p:column headerText="Aceptar " >
                     <p:commandButton icon="ui-icon-trash"
                         title="Aceptar"
-                        actionListener="#{modifTestBean.removeNuevosTerminos(as,loop.index)}" update=":formMostrar"
+                        actionListener="#{modifTestBean.removeNuevosTermAsoc(as,loop.index)}" update=":formMostrar:table#{loop.index}0"
                          />
                </p:column> 
                          
         
-                
-             
-                 
-                 
+         
                 
                 </p:dataTable>
-                         <br/>
-                         
+                        
+                        </h:panelGrid> 
+                             </div >
                         </c:forEach>
                         
+                   
+                    
+                      
+                      
+                </div >
+                      
                           <br/>
                         
+                          
+                       <br/>
+                         <br/>
+                         <h:commandButton value="Guardar Cambios" action="#{modifTestBean.guardarCambiosDiccionario()}" class="btn btn-primary"/>    
+                          
                           
                     
                          </h:form>
@@ -174,6 +267,20 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 
             </p:layout>
 
+            
+             <p:dialog id="dlgRedirecta" header="Ver Lámina"  showEffect="explode" hideEffect="bounce"
+                       widgetVar="dlgRedirect" closeOnEscape="true" width="400" height="200" modal="true" resizable="false"  >
+            <h:form id="formEliminar">
+                <p:fieldset  style="margin-bottom:20px">
+                <p:outputLabel value="Relato #{terminosBean.relatoActual+1}" /> <br/> <br/>
+                 <br/>
+                    <p:graphicImage name="imagen/#{terminosBean.relatoActual+1}.jpg"  />
+                 <br/>
+                
+                
+                </p:fieldset>
+            </h:form>
+                   </p:dialog>
             
             
             

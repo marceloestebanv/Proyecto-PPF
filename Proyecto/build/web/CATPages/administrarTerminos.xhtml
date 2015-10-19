@@ -110,11 +110,17 @@
                    
                     <div style="padding: 50px">
                     <h:form id="form2" > 
-                        
+                        <h:link value="Revisar Cambios recientes en diccionario de términos ->" style="color: #036fab"  outcome="./adminCambios.xhtml" />
+                         <br/>
+                         <br/>
                         <h2>Administrar Términos Diccionario</h2> <br/>
                         
                      <p:messages id="messages"  showDetail="true" autoUpdate="true" closable="true" />    
-                         <h4>Añadir Término</h4>
+                       
+                     
+                         
+                         
+                     <h4>Añadir Término</h4>
                                  <h:panelGrid columns="2">
                     <h:outputLabel value="Nombre Término " for="termino"/>
                     <p:inputText id="termino"  value="#{adminTerminosBean.termino.termino}" required="true" placeholder=" Ingrese término..." requiredMessage="Ingrese término"/>

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
@@ -29,10 +30,14 @@ import org.apache.commons.collections.ListUtils;
  * @author jean
  */
 @ManagedBean(name = "modifTestBean")
-@SessionScoped
+@ViewScoped
 
 public class ModifTestBean {
 
+    
+    
+   
+     
     List<Termino>[] listEliminTest;
     List<Termino>[] listModifTest;
     List<TerminoLamina>[] listNuevosTermAsocDicc;
@@ -40,11 +45,19 @@ public class ModifTestBean {
 
     List<TerminoLamina>[] listNuevosTermAsocDiccGlobal;
     List<TerminoLamina>[] listNuevosTermDiccGlobal;
+    
+     List<TerminoLamina>[] listNuevosTermAsocDiccGlobalTemp;
+    List<TerminoLamina>[] listNuevosTermDiccGlobalTemp;
+    
+    List<TerminoLamina>[] diccionarioTemp;
 
+    
+      @ManagedProperty("#{adminTerminosBean}")
+    private AdminTerminosBean adminTerminos;
     /**
      * Creates a new instance of ModifTestBean
      */
-    public ModifTestBean() {
+    public ModifTestBean() throws IOException, FileNotFoundException, ClassNotFoundException {
 
         listEliminTest = new ArrayList[10];
         for (int i = 0; i < 10; i++) {
@@ -96,7 +109,17 @@ public class ModifTestBean {
             }
 
         }
+        
+        if(diccionarioTemp==null){
+            diccionarioTemp=RI.deserializarTerminos();
+            
+        }
 
+     //  listNuevosTermDiccGlobalTemp= new ArrayList[10];
+     //   listNuevosTermDiccGlobalTemp=deserializarlistNuevosTermDiccGlobal();
+        
+     //   listNuevosTermAsocDiccGlobalTemp= new ArrayList[10];
+     //   listNuevosTermAsocDiccGlobalTemp=deserializarNuevosTermAsocDiccGlobal();
     }
 
     public void añadirTerminoAsocNuevoTerm(int idLam, Termino term) {
@@ -134,29 +157,67 @@ public class ModifTestBean {
             //System.out.println("termino "+termino.getTermino());
             //System.out.println("id de la lamina" + idLamina);
             //hay que borrar tambien los terminos del tesauro
-            listNuevosTermDicc[idLamina].remove(termino);
+            listNuevosTermDiccGlobalTemp[idLamina].remove(termino);
 
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito! El término Aceptado", "El término fue Aceptado "));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito! El término fue aceptado en el diccionario de términos,", "El término fue Aceptado "));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    
+    public void rechazarNuevoTermino(TerminoLamina termino, int idLamina) throws IOException, FileNotFoundException, ClassNotFoundException {
+        
+     // List<TerminoLamina>[] diccionario= RI.deserializarTerminos(); 
+      TerminoLamina terminoEliminar= null;
+      for(TerminoLamina termLam: diccionarioTemp[idLamina]){
+          if(termLam.getTermino().equals(termino.getTermino())){
+              terminoEliminar=termLam;         
+          }
+          break;
+          
+      }
+      diccionarioTemp[idLamina].remove(terminoEliminar);
+       listNuevosTermDiccGlobalTemp[idLamina].remove(termino);
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito! El término fue rechazado, por lo tanto se eliminará del diccionario de términos.", " "));
+      
+     // adminTerminos.serializarTerminos(diccionario);
+          
+        
+    }
+    
+    
+    public void guardarCambiosDiccionario() throws IOException{
+        adminTerminos.serializarTerminos(diccionarioTemp);
+       
+        //esta contiene los cambios locales hechos en la lista temp
+        serializarListaTemp();
+        
+    }
 
     public void removeNuevosTermAsoc(TerminoLamina termino, int idLamina) {
-        try {
+      
+      if(listNuevosTermAsocDiccGlobalTemp[idLamina].size()==1){
+        listNuevosTermAsocDiccGlobalTemp[idLamina].clear();
+         
+       }else{
+      try {
 
         //System.out.println(" se quiere eliminar de la lista de terminos ");
             //System.out.println("termino "+termino.getTermino());
             //System.out.println("id de la lamina" + idLamina);
             //hay que borrar tambien los terminos del tesauro
-            listNuevosTermAsocDicc[idLamina].remove(termino);
+            listNuevosTermAsocDiccGlobalTemp[idLamina].remove(termino);
+             System.out.println("se eliminó el término"); 
+           
 
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Exito! El término Aceptado", "El término fue Aceptado "));
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+      
+      }
     }
     
     
@@ -326,6 +387,36 @@ public class ModifTestBean {
        }
     
     
+     
+    public void serializarListaTemp() throws FileNotFoundException, IOException{
+        System.out.println(" entrando a serializar listas cambios diccionario");
+  //serialización
+          ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+ String realPath=(String) servletContext.getRealPath("/"); // Sustituye "/" por el directorio ej: "/upload"
+          
+          
+          //serialización
+            try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(realPath+"/Terminos/NuevosTermAsocDiccGlobal.obj"))) {
+                salida.writeObject(listNuevosTermAsocDiccGlobalTemp);
+               // RecuperacionInformacion.setListaTerminosLaminas2(term);
+                System.out.println(" se serializó lista de  nuevos terminos asoc Global");
+               
+               
+            } 
+            
+             try (ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream(realPath+"/Terminos/NuevosTermDiccGlobal.obj"))) {
+                salida.writeObject(listNuevosTermDiccGlobalTemp);
+               // RecuperacionInformacion.setListaTerminosLaminas2(term);
+                System.out.println(" se serializó nuevos terminos global dicc");
+               
+               
+            } 
+            System.out.println(" saliendo serializar listas cambios diccionario");
+       }
+    
+    
+    
+    
             public  List<TerminoLamina>[] deserializarNuevosTermAsocDiccGlobal() throws FileNotFoundException, IOException, ClassNotFoundException{
           
                 List<TerminoLamina>[] term;
@@ -357,5 +448,56 @@ public class ModifTestBean {
                 return term;
        }
 
+    public List<TerminoLamina>[] getListNuevosTermAsocDiccGlobalTemp() throws IOException, FileNotFoundException, ClassNotFoundException {
+        
+         if(listNuevosTermAsocDiccGlobalTemp==null)
+          //  terminosTest=deserializarTerminosTest();
+             listNuevosTermAsocDiccGlobalTemp=deserializarNuevosTermAsocDiccGlobal();
+        
+      
+        return listNuevosTermAsocDiccGlobalTemp;
+    }
 
+    public void setListNuevosTermAsocDiccGlobalTemp(List<TerminoLamina>[] listNuevosTermAsocDiccGlobalTemp) {
+        this.listNuevosTermAsocDiccGlobalTemp = listNuevosTermAsocDiccGlobalTemp;
+    }
+
+   // public List<TerminoLamina>[] getListNuevosTermDiccGlobalTemp() {
+   //     return listNuevosTermDiccGlobalTemp;
+   // }
+
+     public List<TerminoLamina>[] getListNuevosTermDiccGlobalTemp() throws IOException, FileNotFoundException, ClassNotFoundException {
+        
+         if(listNuevosTermDiccGlobalTemp==null)
+          //  terminosTest=deserializarTerminosTest();
+             listNuevosTermDiccGlobalTemp=deserializarlistNuevosTermDiccGlobal();
+        
+        return listNuevosTermDiccGlobalTemp;
+    }
+    
+    public void setListNuevosTermDiccGlobalTemp(List<TerminoLamina>[] listNuevosTermDiccGlobalTemp) {
+        this.listNuevosTermDiccGlobalTemp = listNuevosTermDiccGlobalTemp;
+    }
+
+    public AdminTerminosBean getAdminTerminos() {
+        return adminTerminos;
+    }
+
+    public void setAdminTerminos(AdminTerminosBean adminTerminos) {
+        this.adminTerminos = adminTerminos;
+    }
+
+    public List<TerminoLamina>[] getDiccionarioTemp() {
+        return diccionarioTemp;
+    }
+
+    public void setDiccionarioTemp(List<TerminoLamina>[] diccionarioTemp) {
+        this.diccionarioTemp = diccionarioTemp;
+    }
+
+ 
+
+                  
+                      
+                      
 }
