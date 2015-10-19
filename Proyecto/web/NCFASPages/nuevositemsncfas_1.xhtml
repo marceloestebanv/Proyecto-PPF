@@ -46,33 +46,43 @@
     <h:form>
         <p:panelMenu style="width:210px">
         <p:submenu label="Gestionar NCFAS">
-            <p:menuitem value="Ingresar NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
-            <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
-            <p:menuitem value="Ver NCFAS de tipo Inical"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
+            <p:menuitem value="Ingresar NCFAS Inicial" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
+            <p:menuitem value="Ingresar NCFAS Final" actionListener="#{menuBeanAdministrador.outcomeNCFASFinal}" />
+            <p:menuitem value="Ver NCFAS Guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
+            <p:menuitem value="Ver NCFAS de tipo Inicial"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
             <p:menuitem value="Ver NCFAS de tipo Final"  actionListener="#{menuBeanAdministrador.verNcfasFinales}"  />
-            <p:menuitem value="Ver NCFAS por rengo de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
+            <p:menuitem value="Ver NCFAS por rango de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
         </p:submenu>
         <p:submenu label="Minería de Datos">
-            <p:menuitem value="Reglas de Asociación a Competencias Familiares" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
-            <p:menuitem value="Reglas de Asociación a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
+            <p:menuitem value="Minería a Competencias Parentales" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
+            <p:menuitem value="Minería a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
         </p:submenu>
         <p:submenu label="Estadística Desciptiva">
-            <p:menuitem value="Ver Gráfico Seleccionando NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
-            <p:menuitem value="Ver Gráfico de Comparación por Items " actionListener="#{menuBeanAdministrador.comparar}" />
-            <p:menuitem value="Ver Gráfico de Comparación por Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" />
-            <p:menuitem value="Ver Gráfico de Comparación por fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" />
+            <p:menuitem value="Ver Gráfico NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
+            <p:menuitem value="Ver Gráfico Comparación (Items) " actionListener="#{menuBeanAdministrador.comparar}" />
+            <p:menuitem value="Ver Gráfico Comparación (Items Generales)" actionListener="#{menuBeanAdministrador.comparar2}" />
+            <p:menuitem value="Ver Gráfico Comparación Fecha (Inicio/Final)" actionListener="#{menuBeanAdministrador.comparar3}" />
         </p:submenu>
+         <p:submenu label="Sistema">
+             <p:menuitem value="CAT-A" actionListener="#{menuBeanAdministrador.outcomeCATA()}" />
+             <p:menuitem value="NCFAS" actionListener="#{menuBeanAdministrador.outcomeNCFAS()}" />
+        </p:submenu>   
         </p:panelMenu>      
 <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
 </h:form> 
-</p:layoutUnit>
+</p:layoutUnit>  
 
     
-<p:dialog id="dlg" header="Mensaje" showEffect="explode" hideEffect="bounce" widgetVar="dlgok" modal="true" resizable="false" minWidth="200">
-                <h:form id="formVer">          
-                    <p:commandButton value="Datos guardados correctamente!"  onclick="PF('dlgok').hide();"/>                                                  
+<p:dialog id="dlg" header="Mensaje" showEffect="explode"  widgetVar="dlgok" modal="true" resizable="false" minWidth="200">
+                <h:form id="formVer">  
+                    <h:outputText value="¡Datos Guardados Correctamente!" /> 
+                    <br></br>
+                    <br></br>
+                    <p:commandButton value="Ok"  onclick="PF('dlgok').hide();"/>                                                  
                 </h:form>
         </p:dialog>
+        
+        
     
     
   
@@ -773,13 +783,1097 @@
             </div>
         <p:commandButton value="Ok"  onclick="PF('dlgcrecyju').hide();"/>  
     </h:form>                
-</p:dialog>            
+</p:dialog> 
+  
+  <p:dialog id="dlg25" header="Ausencia/Presencia de violencia domestica entre los progenitores/cuidadores" widgetVar="dlgapviolencia" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            Nota: Este ítem no es aplicable en todos los casos. Por ejemplo, si hubiese solo un cuidador involucrado, y no hubiera otros significativos. Si este es el caso, encierre N/A en la forma 
+        </div>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a familias en las cuales nunca ha ocurrido violencia entre los cuidadores, y todos los miembros de la familia son estimuladores a resolver los problemas “sin violencia”. También se refiere a familias en las cuales ha ocurrido violencia doméstica, pero ya no sucede debido al éxito de la familia en terapia, y ahora la familia desincentiva activamente la violencia.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a familias en las cuales ha ocurrido violencia doméstica, pero ya no sucede. La familia está involucrada en consejería y haciendo algunos progresos. También, familias en las cuales la violencia nunca ha ocurrido. Hay disputas, pero los miembros de la familia resuelven los problemas sin violencia.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a incidentes/quejas/arrestos por violencia doméstica. La violencia entre los cuidadores afecta negativamente su habilidad parental para criar y/o ha resultado en daños físicos o emocionales para los niños. Un cuidador vive con miedo del otro, y/o los niños temen por la seguridad de uno de los cuidadores o de sí mismos.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgapviolencia').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg26" header="Ausencias/presencia de otros conflictos familiares" widgetVar="dlgapotroscn" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a los familiares teniendo fuertes vínculos entre ellos, y con otros miembros de la familia extensa. Los miembros de la familia y su parientes probablemente servirían como recursos mediadores o refugios seguros si la violencia familiar llegarse a ocurrir.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los miembros de la familia y sus parientes generalmente se llevan bien, proe pueden legar a estar beligerantes o combativos cuando consumen alcohol o discuten típicos sensibles o sobre valores. Algunos miembros de la familia son apropiadamente evitados, basados en historias conocidas, de tal forma que no signifiquen una amenaza para los niños o para la familia inmediata del niño.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Pueden ocurrir peleas intrafamiliares, o puede haber facciones familiares enemistadas, algunas veces con violencia física entre los miembros de la familia. Los parientes pueden llegare sin invitación ni bienvenida cuando están intoxicados o en problemas, significando una amenaza para la seguridad de la familia y los niños. Parientes malintencionados pueden exponer a los niños de los cuidadores a peligros, drogas o actividades ilegales. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgapotroscn').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg27" header="Ausencia/presencia de abuso físico en el niño(s)" widgetVar="dlgaupabusofi" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a familias en las cuales nunca han ocurrido incidentes/quejas/pruebas, o han ocurrido y la familia se ha involucrado exitosamente en terapia. Los cuidadores no justifican la violencia. Los cuidadores manejan exitosamente la rabia y sus responsabilidades de disciplina, y sin castigos físicos. Los cuidadores protegen activamente a los niños del abuso físico de gente externa a la familia.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a familias en las cuales el abuso físico no ha ocurrido, o en las cuales han ocurrido quejas/incidentes/pruebas de abuso de los cuidadores, pero se ha hecho un progreso satisfactorio a través de terapia o la entrega de otros servicios. Los cuidadores manejan exitosamente la rabia la mayor parte del tiempo, y la disciplina normalmente no es física y nunca excesiva. Los cuidadores protegen pasivamente a los niños del abuso físico de gente externa a la familia.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a incidentes/quejas/pruebas de abuso físico por los cuidadores, que no se han notificado o abordado, o se han resuelto insatisfactoriamente. Los cuidadores pueden negar activamente las pruebas de abuso y/o negligencia, o resistir activamente la intervención. Los cuidadores no pueden manejar la rabia y reaccionan violenta o irracionalmente hacia los niños. El castigo es excesivo o bizarro y cumple con la definición de abuso. Los cuidadores fallan flagrantemente en proteger a los niños del abuso de gente externa a la familia.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgaupabusofi').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg28" header="Ausencia/presencia de abuso emocional en el niño(s)" widgetVar="dlgaupabusoem" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia en la cual nunca han ocurrido incidentes o quejar comprobadas de abuso emocional, o han ocurrido y la familia se ha involucrado exitosamente en consejería. Los cuidadores no disminuyen ni denigran a los niños. Los niños exhiben sentimientos seguros y un buen sentido de auto-estima. Los cuidadores protegen activamente a los niños de críticas inapropiadas de gente externa a la familia.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia en la cual no ha ocurrido abuso emocional, o en la cual quejas, incidentes o pruebas de abuso emocional de los cuidadores han ocurrido, pero está haciendo progreso satisfactorio a través de conserjería u otros servicios. Los cuidadores manejan satisfactoriamente la rabia la mayor parte del tiempo, y rara vez o nunca denigran o apocan a los niños. Los cuidadores protegen pasivamente a los niños del abuso emocional por gente externa a la familia.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a incidentes, quejas, pruebas de abuso emocional por los cuidadores las cuales no han sido reconocidas o abordadas, o se han resuelto insatisfactoriamente. Los cuidadores pueden estar negando activamente abusos emocionales comprobados, o resistiendo activamente la intervención. Los cuidadores no pueden manejar la rabia y reaccionan con acciones degradantes hacia los niños. Los cuidadores reprenden o denigran a los niños con evidentes heridas emocionales. Los cuidadores fallan flagrantemente en proteger a los niños de abusos similares por gente externa a la familia. Los niños exhiben trastornos como resultado del maltrato vigente.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgaupabusoem').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg29" header="Ausencia/presencia de abuso sexual en el niño(s)" widgetVar="dlgaupabusose" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p> Se refiere a un niño que nunca ha experimentado abuso sexual, y que ha aprendido sobre eso conceptos como caricias “buenas” y “malas”. O, un niño que ha experimentado abuso sexual y ahora está siendo “protegido”. El niño está en tratamiento y ha hecho excelente progresos.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a un niño que nunca ha experimentado abuso sexual, pero no se le ha enseñado activamente conceptos tales como “buenas” y “malas” caricias, dejándolo potencialmente vulnerable a abusos futuros. O, un niño que ha sido sexualmente abusado, pero está haciendo progresos satisfactorios en el tratamiento.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a un niño que ha experimentado abuso sexual por otros, o un niño que ha abusado sexualmente de otros. Puede ser inferido o probado. El niño ha sido referido a tratamiento o está en tratamiento. Se hace una evaluación respecto a un progreso insatisfactorio en el tratamiento. El abuso sexual continúa, o el riesgo del abuso sexual es alto. Los cuidadores no protegen a los niños de situaciones en las cuales hay riesgo elevado de abuso sexual o explotación de dentro o fuera de la familia. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgaupabusose').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg30" header="Ausencia/presencia de negligencia en el niño(s)" widgetVar="dlgaupnegli" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a familias en las cuales nunca han ocurrido incidentes/quejas/pruebas de negligencia, o han ocurrido y la familia ha hecho un progreso sobresaliente en conserjería. Los cuidadores reconocen y son  exitosos en cubrir las necesidades físicas, sociales y emocionales del niño. Las necesidades básicas de refugio, comida, cuidados de salud, supervisión y educación son siempre cubiertas.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a familias en las cuales nunca han ocurrido incidentes/quejas/pruebas de negligencia, o han ocurrido y la familia ha hecho algunos progresos en conserjería. Los cuidadores usualmente reconocen las necesidades físicas, sociales y emocionales de los niños y cubren la mayoría de estas necesidades. Los descuidos de los cuidadores no ponen en riesgo a los niños. Las necesidades básicas de refugio, comida, cuidados de salud, supervisión y educación son regularmente cubiertas.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a incidente/quejas/pruebas de negligencia infantil por cuidadores que no han sido notificadas o abordadas, o se han resulto insatisfactoriamente. Los cuidadores no reconocen o niegan las necesidades físicas, sociales, médicas o emocionales de los niños. Necesidades básicas de refugio, comida, cuidados de salud, supervisión o educación frecuentemente no se cubren. Los cuidadores pueden estar activamente negando las pruebas de negligencia, o resistiendo activamente la intervención. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgaupnegli').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg31" header="Ausencia/ presencia de acceso a armas " widgetVar="dlgaupaccear" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a la protección proactiva de los niños por parte de los cuidadores, del acceso a armas que podrían herir a los niños o que podrían usar para dañar a otros. Pistolas, cuchillos, ect., están encerrados en cajas fuerte, muebles o cajones, según corresponda. La munición se mantiene separada de las pistolas. Se les enseña a los niños acerca de los peligros de las armas y cómo evitar contacto con armas cuando estén lejos del hogar.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a la consciencia en los cuidadores de la necesidad de proteger a los niños del acceso a armas, particularmente armas de fuego. Los cuidadores han tomado algunas precauciones para proteger a los niños del acceso; los cuidadores pueden no tener todo conocimiento respecto  a cómo proteger a los niños. A los niños se les enseña acerca de los peligros de las armas.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a la flagrante falta de preocupación de los cuidadores acerca de proteger a los niños de las armas. Las armas no están aseguradas, y están en áreas donde los niños podrían tener acceso. Los niños tienen posibilidades de descubrir arnas o de usarlas durante un juego. No se enseña a los niños acerca de los peligros de las armas, y pueden ser estimulados a manejar para diversión de los cuidadores.  </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgaupaccear').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg32" header="Seguridad familiar en general " widgetVar="dlgseggeneral" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia recibiendo puntajes muy altos en las siguientes áreas: ausencias/presencias de violencia domésticas entre los progenitores/cuidadores; conflictos familiares; abuso físico o emocional de los niños; abuso sexual de los niños; negligencia de los niños; y armas.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia recibiendo puntajes de línea base en las siguientes áreas: ausencia/presencia de violencia doméstica entre los progenitores/cuidadores; conflictos  familiares; abuso físico o emocional de los niños; abuso sexual de los niños; negligencia de los niños; y armas.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia recibiendo puntajes muy negativos en las siguientes áreas: ausencia/presencia de violencia doméstica entre los progenitores/cuidadores; conflictos  familiares; abuso físico o emocional de los niños; abuso sexual de los niños; negligencia de los niños; y armas.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgseggeneral').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg33" header="Comportamiento del niño(s) " widgetVar="dlgscomporn" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere al niño comportándose bien y sin problemas de disciplina. El niño en visto como cooperativo, siguiendo las reglas y haciendo sus tareas. Los niños evitan a pares negativos y evitan confrontarse con la ley. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a algunos problemas en manejar la conducta del niño y algunos problemas de disciplina. El niño usualmente es cooperativo, tiene algunas dificultades en seguir las reglas o completar sus deberes, pero los problemas no ameritan intervención.  En  el curso normal del desarrollo, los niños pueden ser rebeldes o desafiar el liderazgo familiar, pero los temas son resueltos y los niños evitan la confrontación con la autoridad. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a problemas manejando la conducta del niño en la casa y/o en la escuela. Totalmente no cooperativo. Rechaza seguir reglas o hacer tareas. Hay conductas delincuentes y/o altamente oposicionistas; puede estar envuelto con pandillas o grupos marginales.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgscomporn').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg34" header="Desempeño Escolar " widgetVar="dlgsdesmpes" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+           <p> NOTA: Este ítem puede no ser aplicable en todos los casos. Por ejemplo, si el niño no esta en edad escolar. Si este es el caso, encierre N/A en la forma.   </p> 
+        </div>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere al niño teniendo excelente asistencia a la escuela y un excelente rendimiento académico. Al niño le gusta la escuela y/o se comporta apropiadamente en la escuela.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere al niño teniendo buenas asistencias y rendimiento académico promedio o rendimiento apropiado a las capacidades del niño. Algunos problemas conductuales pueden ser evidentes en la escuela, pero no resultan en suspensión o expulsión.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere al niño teniendo una pobre asistencia e la escuela, un pobre rendimiento académico y/o muchos problemas conductuales en la escuela. El niño declara odiar la escuela y/o evitar la escuela enfermándose o escapándose. El niño para frecuentemente en detención y puede ser suspendido o incluso expulsado de la escuela.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgsdesmpes').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg35" header="Relación del niño(s) con el Progenitor(es) / Cuidador(es) " widgetVar="dlgrelacionconelp" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere al niño aceptando disciplina y supervisión. Tiene una comunicación abierta y clara con sus cuidadores, expresa o exhibe un fuerte afiliación con los cuidadores.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere al niño teniendo algunos problemas en aceptar disciplina y supervisión. También hay algunos problemas en la comunicación en los cuidadores, pero no se justifica intervenir. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a problemas de disciplina y supervisión con el niño. Falta de comunicación abierta y clara o sin comunicación con sus cuidadores. No respeta los vínculos y tiene una relación abusiva u hostil con los cuidadores. Expresa el deseo de dejar la familia apenas sea posible. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgrelacionconelp').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg36" header="Relación del niño(s) con los Hermano(s) " widgetVar="dlgrelconherm" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        
+        <div class="row">
+            <p>Nota: este ítem pueden no ser aplicable en todos los casos. Por ejemplo, si no hay hermanos en la familia. Si este es el caso, encierre N/A en la forma. </p>
+        </div>>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a llevarse bien con los hermanos. Se ayudan el uno al otro cuando lo necesitan. Problemas o peleas infrecuentes. Los hermanos pueden jugar juntos. Los niños son cuidados y protegidos por hermanos mayores y estos tratan a los hermanos menores adecuadamente.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a llevarse bien la mayor parte del tiempo con sus hermanos. Ocurren algunas peleas entre los hermanos y los hermanos no juegan juntos frecuentemente. Los problemas entre los hermanos no ameritan especial atención. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a frecuentes peleas y a la incapacidad para llevarse con sus hermanos. No hay apoyo desde o hacia los hermanos. Intensas rivalidades, conflictos y/o acusaciones entre los hermanos. Las peleas pueden resultar en heridas u otras conductas pueden resultar en daño emocional para los hermanos. Los hermanos mayores pueden haber abusado física o sexualmente de hermanos menores, o haber descuidado a los hermanos menores dejados a su cuidado.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgrelconherm').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg37" header="Relación del niño(s) con Pares  " widgetVar="dlgrelnipares" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row" >
+            <p>Nota: este ítem puede no ser aplicable en todos los casos. Por ejemplo, si no hubiese pares, debido a la edad del niño. Si este es el caso, encierre N/A en la forma.</p>
+        </div>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere al niño teniendo amigos entre sus pares, y el grupo de pares parece ser una influencia positiva. Se lleva bien con sus pares. Tiene interacciones frecuentes. Puede jugar deportes de equipo, o participar en otros clubes o grupos relacionados con la escuela o la iglesia.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere al niño teniendo unos pocos amigos entres sus pares. Los pares no parecen exhibir mucha influencia positiva ni negativa en el niño.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a la inhabilidad del niño para formar amistades con sus pares o la incapacidad para llevarse bien con ellos. El niño puede tener frecuentes peleas con sus pares o evitarlos. También el niño puede tener amigos entre sus pares, pero el grupo de pares parece ser una influencia negativa, incluyendo pandillas, o pares involucrados con drogas, alcohol y/o actividades delincuentes/criminales. Los niños pueden buscar amistades con personas mucho más viejas o jóvenes que ellos, y se comportan inadecuadamente para obtener dichas amistades.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgrelnipares').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg38" header="Cooperación / Motivación  a permanecer en la familia. " widgetVar="dlgcooperacion" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere al niño estando interesado por permanecer con sus familia/cuidadores. El niño está motivado por cambiar sus conductas y cooperar, en orden a mantener un ambiente familiar positivo y cohesionado.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere al interés de los niños por quedarse con sus familia/cuidadores. Pero los niños no están observablemente motivados a cambiar sus conductas y cooperar, estando dispuestos a tolerar algún nivel de discordia familiar. Las etapas del desarrollo infantil se acompañan de desafíos a las reglas familiares y las expectativas de los cuidadores, pero si se ven presionados, los niños aceptaran las intervenciones o servicios. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a la falta de interés del niño por quedarse con su familia/cuidadores. El niño no está motivado a cambiar sus conductas y no quiere cooperar. El niño está en contra de cualquier intervención o servicio, o el niño tiene un fuerte deseo de dejar la familia por razones propias. Puede fugarse del hogar por unos días o semanas cada vez. Se rebela contra cualquier esfuerzo de los cuidadores por supervisarlo y es reservado respecto a sus pares, actividades o ubicación. </p>
+                </div>
+            </div>
+        
+        <div class="row">
+            <p>Nota: Esta sección es pertinente para todos los niños de la familia. Si es más de un niño, los niños pueden tener temas distintos.  Puntúe a la familia, de tal forma que si cualquier niño tiene, por ejemplo, un problema de salud mental, la familia como un todo experimenta ese problema. De esta forma, todos los niños en la familia pueden contribuir a los puntajes en un único registro.</p>
+        </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgcooperacion').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg39" header="Bienestar del niño en general  " widgetVar="dlgbiendlngeneral" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia recibiendo puntajes muy altos en las siguientes áreas: salud física, mental y emocional de los niños; comportamientos de los niños; desempeño escolar; relación con los cuidadores; relación con los hermanos; relación con pares; y cooperación y motivación a mantener la familia. Sin puntajes de problema en estas áreas.  </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia recibiendo puntajes adecuados en todas las áreas: salud física, mental y emocional de los niños; comportamiento de los niños; desempeño escolar; relación con los cuidadores; relación con los hermanos; relación con pares; y cooperación y motivación a mantener la familia. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia recibiendo puntajes muy bajos en las siguientes áreas: salud física, mental y emocional de los niños; comportamiento de los niños; desempeño escolar; relación con los cuidadores; relación con los hermanos; relación con pares; y cooperación y motivación a mantener la familia.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgbiendlngeneral').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg40" header="Empleo del cuidador " widgetVar="dlempleocu" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia teniendo un empleo estable y legal los últimos 12-24 meses. El empleador provee beneficios, tales como seguro de salud y respeta la necesidad del cuidador de atender a, e invertir tiempo con, su familia. El cuidador aprovecha las oportunidades de entrenamiento y avance que se presentan. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a la familia teniendo un empleo legal, relativamente estable, en los últimos 12 meses. La experiencia de empleo puede variar entre períodos de trabajo equilibrado, retrasos y sobrecarga compulsiva, creando rupturas ocasionales en las rutinas familiares o en la disponibilidad de cuidador con la familia. No hay beneficios disponibles o lo están a un costo muy alto. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere al cuidador perdiendo su empleo por causa negativas (tales como ser despedido, dejarlo por uso de sustancia o pobre asistencia) dos o más veces en los últimos doce meses. Los cuidadores trabajan solo esporádicamente por elección, poniendo bajo extrema presión las finanzas familiares. La familia no tiene beneficios de ningún tipo. El empleo de los cuidadores puede ser ilegal (ingresos no reportados, tráfico de drogas, prostitución). Los cuidadores no están interesados o disponibles (talvez por analfabetismo) de participar en opciones avanzadas de empleo. </p>
+                </div>
+            </div>
+        
+        
+        <p:commandButton value="Ok"  onclick="PF('dlempleocu').hide();"/>  
+    </h:form>                
+</p:dialog> 
+  
+  <p:dialog id="dlg41" header="Ingreso familiar. " widgetVar="dlgingrsfam" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>La familia ha tenido un ingreso estable y suficiente durante los últimos 12-24 meses. Hay ingresos más que suficientes para pagar por comida, vivienda y/o vestuario. El dinero no es tema. La familia tiene dinero para cumplir con sus responsabilidades y gastar en actividades de ocio y recreación. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los ingresos son suficientes para cubrir las necesidades básicas, tales como comida, renta y vestuario. Hay algunas presiones monetarias, tales como deudas de tarjetas de crédito, pero no inhiben significativamente las actividades familiares o la satisfacción actual de necesidades. Los cuidadores pueden preocuparse por tener suficiente dinero y pueden posponer algunas actividades. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>La familia tiene un ingreso severamente insuficiente y muestra incapacidad para pagar por comida, vivienda y/o vestuario. La familia recibe asistencia pública como fuente primaria de ingreso y/o los cuidadores principales están desempleados. El dinero es un tema central. El apoyo infantil no está pagado. La asistencia pública se ha terminado. La familia no tiene dinero para cubrir sus necesidades básicas.  </p>
+                </div>
+            </div>
+        
+        
+        <p:commandButton value="Ok"  onclick="PF('dlgingrsfam').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg42" header=" Manejo financiero.  " widgetVar="dlgmanejofin" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>se refiere a una familia que usa su dinero de una forma que provee beneficios financieros, y que tiene claros planes o prioridades de gasto. Las deudas son pequeñas y manejables. Hay un uso planificado  del dinero y no hay cuentas acumuladas. La familia es buena para buscar rebajas y dejara separado el dinero para recreación, ocio, regalos (ej. Cumpleaños). </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia con deudas, pero las deudas no son lo suficientemente grandes o atrasadas como para que los acreedores tomen acciones contra la familia. Hay algunos problemas con el presupuesto, pero dichos problemas no impiden que la familia cuba las necesidades básicas de comida, renta, etc. El ocio o la recreación son esporádicos y ocurren cuando parece haber disponible algún dinero extra, más que como parte de un plan de gastos.  </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia severamente adeudada. La familia tiene una historia durante el último año de haber sido desalojada de su hogar debido al no pago de la renta. Gran dificultad para pagar las deudas y/o las deudas se pagan tarde. Puede tener deudas en una tarjeta de crédito con mucho cupo o un préstamo inabordable. El presupuesto es caótico y la familia está constantemente en crisis por dinero. Los cuidadores están frecuentemente en quiebra, debido a apuesta o alcohol. Sin un plan de presupuestos. Los cuidadores compran lujos antes que necesidades; los niños habitualmente no tienen sus necesidades básicas cubiertas.  </p>
+                </div>
+            </div>
+        
+        
+        <p:commandButton value="Ok"  onclick="PF('dlgmanejofin').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg43" header="Comida y Nutrición. " widgetVar="dlgcomynnutri" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a la conciencia de los cuidadores de las necesidades nutricionales de los niños, incluyendo cualquier necesidad especial (ej. Alergia a una comida). Cubren esas necesidades. Preparan comidas balanceadas y nutritivas. Hay una gran  variedad de alimentos disponibles. Los niños comen en un horario regular. La comida/nutrición es activamente monitoreada por los cuidadores.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>La familia cubre las necesidades nutricionales básicas. Los niños tienen acceso a comida variada y suficiente, aunque las comidas individuales pueden no ser siempre “balanceadas”. La familia puede basarse en la comida rápida más de la cuenta como principal recurso de nutrición. Los niños pueden consumir exceso de comida chatarra, principalmente cuando están lejos del hogar. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a la falta de conciencia en los cuidadores sobre las necesidades nutricionales de los niños, incluyendo cualquier necesidad especial. No intentan cubrir las necesidades nutricionales. No consideran importante la preparación de las comidas. Inadecuado suministro de comida y/o comidas inapropiadas. Se consume gran cantidad de comida “chatarra”. Los niños habitualmente tienen hambre. La obesidad, diabetes u otros problemas de saludad relacionados a una pobre nutrición son evidentes en los cuidadores y/o los niños. </p>
+                </div>
+            </div>
+        
+        
+        <p:commandButton value="Ok"  onclick="PF('dlgcomynnutri').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg44" header="Transporte . " widgetVar="dlgtransp" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia que tiene auto, acceso regular a un auto o a transporte público. El transporte confiable permite a la familia cumplir obligaciones tales como las visitas al doctor, escuela o una asistencia regular al trabajo. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia teniendo usualmente un acceso regular a transporte confiable. Ocasionalmente, ciertas dificultades de transporte causarán un problema para la familia (ej. Llegar tarde al trabajo por estas dificultades).</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia que no tiene transporte disponible lo que en cambio, inhibe el trabajo, incrementa el aislamiento social, y/o limita el acceso a servicios, y/o impide la asistencia regular a la escuela. Los cuidadores no pueden sostener las citas a servicios confiables y no pueden asegurar esos servicios para los niños. </p>
+                </div>
+            </div>
+        
+        
+        <p:commandButton value="Ok"  onclick="PF('dlgtransp').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg45" header="Autonomía en general. " widgetVar="dlgautoengenr" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia recibiendo puntajes muy altos en las siguientes áreas: empleo del cuidador, ingreso familiar, manejo financiero, comida y nutrición, y transporte. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia recibiendo puntajes adecuados en las siguientes áreas: empleo del cuidador, ingreso familiar, manejo financiero, comida y nutrición, y transporte </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia recibiendo puntajes muy bajos en las siguientes áreas: empleo del cuidador, ingreso familiar, manejo financiero, comida y nutrición, y transporte. </p>
+                </div>
+            </div>
+        
+        
+        <p:commandButton value="Ok"  onclick="PF('dlgautoengenr').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg46" header="Relaciones Sociales. " widgetVar="dlgrelsociales" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia que tiene interacciones frecuentes con parientes, vecinos y amigos. Esta gente está accesible y con una influencia positiva en la vida familiar. Hay pocas relaciones sociales negativas y si éstas ocurren, se manejan oportunamente y no se les permite continuar. La familia siempre puede apoyarse en amigos, parientes o vecinos por ayuda en una emergencia.  </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia teniendo algunas interacciones con parientes, vecinos y amigos. Los individuos pueden entregar influencias positivas y/o negativas en la familia. Cuando son negativas, estas influencias son manejadas apropiadamente y no representan una amenaza seria a la seguridad familiar. La familia puede apoyarse algunas veces en estas relaciones por ayuda en una emergencia. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia estando socialmente aislada y teniendo y teniendo poco o ningún contacto con vecinos, amigos o parientes. O, estas personas son una fuerte influencia negativa sobre los cuidadores o niños. Los contactos sociales pueden girar en torno a actividades ilegales o inmorales como uso de drogas, prostitución o apuestas. La familia hace poco o ningún esfuerzo por participar en actividades que ofrezcan oportunidades para relaciones sociales positivas. La familia no puede apoyarse en parientes, vecinos, o amigos por ayuda en una emergencia. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgrelsociales').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  
+  
+  <p:dialog id="dlg48" header="Relaciones con Cuidado Infantil, Escuelas y Servicios Extracurriculares  " widgetVar="dlgrelcuidinfes" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>La relación de los cuidadores con escuelas, proveedores de cuidado infantil y otras organizaciones de servicio infantil (ej., deportes y grupos juveniles) es abierta, respetuosa, frecuentemente honesta. Los cuidadores y el profesor o proveedor de servicios se comunican claramente y estimulan el éxito del otro. Las interacciones se focalizan en el mejor interés del niño y cada uno aboga por el mejor interés del niño.  </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>La relación entre los cuidadores y la escuela, cuidado infantil u otros proveedores de servicios infantiles es adecuada para garantizar la seguridad de los niños y es respetuosa. Pueden ocurrir dificultades menores en la comunicación o la abogacía del niño, pero no dañan significativamente la relación. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>La relación entre los cuidadores y la escuela, cuidado infantil u otros proveedores de servicios infantiles es carente de apoyo; siendo crítica, irrespetuosa, hostil, deshonesta o inexistente. La comunicación no se centra en el mejor interés de los niños, pero puede focalizare en la conveniencia del cuidador o el interés del cuidador a expensas de la participación y éxito de los niños.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgrelcuidinfes').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg49" header="Conexión con el Vecindario, Comunidad Cultural/Étnica " widgetVar="dlgconexion" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a la conexión de la familia con asuntos cívicos y culturales en el vecindario y la comunidad. Los miembros adultos de la familia votan y están informados de los temas que afectan a su comunidad. La familia se identifica con segmentos culturales o étnicos en la comunidad y promueve el bienestar de todos los niños y familias. El involucramiento cívico es una influencia positiva en la vida familiar y no se hace a expensas de las necesidades familiares o las relaciones sociales.   </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>La familia está involucrada en la comunidad hasta un grado limitado. Los cuidadores pueden asistir a algunas reuniones comunitarias, es probable que voten, pero la familia no invierte tiempo en temas sociales relevantes. La familia se identifica con algunos otros grupos culturales o étnico pero con otros no y los cuidadores pueden expresar sospechas o desconfianza de otras etnias o culturas. La familia puede ser selectiva acerca de su involucramiento comunitario o vecinal basado en la cultura o etnia.  </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Hay poco o ningún sentido de vecindario, o la familia se siente alienada del vecindario y la comunidad. Los miembros de la familia están temerosos de interactuar con los vecinos. Los cuidadores no participan en reuniones cívicas o en el ejercicio de su derecho al voto y desconocen sobre tópicos sociales o políticos que los afecten. O, el involucramiento cívico es confrontacional con respecto a los políticos y otras etnias o culturas, y está dañando las relaciones familiares o la seguridad, interfiriendo con la habilidad de la familia para funcionar en el vecindario o comunidad.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgconexion').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg50" header="Conexión con la Comunidad Espiritual/Religiosa  " widgetVar="dlgconcom" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>La familia participa en celebraciones espirituales centradas en la familia. La familia recibe fuerza y estimulación de la comunidad espiritual. La familia se conecta con otros que comparten creencias similares y parece integrar sus creencias en la vida cotidiana. Los niños parecen estar conectados con, y apoyados por, la comunidad espiritual.  </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los cuidadores identifican una conexión con una comunidad espiritual particular, pero puede ser esporádica en la inversión de tiempo o energía en la comunidad espiritual. Son más aptos para usar la comunidad espiritual en ocasiones especiales ( bautizos, matrimonios, funerales), pero menos sobre una base cotidiana o semanal. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>La familia carece de, o evita, cualquier conexión con la comunidad espiritual. No pueden o no aceptarán el apoyo de una comunidad espiritual.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgconcom').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg51" header="Iniciativa y Aceptación del Progenitor(es)/Cuidador(es) de la Ayuda y Apoyo Disponible " widgetVar="dlginiciativaya" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a la familia aceptando ayuda o apoyo de la familia extensa, vecinos o la comunidad cuando es ofrecida a la familia. Los cuidadores tomarán la iniciativa para proveer las necesidades básicas de la familia. Los cuidadores buscarán ayuda cuando se necesite y están dispuestos a aceptar ayuda sin vergüenza o culpa. Los cuidadores anticipan estar disponibles para ayudar a otros, cuando estén en posición de hacerlo. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia estando dispuesta a aceptar alguna ayuda de las agencias, parientes, o amigos, pero que pueden o no buscar ayuda activamente. Los cuidadores pueden estar dispuestos a pasarse sin algunas necesidades básicas o servicios para evitar pedir ayuda. Los cuidadores pueden sentir culpa o vergüenza por aceptar ayuda, pero estos sentimientos no impiden aceptarla si es ofrecida desde el exterior, o la necesidad es suficientemente grande.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>La familia no está motivada a, o evita activamente, buscar ayuda de agencias, parientes o amigos cuando se necesita. Incluso si la vida familia se está deteriorando marcadamente, los cuidadores han rehusado la ayuda cuando ha sido ofrecida en un pasado reciente, con el  continuo deterioro de la vida familiar y el bienestar infantil. La familia está suspicaz de la ayuda y puede temer futuras consecuencias de aceptarla, tales como la obligación de retribuir. Los cuidadores pueden sufrir sentimientos exagerados de culpa o vergüenza, impidiendo la aceptación de ayuda.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlginiciativaya').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg52" header="Vida Social/Comunitaria en general " widgetVar="dlgvidsogeneral" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia recibiendo puntajes muy altos en las siguientes áreas: relaciones sociales, relaciones con cuidado infantil, escuelas y servicios extracurriculares, conexión con el vecindario y la comunidad cultural/étnica, conexión con la comunidad espiritual/étnica, iniciativa y aceptación del cuidador de la ayuda y apoyo disponible. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia recibiendo puntajes adecuados en todas las áreas: relaciones sociales, relaciones con cuidado infantil, escuelas y servicios extracurriculares, conexión con el vecindario y la comunidad cultural/étnica, conexión con la comunidad espiritual/étnica, iniciativa y aceptación del cuidador de la ayuda y apoyo disponible.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia recibiendo puntajes muy bajos en las siguientes áreas: relaciones sociales, relaciones con cuidado infantil, escuelas y servicios extracurriculares, conexión con el vecindario y la comunidad cultural/étnica, conexión con la comunidad espiritual/étnica, iniciativa y aceptación del cuidador de la ayuda y apoyo disponible.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgvidsogeneral').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg53" header="Salud Física del Progenitor(es)/Cuidador(es) " widgetVar="dlgsaludfiscp" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Los cuidadores gozan de excelente salud física. No hay problemas de salud que interfieran con la parentalidad, empleo o participación en la vida cotidiana. Los cuidadores promueven la buena salud en la familia incluyendo el vigilar de la dieta, el ejercicio y los hábitos del estilo de vida de los niños y otros miembros de la familia.  </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los cuidadores disfrutan de una buena salud básica. Pueden tener algunos temas de salud, tales como una elevada presión arterial o diabetes moderada, que están bajo control a través de medicamentos y cuidados rutinarios de salud. Los temas de salud pueden limitar ocasionalmente a los cuidadores, pero no representan mayores obstáculos en las competencias parentales, ni disminuyen significativamente la habilidad de los cuidadores para criar. Los cuidadores tienen conocimiento acerca del estado de salud y normalmente toman decisiones sobre su estilo de vida y dieta en forma acorde.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Los cuidadores sufren de uno o más problemas crónicos debilitantes de salud física (tales como obesidad severa, alta presión arterial, VIH/SIDA), o enfermedades progresivas (tales como cáncer, SIDA, etc.) que interfieren significativamente con la vida cotidiana. Los cuidadores no comprenden las implicancias de la dieta, el estilo de vida o el ejercicio, o de un régimen de medicación apropiado, y por lo tanto no manejan la condición(es) de salud hasta donde sea posible. Los cuidadores proyectan problemas personales de salud sobre los niños u otros miembros del hogar, o requieren de los niños para recibir cuidados físicos. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgsaludfiscp').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg54" header="Invalidez del Progenitor(es) / Cuidador(es) " widgetVar="dlginvalidez" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Los cuidadores no sufren de ninguna condición inhabilitante ( ceguera, hándicaps físicos, dolor crónico, etc.) que pudiese interferir con su parentalidad, empleo o participación en la vida cotidiana. Los cuidadores están en forma y las actividades no se ven limitadas o constreñidas.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los cuidadores pueden sufrir de una o más condiciones moderadamente inhabilitantes que no limitan a los cuidadores para criar o trabajar, aunque algunas acomodaciones pueden ser necesarias (ej., no subir ascensores, no manejar, tener un lugar de trabajo accesible) y los cuidadores pueden participar en la vida cotidiana con algunas adaptaciones a las circunstancias. Si las condiciones inhabilitantes califican para beneficios, los cuidadores reciben los beneficios y participan en los requerimientos de los programas de beneficios.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Los cuidadores sufren de serias condiciones de invalidez (tales como ceguera total, para/cuadriplejia, falta de miembros, colon espástico, etc.) que sustancialmente limitan o impiden a los cuidadores criar efectivamente a los niños, trabajar o participar en la vida cotidiana. Los cuidadores pueden ser dependientes de los Servicios Sociales. Los cuidadores no son capaces de manejar su invalidez y se apoyan en otros en su vida cotidiana, y pueden no tomar decisiones médicas necesarias o cambios en sus estilo de vida que permitan a otros manejar la invalidez.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlginvalidez').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg55" header="Salud Mental del Progenitor(es) / Cuidador(es) " widgetVar="dlgsldmenalp" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Los cuidadores disfrutan de buena salud mental. No hay evidencia de enfermedades de salud mental o inestabilidad emocional. Los cuidadores saben cómo manejar el estrés y como interactuar con otros miembros de la familia en formas que promuevan una buena salud mental y estabilidad. Tienen buen sentido del humor. Los cuidadores pueden haber tenido temas emocionales o de salud mental en el pasado, pero los han resuelto exitosamente y usan su historia personal de salud mental para promover una buena salud mental futura. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los cuidadores pueden sufrir de temas no debilitantes de salud mental, pero los tienen bajo control ya sea a través de tratamiento, medicación o consejería. Los cuidadores pueden pasar por cambios de humor o necesitar manejarse con medicamentos, pero lo hacen de tal forma que la parentalidad, el empleo y la vida cotidiana no son entorpecidos o dañados. Ciertos temas de salud mental (depresión moderada) pueden limitar ocasionalmente a los cuidadores, pero no obstaculizan significativamente la habilidad de los cuidadores para criar.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Los cuidadores sufren de serios y persistentes temas de salud mental o están emocionalmente angustiados. Pueden estar severamente deprimidos, activamente sicóticos o suicidas. Pueden sufrir períodos de daño mental o emocional que impiden la parentalidad efectiva, el trabajo o su participación en la vida cotidiana. Los cuidadores parecen no estar dispuestos o capacitados para manejar los temas de salud mental o los regímenes de medicación que aliviarían sus síntomas. Los miembros de la familia o la comunidad pueden estar en riesgo de ser dañados por los cuidadores, o los cuidadores pueden estar en riesgo de dañarse a sí mismos. Los cuidadores proyectan sus problemas de salud mental en los niños u otros miembros del hogar.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgsldmenalp').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg56" header="Salud Física del Niño(s) " widgetVar="dlgsldfin" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Los niños disfrutan de una excelente salud física. No hay problemas de salud que interfieran con el desarrollo normal, educación o participación en la vida cotidiana. Los niños reciben vacunaciones y chequeos dentales y de salud física regularmente. Se lidia con las enfermedades y heridas apropiada y adecuadamente. Los niños facilitan su buena salud según sea apropiado para la edad y son conscientes de preocuparse por su dieta, ejercicio, y de hace elecciones saludables, según sea apropiado para la edad. Todas las vacunas están al día, y los cuidadores tienen los registros de vacunas y otros temas de salud disponibles.  </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los niños disfrutan básicamente de una buena salud. Pueden tener algunos temas de salud, tales como asma o estar ligeramente con sobrepeso para su edad, pero las condiciones médicas están bajo control a través de medicación o de cuidados rutinarios de salud, y se realizan esfuerzos para llevar una vida saludable, incluso si los niños no siempre tienen éxito en manejar su propia salud. Los temas de salud física no afectan adversamente la participación de los niños en la vida familiar o la escuela, etc. Los niños están informados acerca de su estado de salud, según sea apropiado para la edad y participan en el manejo de su salud. Los cuidadores creen que las vacunaciones de los niños están al día, pero los registros de salud pueden estar incompletos. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Los niños sufren de uno o más problemas de salud física inhabilitantes ( tales como severa obesidad, diabetes infantil, asma severo o alergias peligrosas para la vida, VIH/SIDA), o enfermedades progresivas (tales como cáncer, SIDA, etc.) que dañan severamente el desarrollo normal o la socialización y que interfieren con la educación y la vida cotidiana. Los niños no entienden las implicancias de su dieta, estilo de vida o ejercicio, o no son capaces de manejar por sí mismos su régimen de medicación y por lo tanto no participan en el manejo de sus condiciones de salud. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgsldfin').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg57" header="Invalidez del Niño(s)" widgetVar="dlginvalidezn" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Los niños no sufren de ninguna condición de inhabilitante (ceguera, hándicaps físicos, defectos congénitos, invalidez del desarrollo, etc.) que pudiese interferir con su desarrollo normal, educación o participación en la vida cotidiana. Los niños son físicamente activos y están dentro del peso/estatura normales para su edad. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los niños pueden sufrir de una o más condiciones moderadamente inhabilitantes que no limitan su educación, socialización o participación en la vida cotidiana, aunque algunas acomodaciones pueden ser necesarias (acomodaciones de accesibilidad en la casa y la escuela) y los niños pueden participar en la vida cotidiana con algunas adaptaciones a las circunstancias. Si las condiciones inhabilitantes califican para beneficios, los cuidadores reciben los beneficios y participan en los requerimientos de los programas de beneficios.</p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Los niños sufren de serias condiciones de invalidez (tales como ceguera, deformidades físicas, parálisis cerebral, para/cuadriplejia, falta de miembros, invalidez moderada o severa del desarrollo, etc.) que sustancialmente limitan o impiden a los niños participar en la vida cotidiana. Los niños pueden ser dependientes de los Servicios Sociales. Los niños no son capaces de manejar su invalidez y se apoyan en otros en su vida cotidiana. La vida cotidiana puede requerir maquinarias especiales o cuidados de control que no están fácilmente accesibles o disponibles para la familia. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlginvalidezn').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg58" header="Salud Mental del Niño(s) " widgetVar="dlgsldmentaln" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Los niños disfrutan de buena salud mental. No hay evidencia de enfermedades de salud mental o inestabilidad emocional. Los niños saben cómo manejar el estrés enfrentado como parte del desarrollo normal, y cómo interactuar con otros miembros de la familia en formas que promuevan una buena salud mental y estabilidad. Tienen buen sentido del humor y buena perspectiva de la vida y buen auto-imagen, según sea apropiado para la edad. </p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Los niños pueden sufrir de temas no debilitantes de salud mental, pero los tienen bajo control ya sea a través de tratamiento, medicación o consejería. Los niños pueden haber tenido episodios de ansiedad situacional o depresión moderada asociada con desafíos y experiencias normales durante varias etapas del desarrollo. Los niños pueden experimentar ser hostigados, estigmatizados o victimizados en otras formas por pares u otros en el entorno pero son razonablemente exitosos en resolver estos temas o circunstancias, tal vez con la ayuda del cuidador. Los cuidadores pueden necesitar ayudar a los niños a manejar su medicación, o a defenderse en la escuela o con los pares, pero esto pasa de forma tal que promueve la salud mental y estabilidad de los niños. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Los niños sufren serios y persistentes temas de salud mental o están emocionalmente angustiados. Pueden estar profundamente deprimidos, activamente sicóticos o suicidas. Pueden sufrir períodos de daño mental o emocional que afectan adversamente la socialización de los niños o su participación en actividades normales de la vida cotidiana. Los niños pueden estar estigmatizados por sus pares o pueden sufrir un pobre auto-concepto. Incapacidad para manejar el estrés. Si tienen un diagnóstico de enfermedad mental y/u otras limitaciones emocionales, los cuidadores parecen no estar dispuestos o capacitados para ayudar a los niños a superar o manejar los temas de salud mental o los regímenes de medicación que aliviarían sus síntomas. Los cuidadores no pueden o no abogarán por los niños en la escuela o con los pares para resolver temas, y no acceden o accederán a tratamientos apropiados. Los miembros de la familia o comunidad pueden estar en riesgo de ser dañados por los niños, o los niños pueden estar en riesgo de dañarse a sí mismos.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgsldmentaln').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg59" header="Acceso Familiar a Cuidados de Salud/ Salud Mental " widgetVar="dlgaccesofamsld" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>La familia tiene acceso a cuidados profilácticos y paliativos de la salud y salud mental. Los cuidadores saben cómo acceder a los servicios y donde están localizados. Hay seguros de salud disponibles, a los recursos familiares son suficientes como para que la falta de dinero no sea una razón para retrasar la búsqueda de asistencia médica o de salud mental. Los cuidadores conocen la historia familiar de salud y salud mental, tiene registros preciosos y pueden ayudar al sistema de cuidados de salud en la entrega de atención. Es valorado por los cuidadores y otros miembros de la familia tener buena salud física y mental, y en la familia se apoyan unos a otros en la receptación de cuidados de salud cuando se necesita.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>La familia tiene sus necesidades básicas de cuidados de salud cubiertas a través de puntos de servicios de salud normalmente disponibles, tales como consultas de médicos o clínicas. La familia puede no buscar cuidados preventivos, y puede retrasar la búsqueda de cuidados paliativos a no ser que las heridas sean serias o la enfermedad esté avanzada. Los seguros o recursos pueden ser insuficientes para cubrir los costos completos de los cuidados de salud, pero los miembros de la familia van al médico cuando es necesario y tratan de pagar por los tratamientos recibidos. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>La familia no tiene seguros, los niños tienen sólo Medicaid (o sistema de salud básico) o no tienen seguro en lo absoluto. La familia se apoya en cuidados de los servicios de urgencia para heridas o enfermedades graves, pero no busca cuidados normales preventivos o paliativos. Los cuidadores no saben dónde o cómo acceder a cuidados de salud o cuidados de salud mental y pueden apoyarse en tratamientos alternativos inefectivos con el consecuente detrimento del niño u otros miembros de la familia. La falta de tratamientos médicos o de salud mental representa una amenaza a la continuidad y seguridad familiar. </p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgaccesofamsld').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
+  <p:dialog id="dlg60" header="Acceso Familiar a Cuidados de Salud/ Salud Mental " widgetVar="dlgsldgeneral" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            <div class="col-md-4" >
+                <p> +2 Clara Fortaleza </p>
+            </div>
+            <div class="col-md-8" >
+                <p>Se refiere a una familia recibiendo puntajes muy altos en las siguientes áreas: salud física del cuidador, invalidez del cuidador, salud mental del cuidador, salud física del niño, invalidez del niño, salud mental del niño y acceso familiar a cuidados de la salud y salud mental.</p>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4" >
+                <p> 0 Línea Base/Adecuado </p>
+                </div>              
+                <div class="col-md-8 " >
+                    <p>Se refiere a una familia recibiendo puntajes adecuados en todas las áreas: salud física del cuidador, invalidez del cuidador, salud mental del cuidador, salud física del niño, invalidez del niño, salud mental del niño y acceso familiar a cuidados de la salud y salud mental. </p>
+                </div>
+            </div>
+        <div class="row">
+                <div class="col-md-4" >
+                <p> -3 Problema Serio </p>
+                </div>              
+                <div class="col-md-8" >
+                    <p>Se refiere a una familia recibiendo puntajes muy bajos en las siguientes áreas: salud física del cuidador, invalidez del cuidador, salud mental del cuidador, salud física del niño, invalidez del niño, salud mental del niño y acceso familiar a cuidados de la salud y salud mental.</p>
+                </div>
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgsldgeneral').hide();"/>  
+    </h:form>                
+</p:dialog>
   
   
   <p:layoutUnit position="center">
         
             
-      <h2>Ingrese valores a las dimensiones del NCFAS</h2>         
+      <h2>Ingrese valores a las dimensiones del NCFAS</h2>   
+      <h3> ¡Recuerde guardar las dimensiones antes de salir! </h3>
+      
+      <div class="col-md-10">
              <h:form>        
             <p:accordionPanel multiple="true">
             <p:tab title="ENTORNO">
@@ -936,9 +2030,17 @@
             
             <br>
             </br>
-        <p:commandButton value="Guardar Dimensión Entorno" actionListener="#{itemBean.registrarEntorno()}" onclick="PF('dlgok').show();"/>
             
-           
+            
+            
+        <p:commandButton value="Guardar Dimensión Entorno" actionListener="#{itemBean.registrarEntorno()}" onclick="PF('dlgok').show();" update="output" >
+           <f:setPropertyActionListener target="#{counterView.dim1}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output" value="#{counterView.dim1}" />
+            </h:panelGrid>
+                
         </p:tab>
         <p:tab title="COMPETENCIAS PARENTALES">
         
@@ -1119,8 +2221,15 @@
            <br>
             </br>
             
-            <p:commandButton value="Guardar Competencias Familiares" actionListener="#{itemBean.registrarCompetencias()}" onclick="PF('dlgok').show();"/>
+           
             
+            <p:commandButton value="Guardar Competencias Familiares" actionListener="#{itemBean.registrarCompetencias()}" onclick="PF('dlgok').show();" update="output2" >
+            <f:setPropertyActionListener target="#{counterView.dim2}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output2" value="#{counterView.dim2}" />
+            </h:panelGrid>
             
         </p:tab>
             
@@ -1297,15 +2406,21 @@
             </br>
             
             
-            <p:commandButton value="Guardar Interacciones Familiares" actionListener="#{itemBean.registrarInteracciones()}"  onclick="PF('dlgok').show();"/>
-            </p:tab>
+            <p:commandButton value="Guardar Interacciones Familiares" actionListener="#{itemBean.registrarInteracciones()}"  onclick="PF('dlgok').show();" update="output3" >
+                <f:setPropertyActionListener target="#{counterView.dim3}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output3" value="#{counterView.dim3}" />
+            </h:panelGrid>
+        </p:tab>
         
-        <p:tab title="SEGURIDAD SOCIAL">
+        <p:tab title="SEGURIDAD FAMILAR">
             
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de violencia domestica entre los progenitores/cuidadores" /> 
+                <p:commandLink   value="Ausencia/Presencia de violencia domestica entre los progenitores/cuidadores" onclick="PF('dlgapviolencia').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores24" value="#{itemBean.valores[24]}" >   
@@ -1326,7 +2441,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de otros conflictos familiares" /> 
+            <p:commandLink   value="Ausencia/Presencia de otros conflictos familiares" onclick="PF('dlgapotroscn').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores25" value="#{itemBean.valores[25]}">   
@@ -1347,7 +2462,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de abuso físico en el niño(s)" /> 
+            <p:commandLink   value="Ausencia/Presencia de abuso físico en el niño(s)"  onclick="PF('dlgaupabusofi').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores26" value="#{itemBean.valores[26]}">   
@@ -1368,7 +2483,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de abuso emocional en el niño(s)" /> 
+            <p:commandLink   value="Ausencia/Presencia de abuso emocional en el niño(s)" onclick="PF('dlgaupabusoem').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores27" value="#{itemBean.valores[27]}">   
@@ -1389,7 +2504,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de abuso sexual en el niño(s)" /> 
+            <p:commandLink   value="Ausencia/Presencia de abuso sexual en el niño(s)" onclick="PF('dlgaupabusose').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores28" value="#{itemBean.valores[28]}">   
@@ -1410,7 +2525,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de negligencia en el niño(s)" /> 
+            <p:commandLink   value="Ausencia/Presencia de negligencia en el niño(s)" onclick="PF('dlgaupnegli').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores29" value="#{itemBean.valores[29]}">   
@@ -1431,7 +2546,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ausencia/Presencia de acceso a armas" /> 
+            <p:commandLink   value="Ausencia/Presencia de acceso a armas" onclick="PF('dlgaupaccear').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores30" value="#{itemBean.valores[30]}">   
@@ -1452,7 +2567,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Seguridad Familiar en General" /> 
+                <p:commandLink   value="Seguridad Familiar en General" onclick="PF('dlgseggeneral').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores31" value="#{itemBean.valores[31]}">   
@@ -1472,7 +2587,13 @@
             </br>
             
             
-            <p:commandButton value="Guardar Seguridad Social" actionListener="#{itemBean.registrarSeguridad()}" onclick="PF('dlgok').show();"/>
+            <p:commandButton value="Guardar Seguridad Social" actionListener="#{itemBean.registrarSeguridad()}" onclick="PF('dlgok').show();"  update="output4">
+                <f:setPropertyActionListener target="#{counterView.dim4}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output4" value="#{counterView.dim4}" />
+            </h:panelGrid>
             
         </p:tab>
         <p:tab title="BIENESTAR DEL NIÑO">
@@ -1480,7 +2601,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Comportamiento del niño(s)" /> 
+            <p:commandLink   value="Comportamiento del niño(s)" onclick="PF('dlgscomporn').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores32" value="#{itemBean.valores[32]}">   
@@ -1501,7 +2622,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Desempeño escolar" /> 
+            <p:commandLink   value="Desempeño escolar" onclick="PF('dlgsdesmpes').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores33" value="#{itemBean.valores[33]}">   
@@ -1522,7 +2643,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Relación del niño(s) con el progenitor(es)/cuidador(es)" /> 
+            <p:commandLink   value="Relación del niño(s) con el progenitor(es)/cuidador(es)" onclick="PF('dlgrelacionconelp').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores34" value="#{itemBean.valores[34]}">   
@@ -1543,7 +2664,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Relación del niño con hermano(s)" /> 
+            <p:commandLink   value="Relación del niño con hermano(s)" onclick="PF('dlgrelconherm').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores35" value="#{itemBean.valores[35]}">   
@@ -1564,7 +2685,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Relación del niño con pares" /> 
+            <p:commandLink   value="Relación del niño con pares" onclick="PF('dlgrelnipares').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores36" value="#{itemBean.valores[36]}">   
@@ -1585,7 +2706,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Cooperación/motivación a permanecer con la familia" /> 
+            <p:commandLink   value="Cooperación/motivación a permanecer con la familia" onclick="PF('dlgcooperacion').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores37" value="#{itemBean.valores[37]}">   
@@ -1606,7 +2727,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Bienestar del niño en general" /> 
+            <p:commandLink   value="Bienestar del niño en general" onclick="PF('dlgbiendlngeneral').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores38" value="#{itemBean.valores[38]}">   
@@ -1625,8 +2746,13 @@
             </br>
             
             
-            <p:commandButton value="Guardar Bienestar del Niño" actionListener="#{itemBean.registrarBienestar()}" onclick="PF('dlgok').show();"/>
-            
+            <p:commandButton value="Guardar Bienestar del Niño" actionListener="#{itemBean.registrarBienestar()}" onclick="PF('dlgok').show();" update="output5" >
+                <f:setPropertyActionListener target="#{counterView.dim5}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output5" value="#{counterView.dim5}" />
+            </h:panelGrid>
         </p:tab>
         
         <p:tab title="VIDA SOCIAL COMUNITARIA">
@@ -1634,7 +2760,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Relaciones sociales" /> 
+            <p:commandLink   value="Relaciones sociales" onclick="PF('dlgrelsociales').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores39" value="#{itemBean.valores[39]}">   
@@ -1655,7 +2781,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Relación con cuidado infantíl, escuelas, servicios extracurriculares" /> 
+            <p:commandLink   value="Relación con cuidado infantíl, escuelas, servicios extracurriculares" onclick="PF('dlgrelcuidinfes').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores40" value="#{itemBean.valores[40]}">   
@@ -1676,7 +2802,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Conexión con el vecindario y la comunidad espiritual/etnica" /> 
+            <p:commandLink   value="Conexión con el vecindario y la comunidad espiritual/etnica" onclick="PF('dlgrelcuidinfes').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores41" value="#{itemBean.valores[41]}">   
@@ -1697,7 +2823,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Conexión con la comunidad espiritual/relogiosa" /> 
+            <p:commandLink   value="Conexión con la comunidad espiritual/relogiosa" onclick="PF('dlgconexion').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores42" value="#{itemBean.valores[42]}">   
@@ -1718,7 +2844,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Iniciativa y aceptación del cuidador de la ayuda y apoyo disponible" /> 
+            <p:commandLink   value="Iniciativa y aceptación del cuidador de la ayuda y apoyo disponible" onclick="PF('dlginiciativaya').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores43" value="#{itemBean.valores[43]}">   
@@ -1739,7 +2865,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Vida Social Comunitaria en General" /> 
+            <p:commandLink   value="Vida Social Comunitaria en General" onclick="PF('dlgvidsogeneral').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores44" value="#{itemBean.valores[44]}">   
@@ -1764,8 +2890,13 @@
             </br>
             
             
-            <p:commandButton value="Guardar Vida Social Comunitaria" actionListener="#{itemBean.registrarVidaSocial()}" onclick="PF('dlgok').show();"/>
-            
+            <p:commandButton value="Guardar Vida Social Comunitaria" actionListener="#{itemBean.registrarVidaSocial()}" onclick="PF('dlgok').show();" update="output6" >
+            <f:setPropertyActionListener target="#{counterView.dim6}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output6" value="#{counterView.dim6}" />
+            </h:panelGrid>
         </p:tab>
         
         <p:tab title="AUTONOMÍA">
@@ -1773,7 +2904,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Empleo del cuidador" /> 
+            <p:commandLink   value="Empleo del cuidador" onclick="PF('dlempleocu').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores45" value="#{itemBean.valores[45]}">   
@@ -1794,7 +2925,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Ingreso familiar" /> 
+            <p:commandLink   value="Ingreso familiar" onclick="PF('dlgingrsfam').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores46" value="#{itemBean.valores[46]}">   
@@ -1815,7 +2946,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Manejo financiero" /> 
+            <p:commandLink   value="Manejo financiero" onclick="PF('dlgmanejofin').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores47" value="#{itemBean.valores[47]}">   
@@ -1835,7 +2966,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Comida y nutrición" /> 
+            <p:commandLink   value="Comida y nutrición" onclick="PF('dlgcomynnutri').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores48" value="#{itemBean.valores[48]}">   
@@ -1852,9 +2983,10 @@
             </div>     
             <br>               
             </br>
+            
             <div class="row">
             <div class=" col-md-6">
-            <p:outputLabel   value="Transporte" /> 
+            <p:commandLink   value="Transporte" onclick="PF('dlgtransp').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores49" value="#{itemBean.valores[49]}">   
@@ -1873,7 +3005,7 @@
             </br>
             <div class="row">
             <div class=" col-md-6">
-            <p:outputLabel   value="Autonomía en General" /> 
+            <p:commandLink   value="Autonomía en General" onclick="PF('dlgautoengenr').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores50" value="#{itemBean.valores[50]}">   
@@ -1890,13 +3022,18 @@
             </div>           
             <br>
             </br>        
-            <p:commandButton value="Guardar Autonomía" actionListener="#{itemBean.registrarAutonomia()}" onclick="PF('dlgok').show();"/>
-            
+            <p:commandButton value="Guardar Autonomía" actionListener="#{itemBean.registrarAutonomia()}" onclick="PF('dlgok').show();" update="output7" >
+            <f:setPropertyActionListener target="#{counterView.dim7}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output7" value="#{counterView.dim7}" />
+            </h:panelGrid>
         </p:tab>      
         <p:tab title="SALUD FAMILIAR">         
             <div class="row">
             <div class=" col-md-6">        
-            <p:outputLabel   value="Salud física del progenitor(es)/cuidador(es)" /> 
+            <p:commandLink   value="Salud física del progenitor(es)/cuidador(es)" onclick="PF('dlgsaludfiscp').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores51" value="#{itemBean.valores[51]}">   
@@ -1915,7 +3052,7 @@
             </br>
             <div class="row">
             <div class=" col-md-6">         
-            <p:outputLabel   value="Invalidez del progenitor(es)/cuidador(es)" /> 
+            <p:commandLink   value="Invalidez del progenitor(es)/cuidador(es)" onclick="PF('dlginvalidez').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores52" value="#{itemBean.valores[52]}">   
@@ -1932,9 +3069,11 @@
             </div>         
             <br>
             </br>
+            
+            
             <div class="row">
             <div class=" col-md-6">       
-            <p:outputLabel   value="Salud mental del progenitor(es)/cuidador(es)" /> 
+            <p:commandLink   value="Salud mental del progenitor(es)/cuidador(es)" onclick="PF('dlgsldmenalp').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores53" value="#{itemBean.valores[53]}">   
@@ -1951,9 +3090,10 @@
             </div>         
             <br>
             </br>
+            
             <div class="row">
             <div class=" col-md-6"> 
-            <p:outputLabel   value="Salud física del niño(s)" /> 
+            <p:commandLink   value="Salud física del niño(s)" onclick="PF('dlgsldfin').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores54" value="#{itemBean.valores[54]}">   
@@ -1973,7 +3113,7 @@
             <div class="row">
             <div class=" col-md-6">
             
-            <p:outputLabel   value="Invalidez del niño(s)" /> 
+            <p:commandLink   value="Invalidez del niño(s)" onclick="PF('dlginvalidezn').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores55" value="#{itemBean.valores[55]}">   
@@ -1990,9 +3130,10 @@
             </div>         
            <br>
             </br>
+            
             <div class="row">
             <div class=" col-md-6">          
-            <p:outputLabel   value="Salud mental del niño(s)" /> 
+            <p:commandLink   value="Salud mental del niño(s)"  onclick="PF('dlgsldmentaln').show();" /> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores56" value="#{itemBean.valores[56]}">   
@@ -2009,9 +3150,10 @@
             </div>          
             <br>
             </br>
+            
             <div class="row">
             <div class=" col-md-6"> 
-            <p:outputLabel   value="Acceso familiar a cuidados de salud/salud mental" /> 
+            <p:commandLink   value="Acceso familiar a cuidados de salud/salud mental" onclick="PF('dlgaccesofamsld').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores57" value="#{itemBean.valores[57]}">   
@@ -2028,9 +3170,10 @@
             </div>
             <br>
             </br>
+            
             <div class="row">
             <div class=" col-md-6">      
-            <p:outputLabel   value="Salud Familiar en General" /> 
+            <p:commandLink   value="Salud Familiar en General" onclick="PF('dlgsldgeneral').show();"/> 
             </div>
             <div class=" col-md-6">
             <h:selectOneRadio id="valores58" value="#{itemBean.valores[58]}">   
@@ -2047,7 +3190,14 @@
             </div>
             <br>
             </br>
-            <p:commandButton value="Guardar Salud Familiar" actionListener="#{itemBean.registrarSalud()}" onclick="PF('dlgok').show();"/>
+            
+            <p:commandButton value="Guardar Salud Familiar" actionListener="#{itemBean.registrarSalud()}" onclick="PF('dlgok').show();" update="output8" >
+            <f:setPropertyActionListener target="#{counterView.dim8}" value="Dimensión Guardada" /> 
+        </p:commandButton> 
+            <h:panelGrid columns="2" cellpadding="5">
+             <h:outputText value="Estado: " />
+             <h:outputText id="output8" value="#{counterView.dim8}" />
+            </h:panelGrid>
         </p:tab>
         
         
@@ -2055,8 +3205,33 @@
         
         
     </p:accordionPanel>
-        </h:form>
-                        
+           
+                 <br></br>
+                  
+                 
+                     
+                 
+                 <div class="col-md-10">
+                   
+      <p:outputLabel value="   Observaciones"  />
+       </div>
+      
+      <div class="row">
+            <p:inputTextarea rows="6" cols="33" id="txtobs" value="#{itemBean.observacion}" style="margin-left: 25px"/>
+            </div>
+                 <div class="col-md-10">
+            <p:commandButton value="Guardar Observación" actionListener="#{itemBean.registrarObservacion()}" onclick="PF('dlgok').show();" update="output9" >
+             <f:setPropertyActionListener target="#{counterView.obs}" value="Observación Guardada" /> 
+        </p:commandButton> 
+            
+             <h:outputText value="Estado: " />
+             <h:outputText id="output9" value="#{counterView.obs}" />
+         </div>
+                
+                 
+                 </h:form>
+          </div>
+           
                    
              
 </p:layoutUnit>

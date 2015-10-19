@@ -49,6 +49,7 @@ public class Ncfas implements Serializable {
     @Column(name = "idncfas")
     private Integer idncfas;
     private Date fecha;
+    private int idCausaIngreso;
     @Size(max = 45)
     @Column(name = "nombrefamilia")
     private String nombrefamilia;
@@ -102,6 +103,14 @@ public class Ncfas implements Serializable {
 
     public void setParteproceso(int parteproceso) {
         this.parteproceso = parteproceso;
+    }
+
+    public int getidCausaIngreso() {
+        return idCausaIngreso;
+    }
+
+    public void setidCausaIngreso(int idCausaIngreso) {
+        this.idCausaIngreso = idCausaIngreso;
     }
 
     

@@ -50,6 +50,27 @@ public class ListarItemsBean implements Serializable{
     private String rutUsuario;
     private int parteProceso;
     private Date fechaIngreso;
+    private String razoningreso;
+    private String observaciones;
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+
+    public String getRazoningreso() {
+        return razoningreso;
+    }
+
+    public void setRazoningreso(String razoningreso) {
+        this.razoningreso = razoningreso;
+    }
+    
+    
+    
 
     public String getRutUsuario() {
         return rutUsuario;
@@ -249,6 +270,9 @@ public class ListarItemsBean implements Serializable{
         retornaFechaIngreso();
         retornaNombreFamilia();
         retornaParteProceso();
+        retornaObs();
+        retornaRazonIngreso();
+       
 
     }
     
@@ -417,6 +441,8 @@ public class ListarItemsBean implements Serializable{
      }
 }
      
+    
+     
      public void retornaParteProceso() throws Exception{
      
      try{
@@ -426,6 +452,34 @@ public class ListarItemsBean implements Serializable{
      IdDAO dao;  
      dao = new IdDAO();
      parteProceso=dao2.obtenerParteProceso(dao.retornarID());
+        System.out.println(parteProceso);
+     }catch(DAOException ex){
+     Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
+     }
+}
+     public void retornaObs() throws Exception{
+     
+     try{
+     NcfasDAO dao2;  
+     dao2 = new NcfasDAO();
+     
+     IdDAO dao;  
+     dao = new IdDAO();
+     observaciones=dao2.obtenerObs(dao.retornarID());
+        System.out.println(parteProceso);
+     }catch(DAOException ex){
+     Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);
+     }
+}
+     public void retornaRazonIngreso() throws Exception{
+     
+     try{
+     NcfasDAO dao2;  
+     dao2 = new NcfasDAO();
+     
+     IdDAO dao;  
+     dao = new IdDAO();
+     razoningreso=dao2.obtenerRazonIngreso(dao.retornarID());
         System.out.println(parteProceso);
      }catch(DAOException ex){
      Logger.getLogger(ChartView.class.getName()).log(Level.SEVERE, null, ex);

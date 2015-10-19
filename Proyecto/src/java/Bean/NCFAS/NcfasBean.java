@@ -1,31 +1,21 @@
 package Bean.NCFAS;
 
 import Bean.CAT.LoginControlador;
+import Dao.NCFAS.ItemDao;
 import Dao.NCFAS.NcfasDAO;
-import Model.NCFAS.Item;
 import java.util.List;
 import Model.NCFAS.Ncfas;
-import Model.NCFAS.Usuario;
-import java.io.File;
-import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
 import javax.inject.Named;
-import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+
 
 
 
@@ -45,22 +35,48 @@ public class NcfasBean {
     private String nombrefamilia;
     private int parteproceso;
     public int id=40;
-    private String date1;
-    private String date2;
+    private Date date1;
+    private Date date2;
+    private Integer[] valores;
+   private int idCausaIngreso;
+   
+   
+   
+   
+   
+  
+    
+    
+   
+    
+     public NcfasBean() {
+         
+    System.out.println("entramos al contructor del NCFAS");
+    FacesContext facesContext = FacesContext.getCurrentInstance();
+    SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
-    public String getDate1() {
+    ExternalContext externalContext = facesContext.getExternalContext();
+    Map params = externalContext.getRequestParameterMap();
+        
+        valores = new Integer[59];
+        for (int i = 1; i < valores.length; i++) {
+            valores[i] = 0;
+        }
+    }
+     
+      public Date getDate1() {
         return date1;
     }
 
-    public void setDate1(String date1) {
+    public void setDate1(Date date1) {
         this.date1 = date1;
     }
 
-    public String getDate2() {
+    public Date getDate2() {
         return date2;
     }
 
-    public void setDate2(String date2) {
+    public void setDate2(Date date2) {
         this.date2 = date2;
     }
     
@@ -108,48 +124,270 @@ public class NcfasBean {
     public void setParteproceso(int parteproceso) {
         this.parteproceso = parteproceso;
     }
-    
-     public NcfasBean() {
-        System.out.println("entramos al contructor del NCFAS");
-        FacesContext facesContext = FacesContext.getCurrentInstance();
-        ExternalContext externalContext = facesContext.getExternalContext();
-        Map params = externalContext.getRequestParameterMap();
-        
+
+    public List<Ncfas> getNcfases2() {
+        return ncfases2;
     }
 
+    public void setNcfases2(List<Ncfas> ncfases2) {
+        this.ncfases2 = ncfases2;
+    }
+
+    public int getIdCausaIngreso() {
+        return idCausaIngreso;
+    }
+
+    public void setIdCausaIngreso(int idCausaIngreso) {
+        this.idCausaIngreso = idCausaIngreso;
+    }
+
+    
+    
+   
+    
+    
+
     public void registrarNcfas() throws Exception {
- 
     NcfasDAO dao;
-    FacesContext contex = FacesContext.getCurrentInstance();
-        
+    FacesContext contex = FacesContext.getCurrentInstance();  
         System.out.println(nombrefamilia);
-        System.out.println(parteproceso);
-        
+        System.out.println(parteproceso);        
         LoginControlador User = new LoginControlador();
         rutUsuario=User.getUsuario().getRut();
-        System.out.println(rutUsuario);
-        
+        System.out.println(rutUsuario); 
     try {
+        
+            ItemDao daoitems;
+           daoitems = new ItemDao(); 
             dao = new NcfasDAO();
-           dao.ingresarNcafas(nombrefamilia,parteproceso,rutUsuario);
+           dao.ingresarNcafas(nombrefamilia,parteproceso,rutUsuario,idCausaIngreso);
+
+        for (int i = 1; i<=7; i++) {
+            //System.out.println(valores[i]);
+         
+           daoitems.ingresarItems1(valores[i]);   
+           
+           
+        }
+        
+        for (int i = 8; i<=15; i++) {
+            //System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems2(valores[i]);   
+           
+           
+        }
+       
+        for (int i = 16; i<=23; i++) {
+            
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems3(valores[i]);   
+           
+           
+        }
+        
+        for (int i = 24; i<=31; i++) {
+           // System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems4(valores[i]);   
+           
+           
+        }
+        
+        for (int i = 32; i<=38; i++) {
+           // System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems5(valores[i]);   
+           
+           
+        }
+        
+        for (int i = 39; i<=44; i++) {
+           // System.out.println(valores[i]);
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+          
+               
+           daoitems.ingresarItems6(valores[i]);   
+           
+           
+        }
+       
+        for (int i = 45; i<=50; i++) {
+            //System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems7(valores[i]);   
+           
+           
+        }
+        
+       
+        for (int i = 51; i<=58; i++) {
+          //  System.out.println(valores[i]);
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems8(valores[i]);   
+           
+           
+        }
            contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/nuevositemsncfas_1.xhtml");
         } catch (Exception e) {
             throw e;
         }
-    }
+}
+    
+    public void registrarNcfasFinal() throws Exception {
 
- public void modificar(){
+          
+    NcfasDAO dao;
+    FacesContext contex = FacesContext.getCurrentInstance();  
+        System.out.println(nombrefamilia);
+        System.out.println(parteproceso);        
+        LoginControlador User = new LoginControlador();
+        rutUsuario=User.getUsuario().getRut();
+        System.out.println(rutUsuario); 
+    try {
+            ItemDao daoitems;
+            dao = new NcfasDAO();
+           dao.ingresarNcafas(nombrefamilia,3,rutUsuario,idCausaIngreso);
+           
+           
+        for (int i = 1; i<=7; i++) {
+            System.out.println(valores[i]);
+        
+            
+           daoitems = new ItemDao();
+           
+               
+           daoitems.ingresarItems1(valores[i]);   
+           
+           
+        }
+    
+        for (int i = 8; i<=15; i++) {
+            System.out.println(valores[i]);
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+           daoitems.ingresarItems2(valores[i]);   
+           
+           
+        }
+        
+        for (int i = 16; i<=23; i++) {
+            System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+           daoitems.ingresarItems3(valores[i]);   
+           
+           
+        }
+       
+        for (int i = 24; i<=31; i++) {
+            System.out.println(valores[i]);
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+             
+           daoitems.ingresarItems4(valores[i]);   
+           
+           
+        }
+        //bandera=0;
+        for (int i = 32; i<=38; i++) {
+            System.out.println(valores[i]);
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+              
+           daoitems.ingresarItems5(valores[i]);   
+           
+           
+        }
+        //bandera=0;
+        for (int i = 39; i<=44; i++) {
+            System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+             
+           daoitems.ingresarItems6(valores[i]);   
+           
+           
+        }
+        //bandera=0;
+        for (int i = 45; i<=50; i++) {
+            System.out.println(valores[i]);
+        //ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+              
+           daoitems.ingresarItems7(valores[i]);   
+           
+           
+        }
+        
+        //bandera=0;
+        for (int i = 51; i<=58; i++) {
+            System.out.println(valores[i]);
+       // ItemDao daoitems;
+            
+           daoitems = new ItemDao();
+           
+              
+           daoitems.ingresarItems8(valores[i]);   
+           
+           
+        }
+           contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/newNcfasFinal.xhtml");
+        } catch (Exception e) {
+            throw e;
+        }
+}
+
+public void modificar(){
     NcfasDAO linkDAO= new NcfasDAO();
         linkDAO.modificarNcfas(ncfas);
         ncfas= new Ncfas();
-    }
+}
     
- public void eliminar(){
+public void eliminar(){
         System.out.println("nombre familia:" +ncfas.getNombrefamilia());
     NcfasDAO linkDAO= new NcfasDAO();
         linkDAO.eliminarNcfas(ncfas);
         ncfas= new Ncfas();
-    }
+}
 /*    public void mostrarNcfases() throws Exception {
     NcfasDAO dao;
     
@@ -199,6 +437,17 @@ public class NcfasBean {
             throw e;
         }
     }   
+ 
+  public void outcome2() throws Exception{
+        FacesContext contex = FacesContext.getCurrentInstance();
+        try{
+           // ChartView algo = new ChartView();
+            //algo.createLineModels1(id);
+            contex.getExternalContext().redirect("/Proyecto/faces/NCFASPages/graficosMineria.xhtml");
+	}catch(Exception e){
+            throw e;
+        }
+    }  
 
  
     public List<Ncfas> listarNcfas() throws Exception {

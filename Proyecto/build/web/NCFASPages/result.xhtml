@@ -46,76 +46,94 @@
     <h:form>
         <p:panelMenu style="width:210px">
         <p:submenu label="Gestionar NCFAS">
-            <p:menuitem value="Ingresar NCFAS" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
-            <p:menuitem value="Ver NCFAS guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
-            <p:menuitem value="Ver NCFAS de tipo Inical"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
+            <p:menuitem value="Ingresar NCFAS Inicial" actionListener="#{menuBeanAdministrador.ingresoNcfas}" />
+            <p:menuitem value="Ingresar NCFAS Final" actionListener="#{menuBeanAdministrador.outcomeNCFASFinal}" />
+            <p:menuitem value="Ver NCFAS Guardados"  actionListener="#{menuBeanAdministrador.verncfas}"  />
+            <p:menuitem value="Ver NCFAS de tipo Inicial"  actionListener="#{menuBeanAdministrador.verNcfasIniciales}"  />   
             <p:menuitem value="Ver NCFAS de tipo Final"  actionListener="#{menuBeanAdministrador.verNcfasFinales}"  />
-            <p:menuitem value="Ver NCFAS por rengo de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
+            <p:menuitem value="Ver NCFAS por rango de Fecha"  actionListener="#{menuBeanAdministrador.verNcfasPorFecha}" />
         </p:submenu>
         <p:submenu label="Minería de Datos">
-            <p:menuitem value="Reglas de Asociación a Competencias Familiares" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
-            <p:menuitem value="Reglas de Asociación a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
+            <p:menuitem value="Minería a Competencias Parentales" actionListener="#{menuBeanAdministrador.mineriadedatos}" />
+            <p:menuitem value="Minería a Interacciones Familiares" actionListener="#{menuBeanAdministrador.mineriaCompetencias}" />
         </p:submenu>
         <p:submenu label="Estadística Desciptiva">
-            <p:menuitem value="Ver Gráfico Seleccionando NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
-            <p:menuitem value="Ver Gráfico de Comparación por Items " actionListener="#{menuBeanAdministrador.comparar}" />
-            <p:menuitem value="Ver Gráfico de Comparación por Items Generales" actionListener="#{menuBeanAdministrador.comparar2}" />
-            <p:menuitem value="Ver Gráfico de Comparación por fecha de Inicio y fecha Final" actionListener="#{menuBeanAdministrador.comparar3}" />
+            <p:menuitem value="Ver Gráfico NCFAS" actionListener="#{menuBeanAdministrador.estadistica}" />
+            <p:menuitem value="Ver Gráfico Comparación (Items) " actionListener="#{menuBeanAdministrador.comparar}" />
+            <p:menuitem value="Ver Gráfico Comparación (Items Generales)" actionListener="#{menuBeanAdministrador.comparar2}" />
+            <p:menuitem value="Ver Gráfico Comparación Fecha (Inicio/Final)" actionListener="#{menuBeanAdministrador.comparar3}" />
         </p:submenu>
+         <p:submenu label="Sistema">
+             <p:menuitem value="CAT-A" actionListener="#{menuBeanAdministrador.outcomeCATA()}" />
+             <p:menuitem value="NCFAS" actionListener="#{menuBeanAdministrador.outcomeNCFAS()}" />
+        </p:submenu>   
         </p:panelMenu>      
 <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
 </h:form> 
-</p:layoutUnit>
+</p:layoutUnit>  
         
             
            <p:growl id="msgs" showDetail="true" />         
-        <p:layoutUnit position="center">         
-        <h3>Nombre Familia:</h3> 
-        <h:outputText value="#{listarItemsBean.nombrefamilia}" />
+        <p:layoutUnit position="center">
+        
+      <div class="col-md-11">   
+        <h:panelGrid columns="3" style="width:100%">
+                 <h:outputText value="Nombre de la familia" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;" />
+                 <h:outputText value="Razón de Ingreso" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;" />
+                 <h:outputText value="Fecha de Aplicación" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;"/>
+                <h:outputText value="#{listarItemsBean.nombrefamilia}" />
+                <h:outputText value="#{listarItemsBean.razoningreso}" />
+                 <h:outputText value="#{listarItemsBean.fechaIngreso}" />
+               
+            </h:panelGrid>
+        
+      
       
              
              
             <h:form>
              <p:accordionPanel multiple="true">
-                <p:tab title="ENTORNO">
+                <p:tab title="Entorno">
+        
                     
-               <p:chart type="line" model="#{chartView.lineModel1}" style="height:300px;" widgetVar="chart1"/>
-               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                    <p:chart type="bubble" id="bubbleChart" model="#{chartView.bubbleModel1}" style="height:300px;" widgetVar="chart1"/>
+                     <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+             
                     
                 </p:tab>
-                <p:tab title="COMPETENCIAS PARENTALES">
-              <p:chart type="line" model="#{chartView.lineModel2}" style="height:300px;" widgetVar="chart2"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                <p:tab title="Competencias Parentales">
+                    <p:chart type="bubble" model="#{chartView.bubbleModel2}" style="height:300px;" widgetVar="chart2"/>
+                     <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart2()"/>
                 </p:tab>
                  
-                 <p:tab title="INTERACCIONES FAMILIARES">
-              <p:chart type="line" model="#{chartView.lineModel3}" style="height:300px;" widgetVar="chart3"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                 <p:tab title="Interacciones Familiares">
+              <p:chart type="bubble" model="#{chartView.bubbleModel3}" style="height:300px;" widgetVar="chart3"/>
+               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart3()"/>
                 </p:tab>
                  
-                 <p:tab title="SEGURIDAD SOCIAL">
-              <p:chart type="line" model="#{chartView.lineModel4}" style="height:300px;" widgetVar="chart4"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                 <p:tab title="Seguridad Social">
+              <p:chart type="bubble" model="#{chartView.bubbleModel4}" style="height:300px;" widgetVar="chart4"/>
+               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart4()"/>
                 </p:tab>
                  
-                 <p:tab title="BIENESTAR DEL NIÑO">
-              <p:chart type="line" model="#{chartView.lineModel5}" style="height:300px;" widgetVar="chart5"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                 <p:tab title="Bienestar del Niño">
+              <p:chart type="bubble" model="#{chartView.bubbleModel5}" style="height:300px;" widgetVar="chart5"/>
+               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart5()"/>
                 </p:tab>
                  
-                 <p:tab title="VIDA SOCIAL COMUNITARIA">
-              <p:chart type="line" model="#{chartView.lineModel6}" style="height:300px;" widgetVar="chart6"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                 <p:tab title="Vida Social Communitaria">
+              <p:chart type="bubble" model="#{chartView.bubbleModel6}" style="height:300px;" widgetVar="chart6"/>
+               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart6()"/>
                 </p:tab>
                  
-                 <p:tab title="AUTONOMÍA">
-              <p:chart type="line" model="#{chartView.lineModel7}" style="height:300px;" widgetVar="chart7"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                 <p:tab title="Autonomía">
+              <p:chart type="bubble" model="#{chartView.bubbleModel7}" style="height:300px;" widgetVar="chart7"/>
+               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart7()"/>
                 </p:tab>
                  
-                 <p:tab title="SALUD FAMILIAR">
-              <p:chart type="line" model="#{chartView.lineModel8}" style="height:300px;" widgetVar="chart8"/>
-              <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart()"/>
+                 <p:tab title="Salud Familiar">
+              <p:chart type="bubble" model="#{chartView.bubbleModel8}" style="height:300px;" widgetVar="chart8"/>
+               <p:commandButton type="button" value="Exportar como imagen" icon="ui-icon-extlink" onclick="exportChart8()"/>
                 </p:tab>
                      
                  
@@ -124,7 +142,7 @@
             </p:accordionPanel>
                   </h:form>
             
-              
+      </div>
             
               
              
@@ -132,29 +150,89 @@
 </p:layoutUnit>
     
     
-    <p:dialog widgetVar="dlg1" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
-                 <p:outputPanel id="output1" layout="block" style="width:700px;height:300px"/>
-             </p:dialog> 
+  <p:dialog widgetVar="dlg" showEffect="fade" modal="true" header="Chart as an Image" resizable="false">
+    <p:outputPanel id="output" layout="block" style="width:500px;height:300px"/>
+</p:dialog>
 
     
     
-</p:layout>
+
+     
+    
+    <script type="text/javascript">
+function exportChart() {
+    //export image
+    $('#output').empty().append(PF('chart1').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart2() {
+    //export image
+    $('#output').empty().append(PF('chart2').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart3() {
+    //export image
+    $('#output').empty().append(PF('chart3').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart4() {
+    //export image
+    $('#output').empty().append(PF('chart4').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart5() {
+    //export image
+    $('#output').empty().append(PF('chart5').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart6() {
+    //export image
+    $('#output').empty().append(PF('chart6').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart7() {
+    //export image
+    $('#output').empty().append(PF('chart7').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+
+function exportChart8() {
+    //export image
+    $('#output').empty().append(PF('chart8').exportAsImage());
+ 
+    //show the dialog
+    PF('dlg').show();
+}
+</script>
+           
+           </p:layout>
         </h:body>
         <h:form rendered="#{empty testSession.tipoUsuario}">
               
               <h1> ingresa sesion</h1>
               </h:form>
     </f:view>
-    
-    <script type="text/javascript">
-function exportChart() {
-    //export image
-    $('#output1').empty().append(PF('chart1').exportAsImage());
- 
-    //show the dialog
-    PF('dlg1').show();
-}
-</script>
+
     
 </html>
         
