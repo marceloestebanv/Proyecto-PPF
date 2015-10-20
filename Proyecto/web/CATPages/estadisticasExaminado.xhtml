@@ -13,7 +13,7 @@
         <link href="/Proyecto/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
           <link href="/Proyecto/resources/css/mycss.css" rel="stylesheet" type="text/css"/>
         <script src="/Proyecto/resources/js/bootstrap.js" type="text/javascript"></script>
-        <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
+      
        
                 
                 
@@ -35,7 +35,9 @@
      .datalist-noborder .ui-datalist-content {
 border: none;
 }
-    
+  h2{
+font-size:20pt;line-height:0.85em;font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;
+}  
             
             </style>
             
@@ -70,7 +72,7 @@ border: none;
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -106,7 +108,7 @@ border: none;
                          </p:fieldset>
                     
                     <br/>
-                    <h3>Estadísticas por Relato</h3>
+                    <h3>Detalle</h3>
                     
                     
                     
@@ -140,18 +142,24 @@ border: none;
                                   <h5 >  Términos Coincidentes </h5> 
                                  
             <p:dataTable var="as" value="#{calcularMetricas.getTerminosGeneralesMetricaTestsExaminado(metricas)}" style="width: 60%"
-                         emptyMessage="No hay Términos"
+                         emptyMessage="No hay Términos Coincidentes"
  rows="5" 
 
                          >
                 
-                            <p:column headerText="Término " >
+                              <p:column headerText="Término " style="width: 50%" >
                                 <h:outputText value="#{as.termino}"/>
                 </p:column>
    
-                              <p:column headerText="Frecuencia" >
+                              <p:column headerText="Dist." style="width: 25%">
                       
                                   <h:outputText value="#{as.frecuencia}"/>
+                            
+                </p:column>
+                 
+                   <p:column headerText="Total" style="width: 25%" >
+                      
+                       <h:outputText value="#{as.total}" />
                             
                 </p:column>
 

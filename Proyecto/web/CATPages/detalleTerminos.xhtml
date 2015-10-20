@@ -55,7 +55,7 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" size="220" header="Menu">
-    <p:growl autoUpdate="true"/>
+  
     <h:form>
         <p:panelMenu style="width:210px">
                               <p:submenu label="Sistema CAT-A">
@@ -63,7 +63,7 @@
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -84,9 +84,10 @@
                   
                     <h:form id="formMostrar" class="form">
                         
-                        <h3>Consultar Estadísticas de Examinados</h3>
+                        <h2>Detalle de términos Relato #{(terminosBean.idRelato)+1} </h2>
+                        <br/>
                         
-                        <p:dataTable var="as" value="#{terminosBean.getTerminosRelato2(terminosBean.idRelato)}"
+                        <p:dataTable var="as" value="#{terminosBean.getTerminosRelatoSerializado(terminosBean.idRelato)}"
                          emptyMessage="No hay Terminos"
 paginator="true" rows="10" paginatorPosition="bottom"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}

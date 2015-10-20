@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Bean.CAT;
 
 import Dao.CAT.UsuarioDao;
@@ -20,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -42,7 +38,7 @@ import org.primefaces.model.chart.PieChartModel;
 
 public class TestBean {
     
-  
+
     
    // esto es para obtener la info del examinado y del usuario
    private Usuario usuario;
@@ -58,7 +54,9 @@ public class TestBean {
    private MetricaRI metricaGlobalTest;
    
    
-
+@ManagedProperty("#{analisis}")
+    private Analisis analisis;
+   
    
    
 
@@ -101,12 +99,26 @@ public class TestBean {
     }
     
     
-    public void redireccionar(int idTest) throws IOException {
+    public void redireccionarMostrarRelatos(int idTest) throws IOException {
         
         System.out.println(" ahora si");
          FacesContext fc=FacesContext.getCurrentInstance();
          fc.getExternalContext().redirect("/Proyecto/faces/CATPages/mostrarRelatos.xhtml?idTest="+idTest);//redirecciona la página
         
+    
+}
+    
+     public void redireccionarEditarTest(int idTest) throws IOException {
+
+ 
+         FacesContext fc=FacesContext.getCurrentInstance();
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/editarTest.xhtml?idTest="+idTest);//redirecciona la página
+            
+         //aca le seteamos el valor de los relatos desde la bd
+         test.setIdTest(idTest);
+         analisis.setRelatosEditar(getRelatosArray());
+        
+                     
     
 }
     
@@ -129,6 +141,23 @@ public class TestBean {
         
         return relatos;
     }
+      
+      
+      public String[] getRelatosArray(){
+         
+          
+       UsuarioDao dao = new UsuarioDao();
+        
+          System.out.println(" se devolverán los relatos");
+         String[] lista=new String[10];
+        List<String> listaBD= dao.getRelatos(test.getIdTest());
+          for (int i = 0; i < 10; i++) {
+              lista[i]=listaBD.get(i);  
+          }
+        
+          return lista;
+      }
+      
       
      public List<Relato> getRelatosObject(){
          
@@ -328,8 +357,11 @@ public class TestBean {
   public PieChartModel createPieModel1(MetricaRI metrica) {
        PieChartModel pieModel1 = new PieChartModel();
          
-        pieModel1.set("Coincidencias", metrica.getCoincidencias());
-        pieModel1.set("No Coincidencias", metrica.getCantidadTerminos()-metrica.getCoincidencias());
+           float porcCoinc= (float)metrica.getCoincidencias()/(float)metrica.getCantidadTerminos()*100;
+            float porcNoCoinc= (float)100-porcCoinc;
+       
+        pieModel1.set("Coincidencias "+(int)porcCoinc+"%", metrica.getCoincidencias());
+        pieModel1.set("No Coincidencias "+(int)porcNoCoinc+"%", metrica.getCantidadTerminos()-metrica.getCoincidencias());
        pieModel1.setSeriesColors("4BB2C5,CC6666");
          
         pieModel1.setTitle("Coincidencias");
@@ -343,12 +375,22 @@ public class TestBean {
       public PieChartModel createPieModelConnotacion(MetricaRI metrica) {
        PieChartModel pieModel1 = new PieChartModel();
          
-        pieModel1.set("Neutros", metrica.getCantidadNeutros());
-        pieModel1.set("Positivos",metrica.getCantidadPositivos());
-        pieModel1.set("Negativos",metrica.getCantidadNegativos());
+       float porcNeutros= (float)metrica.getCantidadNeutros()/(float)metrica.getCantidadTerminos()*100;
         
-         
-        pieModel1.setTitle("Connotación");
+       
+       float porcPosi= (float)metrica.getCantidadPositivos()/(float)metrica.getCantidadTerminos()*100;
+      float porcNeg=(float) metrica.getCantidadNegativos()/(float)metrica.getCantidadTerminos()*100;
+ //         System.out.println(porcNeutros);
+ //         System.out.println(porcPosi);
+       
+       
+        pieModel1.set("Neutros "+(int)porcNeutros+"%", metrica.getCantidadNeutros());
+        pieModel1.set("Positivos "+(int)porcPosi+"%",metrica.getCantidadPositivos());
+        pieModel1.set("Negativos "+(int)porcNeg+"%",metrica.getCantidadNegativos());
+        
+       
+        
+         pieModel1.setTitle("Connotación");
         pieModel1.setSeriesColors("4BB2C5, 579575 ,CC6666");
         
                
@@ -366,7 +408,29 @@ public class TestBean {
          System.out.println("el test id es "+test.getIdTest());  
     UsuarioDao linkDAO= new UsuarioDao();
         linkDAO.eliminarTest(test);
-        test= new Test();
+        
+                
+          ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
+ String realPath=(String) servletContext.getRealPath("/");
+ 
+
+        File ficheroTest= new File(realPath+"/Tests/"+test.getIdTest()+".obj");
+        if (ficheroTest.delete())
+            System.out.println("El fichero de test ha sido borrado satisfactoriamente");
+        else
+         System.out.println("El fichero  de test no puede ser borrado "+realPath+"/Tests/Metricas/"+test.getIdTest()+".obj");
+        
+        File ficheroMetrica= new File(realPath+"/Tests/Metricas/"+test.getIdTest()+".obj");
+        
+          if (ficheroMetrica.delete())
+            System.out.println("El fichero de test ha sido borrado satisfactoriamente");
+        else
+         System.out.println("El fichero  de test no puede ser borrado");
+        
+     test= new Test();  
+        
+        
+       
     }
 
     public void setTests(List<Test> tests) {
@@ -397,6 +461,11 @@ public class TestBean {
         usuario=dao.getUsuario(test.getRutUsuario());
         return usuario;
     }
+    public Usuario getUsuario(String rutUsuario) {
+        UsuarioDao dao= new UsuarioDao();
+        usuario=dao.getUsuario(rutUsuario);
+        return usuario;
+    }
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
@@ -408,6 +477,13 @@ public class TestBean {
         examinado=dao.getExaminado(test.getRutExaminado());
         return examinado;
     }
+      public Examinado getExaminado(String rutUsuario) {
+        
+        UsuarioDao dao= new UsuarioDao();
+        examinado=dao.getExaminado(rutUsuario);
+        return examinado;
+    }
+
 
     public void setExaminado(Examinado examinado) {
         this.examinado = examinado;
@@ -430,13 +506,20 @@ public class TestBean {
        
         
     }
+
+    public Analisis getAnalisis() {
+        return analisis;
+    }
+
+    public void setAnalisis(Analisis analisis) {
+        this.analisis = analisis;
+    }
+
+ 
+
         
    
 
-    
-    
-    
-    
     
     
     

@@ -74,7 +74,7 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" size="220" header="Menu">
-    <p:growl autoUpdate="true"/>
+    
     <h:form>
         <p:panelMenu style="width:210px">
                               <p:submenu label="Sistema CAT-A">
@@ -82,7 +82,7 @@
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -92,14 +92,19 @@
                 <p:layoutUnit position="center">
                
                     <h:form class="form">               
-  
-   
+              
      <h2>Agregar Test</h2>
      <br/>
     
+      
+    <p:messages id="messages"   autoUpdate="true" closable="true" />
+    
+   
+   
     <h:panelGrid columns="2" style="margin-bottom:10px"  >
-          
-      <p:selectOneMenu id="categorySelect" effect="drop" 
+        
+       <p:outputLabel value="Seleccione examinado " for="selectExaminado"/>    
+      <p:selectOneMenu id="selectExaminado" effect="drop" 
                        value="#{analisis.rutExaminado}" required="true">
           <f:selectItem itemLabel="Elija examinado" itemValue="0" noSelectionOption="true"/>
           <f:selectItems value="#{examinadoBean.examinados}"
@@ -120,7 +125,10 @@
             
             </div>
         <div class="col-md-10">
-            <p:inputTextarea value="#{analisis.relatos[loop.index]}" required="true" rows="6" cols="50" />
+            <p:inputTextarea value="#{analisis.relatos[loop.index]}"   requiredMessage="Ingrese Relato #{loop.index+1}" validatorMessage="Ingrese más de una palabra para relato  #{loop.index+1}" required="true"  placeholder="Ingrese Relato #{loop.index+1}..." rows="6" cols="50" >
+              <f:validateLength  minimum="10" /> 
+              
+            </p:inputTextarea>           
     </div>
         </div>
      
@@ -133,9 +141,14 @@
     
     <br/>  
     
- <h:commandButton value="Analizar" action="#{analisis.analizarTest()}"  class="btn btn-primary" style="width:20%;"/><br/>
+ 
     
-</h:form>
+    
+   
+    <p:commandButton value="Analizar Test" action="#{analisis.analizarTest()}"     style="width:20%;"/><br/> 
+
+                   
+                    </h:form>
                     
                     
                     
@@ -144,6 +157,23 @@
 
             </p:layout>
 
+             <p:dialog id="dlg2" header="Análisis exitoso"  showEffect="explode" hideEffect="bounce"
+                       widgetVar="dlgRedirect" closable="false" closeOnEscape="false" modal="true" resizable="false" minWidth="200">
+            <h:form id="formEliminar">
+               
+                <p:outputLabel value="Pulse Aceptar para visualizar los resultados." /> <br/> <br/>
+                
+                <p:commandButton actionListener="#{analisis.redireccionarRectificar()}" style="display:block; margin: 0 auto;" value="Aceptar" 
+                                 onclick="PF('dlgeliminar').hide();"/>
+                
+            </h:form>
+        </p:dialog>
+            
+            <p:dialog widgetVar="statusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+    <p:graphicImage name="./resources/imagen/ajaxloadingbar.gif" />
+</p:dialog>
+            
+            
         </h:body>
            
 

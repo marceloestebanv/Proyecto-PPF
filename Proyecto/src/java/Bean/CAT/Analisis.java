@@ -23,10 +23,12 @@ import java.util.Comparator;
 import java.util.List;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+import org.primefaces.context.RequestContext;
 
 /**
  *
@@ -45,6 +47,8 @@ public class Analisis {
 
      
       private String[] relatos;
+      //acá guardaremos los relatos desde la interfaz de Editar test. 
+      private String[] relatosEditar;
     private String rutExaminado;
     private String rutUsuario;
     
@@ -67,7 +71,11 @@ public class Analisis {
     private final FacesContext faceContext;
     private FacesMessage facesMessage;
     
+   @ManagedProperty("#{calcularMetricas}")
+   private CalcularMetricas metricas;
    
+  
+    
        
     /**
      * Creates a new instance of AnalisisBean
@@ -85,6 +93,7 @@ public class Analisis {
             this.rutUsuario=httpServletRequest.getSession().getAttribute("sessionUsuario").toString();
             
               relatos= new String[10];
+              relatosEditar= new String[10];
               terminosTest= new ArrayList[10];
           
         }else{
@@ -106,11 +115,14 @@ public void analizarTest() throws IOException, ClassNotFoundException{
         
           //aca debemos insertar en la bd el test y los relatos lo insertamos acá ya que hay que obtener el id del test
           // que se insertará
-        dao.insertarTest(relatos,rutExaminado,rutUsuario); 
+      //  dao.insertarTest(relatos,rutExaminado,rutUsuario); 
         
-        //obtenemos el id del ultimo test insertado y agregamos uno ya que este es nuevo
-         idTest=dao.getUltimoTest();
+       
          
+        //obtenemos el id del ultimo test (ACTUALIZADO: entrega el valor que deberia tener el autoincremental pero le restamos 1)
+         idTest=(dao.getUltimoTest())+1;
+      //  idTest=(dao.getUltimoTest());
+         System.out.println(" el id test es"+ idTest);
          
  
         for (int i =1; i <= 10; i++) {
@@ -132,21 +144,52 @@ public void analizarTest() throws IOException, ClassNotFoundException{
      //fin del for final   
     }
           //serializamos el test
-          serializarTest();
+        //  serializarTest();
         
+          
+          
+          
+          
        // indexamos los relatos pertenecientes al test( todos los test) 
        // escribirMetricasTest();
       //  indexarTerminosTest();
       //     crearARFF();
            
-        
-       
-         System.out.println(" ahora direccionaremos a rectificarTerminos");
-        //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
-        FacesContext fc=FacesContext.getCurrentInstance();
-         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/rectificarTerminos.xhtml?rutExaminado="+rutExaminado+"&idTest="+idTest);//redirecciona la página
+//calculamos las métricas utilizando mananged propiety
+    //   metricas.calcularMetricaTest(idTest);
+          
+          
+ RequestContext context = RequestContext.getCurrentInstance();
+context.execute("PF('dlgRedirect').show();");   
+//despues de esto deberían calcularse las métricas altiro
+
+  
+    }
+
+public void analizarTestEditar(int idTestEditar) throws IOException, ClassNotFoundException{
+
+
+
          
+    //seteamos el id del test a editar
+         idTest=idTestEditar;
+     
        
+        for (int i =1; i <= 10; i++) {
+          RI = new RI(idTest, i-1, relatosEditar[i-1]);
+          RI.analizarRI();
+ 
+  
+          //Acá seteamos la lista de terminos en su posicion correspondiente, la cual luego será indexada
+          terminosTest[i-1]=RI.getTerminos();
+         
+    }
+           
+  
+ RequestContext context = RequestContext.getCurrentInstance();
+context.execute("PF('dlgRedirect').show();");   
+//despues de esto deberían calcularse las métricas altiro
+
   
     }
 
@@ -165,7 +208,25 @@ public void serializarTest() throws IOException{
             }
     
 }
+
+public void redireccionarRectificar() throws IOException{
     
+    
+   // serializaremos los terminos por si se modifican en rectificar
+     ObjectOutputStream salida = new ObjectOutputStream(new FileOutputStream("Datos.obj"));
+               salida.writeObject(terminosTest);
+             System.out.println(" se serializó");
+             
+   
+         System.out.println(" ahora direccionaremos a rectificarTerminos");
+        //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
+        FacesContext fc=FacesContext.getCurrentInstance();
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/rectificarTerminos.xhtml?rutExaminado="+rutExaminado+"&idTest="+idTest);//redirecciona la página
+         
+       
+    
+}
+
 public void escribirMetricasTest(){
     
     ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
@@ -631,6 +692,50 @@ System.out.println(" el ral path es"+ realPath);
     public void setMetricasRI(List<MetricaRI> metricasRI) {
         this.metricasRI = metricasRI;
     }
+
+    public CalcularMetricas getMetricas() {
+        return metricas;
+    }
+
+    public void setMetricas(CalcularMetricas metricas) {
+        this.metricas = metricas;
+    }
+
+    public List<Termino>[] getTerminosTest() {
+        return terminosTest;
+    }
+
+    public void setTerminosTest(List<Termino>[] terminosTest) {
+        this.terminosTest = terminosTest;
+    }
+
+    public String[] getRelatosEditar() throws IOException {
+//        TestBean testBean= new TestBean();
+//         relatosEditar=testBean.getRelatosArray(idTest);
+//         System.out.println("se obtuvieron los relatos para el idTest"+idTest);
+     
+        return relatosEditar;
+    }
+
+    public void setRelatosEditar(String[] relatosEditar) {
+        this.relatosEditar = relatosEditar;
+    }
+
+
+ 
+public String relatoIndex(int idTest, int index){
+   UsuarioDao dao = new UsuarioDao();
+   
+   // si no existe en el sistema el id test, se retorna los relatos en memoria principal.
+   if (!dao.existeIdTest(idTest)){
+    return relatos[index];
+   }else{
+       // si existe el id test en el sistema, hay que devolver los relatos editar.
+       return relatosEditar[index];
+   }
+   
+   }
+  
 
  
     

@@ -5,7 +5,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
-    <f:view contentType="text/html">
+    <f:view contentType="text/html" >
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
@@ -35,11 +35,29 @@
             
             </style>
             
+            <script language="JavaScript" type="text/javascript">
+     
+    var bPreguntar = true;
+     
+    window.onbeforeunload = preguntarAntesDeSalir;
+     
+    function preguntarAntesDeSalir()
+    {
+    //  if (bPreguntar)
+        //formMostrar:theButton.click();
+          //  document.getElementById(':formMostrar:theButton').click(); 
+    //  document.getElementById('menu:hh').click(); 
+        return "";
+    }
+</script>
+         
+            
         </h:head>
 
-        <h:body>
+        <h:body  >
+           
 
-            <p:layout fullPage="true">
+            <p:layout fullPage="true" onClose="">
 
                         <p:layoutUnit position="north"   size="95"  collapsible="true" style="" >                
            <div class="col-md-3">
@@ -58,15 +76,16 @@
                 </p:layoutUnit>
 
                 <p:layoutUnit position="west" size="220" header="Menu">
-    <p:growl autoUpdate="true"/>
-    <h:form>
+     
+    <h:form id="menu">
+<!--        <p:commandButton ajax="false" widgetVar="theButton" id="hh" action="#{terminosBean.destroy()}" style="display:none"/>-->
         <p:panelMenu style="width:210px">
                               <p:submenu label="Sistema CAT-A">
                             <p:menuitem value="Agregar Examinado" outcome="nuevoExaminado.xhtml" />
                             <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
                              <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
                              <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
-                             <p:menuitem value="Administrar Terminos" outcome="administrarTerminos.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
                             </p:submenu>
                  </p:panelMenu>
                     <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
@@ -75,18 +94,19 @@
 
                 <p:layoutUnit position="center">
                     
-                    <f:metadata>
+                <f:metadata>
                         <f:viewParam name="idTest" value="#{terminosBean.test.idTest}" />
-                        <f:viewParam name="rutExaminado" value="#{terminosBean.test.rutExaminado}" />
-                 <!--    <f:viewParam name="idRelato" value="#{terminosBean.idRelato}" />-->
-                        
-                      
-                    </f:metadata> 
+<!--                       Este se puede obviar
+                        <f:viewParam name="rutExaminado" value="#{terminosBean.test.rutExaminado}" />-->
+                </f:metadata> 
                     
                 
                             <h:form id="formMostrar" class="form">
+                            <p:messages id="messages"  autoUpdate="true" closable="true" />
                         
-                        <h3>Rectificar Terminos</h3>
+                                
+                               
+                        <h2>Rectificar Términos</h2>
                         
                         <br/>
                         
@@ -94,25 +114,37 @@
                         <c:forEach items="#{terminosBean.terminosTest}" var="item" varStatus="loop">     
                             
                             
-                         <h4>Relato #{loop.index+1}</h4>  
-                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}" style="width: 70%"
-                         emptyMessage="No hay Terminos"
+                         <h4>Relato #{loop.index+1}</h4> 
+                         
+                         <p:commandLink value="Ver Relato |"  update=":formEliminar" onclick="PF('dlgRedirect').show();" style="color: #036fab" >
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>
+                         
+                          <p:commandLink value=" Ver Términos Eliminados"  update=":formEliminados" onclick="PF('dlgEliminados').show();"  style="color: #036fab"> 
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>
+                           
+                                        
+                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}" style="width: 90%"
+                         emptyMessage="No hay Términos"
 paginator="true" rows="10" paginatorPosition="bottom"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
 
                          >
-                
+      
                             <p:column headerText="Término " >
                                <h:outputText value="#{as.palabra}"/>
                 </p:column>
                            
-                           
+                          
                             <p:column headerText="Clasificación" >
                       
-                    <h:outputText value="#{terminosBean.clasificacion(as.connotacion)}"/>
-
-                                      
+                                <h:outputText rendered="#{as.connotacion eq 0 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #CC6666"/>
+                                 <h:outputText rendered="#{as.connotacion eq 1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #579575"/>
+                                  <h:outputText rendered="#{as.connotacion eq -1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #4BB2C5"/>
                 </p:column>
                             
                         
@@ -135,21 +167,24 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                     <p:commandButton icon="ui-icon-trash" 
                         title="Delete this actor"
                         actionListener="#{terminosBean.remove(as,loop.index)}" update=":formMostrar:table#{loop.index}"
-                        ajax="false" />
+                        />
                 </p:column>
                              
-                             <p:column headerText="Añadir a Termino existente">
+                             <p:column headerText="Añadir a Término existente">
                     
-                    <p:commandButton  rendered="#{as.terminoAsociado eq '-'}" icon="ui-icon-plus" onclick="PF('dlgmodificar2').show();" update=":formModificar2">
+                    <p:commandButton icon="ui-icon-plus" onclick="PF('dlgmodificar2').show();" update=":formModificar2">
                         <f:setPropertyActionListener target="#{terminosBean.terminoTemp2}" value="#{as}"/>
                          
                         </p:commandButton>
                     
                     </p:column >
                     
-                    <p:column  headerText="Añadir Nuevo Termino">
-                      <p:commandButton  rendered="#{as.terminoAsociado eq '-'}" icon="ui-icon-plus" onclick="PF('dlgmodificar3').show();" update=":formModificar3">
+                    <p:column  headerText="Añadir nuevo Término">
+                      <p:commandButton   icon="ui-icon-plus" onclick="PF('dlgmodificar3').show();" update=":formModificar3">
                         <f:setPropertyActionListener target="#{terminosBean.terminoTemp2}" value="#{as}"/>
+                        
+                       
+                       
                          
                         </p:commandButton>        
                           
@@ -183,7 +218,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                    
             <h:form id="formModificar">
                 <p:panelGrid columns="2">
-                    <p:outputLabel value="Termino"/>
+                    <p:outputLabel value="Término"/>
                     <p:inputText value="#{terminosBean.terminoTemp2.palabra}" disabled="true" />
                     
                   <p:outputLabel value="Editar Connotación"/>
@@ -217,12 +252,12 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
             
             
             
-            <p:dialog id="dlg2" header="Añadir a Termino Existente del Diccionario" showEffect="explode" hideEffect="bounce"
+            <p:dialog id="dlg2" header="Añadir a Término existente del Diccionario" showEffect="explode" hideEffect="bounce"
                     widgetVar="dlgmodificar2" modal="true" resizable="false" minWidth="200" >
                    
             <h:form id="formModificar2">
                 <p:panelGrid columns="2">
-                    <p:outputLabel value="Termino"/>
+                    <p:outputLabel value="Término"/>
                     <p:inputText value="#{terminosBean.terminoTemp2.palabra}" disabled="true" />
                     
                 </p:panelGrid> 
@@ -259,9 +294,9 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
             
             
               
-            <p:dialog id="dlg3" header="Añadir Nuevo Termino al Diccionario" showEffect="explode" hideEffect="bounce"
+            <p:dialog id="dlg3" header="Añadir nuevo Término al Diccionario" showEffect="explode" hideEffect="bounce"
                     widgetVar="dlgmodificar3" modal="true" resizable="false" minWidth="200" >
-                   
+                
             <h:form id="formModificar3">
                 <p:panelGrid columns="2">
                     <p:outputLabel value="Termino Actual"/>
@@ -282,14 +317,70 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
    
                  </p:selectOneMenu>
                     
-                </p:panelGrid> 
+                </p:panelGrid>
+     
       
-                <p:commandButton actionListener="#{adminTerminosBean.añadirNuevoTerminoDesdeRectificar(terminosBean.terminoTemp2)}" value="Añadir" update=":formMostrar"
-                                 onclick="PF('dlgmodificar3').hide();"/>  
+      
+       
+                <p:commandButton actionListener="#{terminosBean.validarTerminoDesdeRectificar(terminosBean.terminoTemp2)}"
+                         value="Añadir"  onclick="PF('dlgmodificar3').hide();"
+                         update=":formMostrar:table#{terminosBean.terminoTemp2.idLámina}" />
+       
+      
+                        
                 
             </h:form>
               </p:dialog> 
             
+            
+              <p:dialog id="dlgRedirecta" header="Revisar relato ingresado"  showEffect="explode" hideEffect="bounce"
+                        widgetVar="dlgRedirect" width="800" height="200" modal="true" resizable="false"  >
+            <h:form id="formEliminar">
+                <p:fieldset  style="margin-bottom:20px">
+                <p:outputLabel value="Relato #{terminosBean.relatoActual+1}" /> <br/> <br/>
+                <h:panelGrid columns="2" cellpadding="5">
+                    <p:graphicImage name="imagen/#{terminosBean.relatoActual+1}.jpg" style="width: 95%" />
+                 <h:outputText value=" #{analisis.relatoIndex(terminosBean.test.idTest,terminosBean.relatoActual)}" /> <br/> <br/>
+                
+                </h:panelGrid>
+                </p:fieldset>
+            </h:form>
+                   </p:dialog>
+            
+                   <p:dialog id="dlgEliminadosa" header="Términos eliminados"  showEffect="explode" hideEffect="bounce"
+                        widgetVar="dlgEliminados" width="800" height="200" modal="true" resizable="false"  >
+            
+                       <h:form id="formEliminados">
+               
+                <p:outputLabel value="Relato #{terminosBean.relatoActual+1}" /> <br/> <br/>
+                
+                
+                <p:dataTable var="asd" id="tablaElimin" value="#{modifTestBean.TermElimID(terminosBean.relatoActual)}" style="width: 90%"
+                         emptyMessage="No se han eliminado términos"
+paginator="true" rows="10" paginatorPosition="bottom"
+paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+{PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+
+>
+                
+                            <p:column headerText="Término " >
+                                <h:outputText value="#{asd.palabra}"/>
+                </p:column>
+                      <p:column headerText="Acción" >
+                    <p:commandButton actionListener="#{terminosBean.devolverTermino(asd,terminosBean.relatoActual)}"
+                         value="Devolver"  
+                         update=":formMostrar:table#{terminosBean.relatoActual}" oncomplete="updateTableDiv()" />
+                    </p:column>
+                    
+                    
+                </p:dataTable>
+           <p:remoteCommand name="updateTableDiv" update="tablaElimin" />
+                
+                
+            </h:form>
+                  
+                  
+        </p:dialog>
             
             
         </h:body>

@@ -116,7 +116,7 @@ public class RI{
 
              List<Termino> terminos=new ArrayList<>();
              int connotacion;
-        int frecuencia;
+             int frecuencia;
      
         
              

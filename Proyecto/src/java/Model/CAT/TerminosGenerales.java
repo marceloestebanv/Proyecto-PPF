@@ -16,12 +16,21 @@ public class TerminosGenerales implements Serializable{
     
     String termino;
    int frecuencia;
+   int total;
     private static final long serialVersionUID = 1L;
 
     public TerminosGenerales(String termino, int frecuencia) {
         this.termino = termino;
         this.frecuencia = frecuencia;
     }
+
+    public TerminosGenerales(String termino, int frecuencia, int total) {
+        this.termino = termino;
+        this.frecuencia = frecuencia;
+        this.total = total;
+    }
+    
+    
 
     public String getTermino() {
         return termino;
@@ -39,6 +48,18 @@ public class TerminosGenerales implements Serializable{
         this.frecuencia = frecuencia;
     }
 
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+    
+    
+    
+    
+
     @Override
     public boolean equals(Object o){
     if(o instanceof TerminosGenerales){
@@ -49,7 +70,9 @@ public class TerminosGenerales implements Serializable{
     }
     return false;
 }
-   
+  
+    
+    
 
  @Override
     public int hashCode(){

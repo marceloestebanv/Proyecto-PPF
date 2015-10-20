@@ -11,19 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
-import javax.inject.Named;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.primefaces.context.RequestContext;
+
 
 /**
  *
@@ -31,7 +30,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
  */
 
 @ManagedBean(name = "mannagerPDFBean")
-@RequestScoped
+@ViewScoped
 
 
 public class MannagerPDFBean {
@@ -45,7 +44,13 @@ public class MannagerPDFBean {
     /**
      * Creates a new instance of MannagerPDFBean
      */
-    public MannagerPDFBean() {
+   
+   
+   //lo utilizaremos para conocer el path donde se guardan los archivos
+   String username = System.getProperty("user.name");
+   
+   
+   public MannagerPDFBean() {
     }
 
     
@@ -55,6 +60,7 @@ public class MannagerPDFBean {
         
             ServletContext servletContext = (ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext();
  String realPath=(String) servletContext.getRealPath("/")+"/resources/imagen/";
+          
 
         
           
@@ -85,12 +91,31 @@ public class MannagerPDFBean {
 		response.addHeader("Content-disposition","attachment; filename=CAT-Resultados-"+testBean.getExaminado().getRut()+"-ID"+testBean.getTest().getIdTest() +".pdf");
 		ServletOutputStream stream = response.getOutputStream();
 		
+               
 		JasperExportManager.exportReportToPdfStream(jasperPrint, stream);
-		
+		 
+           
+
 		stream.flush();
 		stream.close();
-		FacesContext.getCurrentInstance().responseComplete();
+                
+              
+		
+
+                FacesContext.getCurrentInstance().responseComplete();
+               
+                System.out.println(" saliendo");
+                mostrar();
     }
+      
+
+      public void mostrar(){
+          System.out.println("mostrando");
+        RequestContext context = RequestContext.getCurrentInstance();
+context.execute("PF('statusDialog').show();"); 
+          System.out.println(" se mostro");
+      }
+      
       
       
        public void exportarPDFRelatos() throws JRException, IOException{
@@ -235,6 +260,14 @@ public class MannagerPDFBean {
 
     public void setTestBean(TestBean testBean) {
         this.testBean = testBean;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
     
     

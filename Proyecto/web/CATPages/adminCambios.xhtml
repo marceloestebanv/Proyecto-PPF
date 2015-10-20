@@ -1,0 +1,290 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui" xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <f:view contentType="text/html" >
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                  <link href="/Proyecto/resources/css/bootstrap-theme.css" rel="stylesheet" type="text/css"/>
+        <link href="/Proyecto/resources/css/bootstrap.css" rel="stylesheet" type="text/css"/>
+        <script src="/Proyecto/resources/js/bootstrap.js" type="text/javascript"></script>
+        <link href="/Proyecto/resources/css/newcss.css" rel="stylesheet" type="text/css"/>
+       
+                
+                
+                <title>Administrar Cambios Diccionario</title>
+                <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
+<link rel="icon" href="/Proyecto/favicon.ico" type="image/x-icon"/>
+            </f:facet>
+            
+               <style type="text/css">
+            h1 {
+               display: block; 
+               text-align: center
+            }
+                  .form {
+     margin-left: 10%;
+    margin-right:10%;
+     //si pongo esto me aparece la barra de scroll  width:100%;
+        
+    }
+            
+            </style>
+            
+
+         
+            
+        </h:head>
+
+        <h:body  >
+           
+
+            <p:layout fullPage="true" onClose="">
+
+                        <p:layoutUnit position="north"   size="95"  collapsible="true" style="" >                
+           <div class="col-md-3">
+           <a class="navbar-brand" href="../welcomePrimefaces.xhtml" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 30px;">PPF Aitué <span><p:graphicImage  value="./resources/imagen/logofamilia.png" width="20%"/> </span></a>
+           </div>  
+            <h:panelGrid   style="display: block;float: right;text-align: center " >    
+            <p:graphicImage  value="./resources/imagen/images.jpg" width="30%"  />     
+            <h:outputText value="#{loginControlador.usuario.nombre}" style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;display: block;  text-align: center"  /> 
+            </h:panelGrid>
+            </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="70" closable="true" collapsible="true">
+                 <h:outputText value=" Universidad de Valparaíso. 
+                   Todos los derechos reservados. 
+                   Chile - 2015"  style="font-weight: 800;text-align:left;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;font-size: 20px;padding: 1%; display: block;text-align: center"  /> 
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="220" header="Menu">
+     
+    <h:form id="menu">
+        
+        
+<!--        <p:commandButton ajax="false" widgetVar="theButton" id="hh" action="#{terminosBean.destroy()}" style="display:none"/>-->
+        <p:panelMenu style="width:210px">
+                              <p:submenu label="Sistema CAT-A">
+                            <p:menuitem value="Agregar Examinado" outcome="nuevoExaminado.xhtml" />
+                            <p:menuitem value="Agregar Test" outcome="ingresarTest.xhtml" />
+                             <p:menuitem value="Histórico de Test" outcome="gestionarTests.xhtml" />
+                             <p:menuitem value="Estadísticas" outcome="consultarExaminados.xhtml" />
+                             <p:menuitem value="Administrar Términos" outcome="administrarTerminos.xhtml" />
+                            </p:submenu>
+                 </p:panelMenu>
+                    <h:commandButton value="Salir" action="#{loginControlador.logout()}"  class="btn btn-primary" style="width:100%;"/>
+                      </h:form>
+                  </p:layoutUnit >
+
+                <p:layoutUnit position="center">
+                    
+             
+                    
+                
+                            <h:form id="formMostrar" class="form">
+                            <p:messages id="messages"  autoUpdate="true" closable="true" />
+                        
+                                
+                               
+                        <h2>Nuevos Términos Agregados</h2>
+                        
+                        <br/>
+                        
+             <div class="row">
+                
+                        
+                 <c:forEach items="#{modifTestBean.listNuevosTermDiccGlobalTemp}" var="item" varStatus="loop">     
+                             <div class="col-md-6" >
+                            <h:panelGrid columns="1">
+                            
+                            <h:panelGrid columns="2"   style="margin-top:20px">
+                            
+                           <h4>Relato #{loop.index+1}</h4>  
+                          
+                            
+                            
+                              <p:commandLink value=" (Ver Lámina)"  update=":formEliminar" onclick="PF('dlgRedirect').show();" style="color: #036fab" >
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>  
+                        </h:panelGrid>
+                        
+                                    
+                         <p:dataTable var="as" id="table#{loop.index}" value="#{item}"  style="width: 90%"
+                        
+                                      emptyMessage="No hay Términos"
+paginator="true" rows="10" paginatorPosition="bottom"
+paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+{PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+
+                         >
+                
+                 
+                            <p:column headerText="Término " >
+                               <h:outputText value="#{as.termino}"/>
+                </p:column>
+                           
+                          
+                            <p:column headerText="Clasificación" >
+                      
+                                <h:outputText rendered="#{as.connotacion eq 0 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #CC6666"/>
+                                 <h:outputText rendered="#{as.connotacion eq 1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #579575"/>
+                                  <h:outputText rendered="#{as.connotacion eq -1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #4BB2C5"/>
+                </p:column>
+                            
+                        
+                            
+                            <p:column headerText="Términos Asociados" >
+                    <h:outputText value="#{as.getTerminosAsociadosString()}"/>
+                </p:column>
+                            
+                        
+                     <p:column headerText="Aceptar " >
+                    <p:commandButton icon="ui-icon-ok-2"
+                        title="Aceptar"
+                        actionListener="#{modifTestBean.removeNuevosTerminos(as,loop.index)}"   update=":formMostrar:table#{loop.index}"
+                         />
+               </p:column> 
+                             
+                               <p:column headerText="Rechazar " >
+                    <p:commandButton icon="ui-icon-cancel-2"
+                        title="Rechazar"
+                        actionListener="#{modifTestBean.rechazarNuevoTermino(as,loop.index)}"   update=":formMostrar:table#{loop.index}"
+                         />
+               </p:column> 
+                         
+        
+         
+                
+                </p:dataTable>
+                        
+                        </h:panelGrid> 
+                             </div >
+                        </c:forEach>
+                        
+                   
+                    
+                      
+                      
+                </div >
+                      
+                          <br/>
+                        
+                            <br/>
+                          
+                           <h2>Cambios en Términos Existentes </h2>
+                        
+                        <br/>
+                        
+             <div class="row">
+                
+                        
+                 <c:forEach items="#{modifTestBean.listNuevosTermAsocDiccGlobalTemp}" var="item" varStatus="loop">     
+                             <div class="col-md-6" >
+                            <h:panelGrid columns="1">
+                            
+                            <h:panelGrid columns="2"   style="margin-top:20px">
+                            
+                           <h4>Relato #{loop.index+1}</h4>  
+                          
+                         
+                            
+                              <p:commandLink value=" (Ver Lámina)"  update=":formEliminar" onclick="PF('dlgRedirect').show();" style="color: #036fab" >
+                                              <f:setPropertyActionListener target="#{terminosBean.relatoActual}" value="#{loop.index}"/>
+                         
+                         </p:commandLink>  
+                        </h:panelGrid>
+                        
+                                    
+                         <p:dataTable var="as" id="table#{loop.index}0" value="#{item}"  style="width: 90%"
+                        
+                                      emptyMessage="No hay Términos"
+paginator="true" rows="10" paginatorPosition="bottom"
+paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
+{PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" 
+
+                         >
+                
+                 
+                            <p:column headerText="Término " >
+                               <h:outputText value="#{as.termino}"/>
+                </p:column>
+                           
+                          
+                            <p:column headerText="Clasificación" >
+                      
+                                <h:outputText rendered="#{as.connotacion eq 0 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #CC6666"/>
+                                 <h:outputText rendered="#{as.connotacion eq 1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #579575"/>
+                                  <h:outputText rendered="#{as.connotacion eq -1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #4BB2C5"/>
+                </p:column>
+                            
+                        
+                            
+                            <p:column headerText="Términos Asociados" >
+                    <h:outputText value="#{as.getTerminosAsociadosString()}"/>
+                </p:column>
+                            
+                        
+                     <p:column headerText="Aceptar " >
+                    <p:commandButton icon="ui-icon-trash"
+                        title="Aceptar"
+                        actionListener="#{modifTestBean.removeNuevosTermAsoc(as,loop.index)}" update=":formMostrar:table#{loop.index}0"
+                         />
+               </p:column> 
+                         
+        
+         
+                
+                </p:dataTable>
+                        
+                        </h:panelGrid> 
+                             </div >
+                        </c:forEach>
+                        
+                   
+                    
+                      
+                      
+                </div >
+                      
+                          <br/>
+                        
+                          
+                       <br/>
+                         <br/>
+                         <h:commandButton value="Guardar Cambios" action="#{modifTestBean.guardarCambiosDiccionario()}" class="btn btn-primary"/>    
+                          
+                          
+                    
+                         </h:form>
+                        
+                         <br/>
+                </p:layoutUnit>
+
+            </p:layout>
+
+            
+             <p:dialog id="dlgRedirecta" header="Ver Lámina"  showEffect="explode" hideEffect="bounce"
+                       widgetVar="dlgRedirect" closeOnEscape="true" width="400" height="200" modal="true" resizable="false"  >
+            <h:form id="formEliminar">
+                <p:fieldset  style="margin-bottom:20px">
+                <p:outputLabel value="Relato #{terminosBean.relatoActual+1}" /> <br/> <br/>
+                 <br/>
+                    <p:graphicImage name="imagen/#{terminosBean.relatoActual+1}.jpg"  />
+                 <br/>
+                
+                
+                </p:fieldset>
+            </h:form>
+                   </p:dialog>
+            
+            
+            
+        </h:body>
+
+    </f:view>
+</html>

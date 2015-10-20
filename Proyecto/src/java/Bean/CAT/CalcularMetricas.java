@@ -10,7 +10,6 @@ import Model.CAT.AnalisisUtils;
 import Model.CAT.MetricaRI;
 import Model.CAT.Termino;
 import Model.CAT.TerminosGenerales;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -19,10 +18,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -30,13 +27,6 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 /**
  *
@@ -50,13 +40,13 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 public class CalcularMetricas {
 
 
-    
+     
     
     int idTest;
     List<Termino>[] listaTerminosTest;
     List<MetricaRI> metricasTest;
     MetricaRI metricaGlobalTest;
-    
+     
     
     
      //Esta es una lista de tests
@@ -127,8 +117,15 @@ public class CalcularMetricas {
         int coincidencias=0;
         
         List<TerminosGenerales> termGenerales=new ArrayList<>();
-        List<String> termCoinci= new ArrayList<>();
+       
+       
+       List<String> termCoinci= new ArrayList<>();
+       
+       //aca se guarda el término coincidente completo para luego consultar su frecuencia
+       List<Termino> terminosCoincCompletos = new ArrayList<>();
       
+  
+            
             
             cantTotalTerminos=listaTermino.size();
             
@@ -146,6 +143,7 @@ public class CalcularMetricas {
                 if(!terminoTest.getTerminoAsociado().equals("-")){
                     coincidencias++;
                     termCoinci.add((String)terminoTest.getTerminoAsociado());
+                    terminosCoincCompletos.add(terminoTest);
                 }    
                 
                 
@@ -155,16 +153,24 @@ public class CalcularMetricas {
             Set<String> unique = new HashSet<String>(termCoinci);
             
         
-            
+             
             //contamos la coincidencia de cada termino unico y lo agregamos a la lista
             for (String unico:unique){
                
-                int count=0;
-                for(String term:termCoinci){
-                    if(unico.equals(term))
-                        count++;
+                int countDistintos=0;
+                int totalFrecuencias=0;
+                for(Termino term:terminosCoincCompletos){
+                     
+                    if(unico.equals(term.getTerminoAsociado())){
+                    countDistintos++;
+                  totalFrecuencias  =(int)term.getFrecuencia()+totalFrecuencias;
+                    }
+
                 }
-                TerminosGenerales termGeneral=new TerminosGenerales(unico, count);
+                
+                
+                
+                TerminosGenerales termGeneral=new TerminosGenerales(unico, countDistintos,totalFrecuencias);
                 termGenerales.add(termGeneral);
             }
             
@@ -238,7 +244,7 @@ public class CalcularMetricas {
         
          //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
         FacesContext fc=FacesContext.getCurrentInstance();
-         fc.getExternalContext().redirect("/Proyecto/faces/estadisticasExaminado.xhtml?rutExaminado="+rutExaminado);//redirecciona la página
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/estadisticasExaminado.xhtml?rutExaminado="+rutExaminado);//redirecciona la página
 
   }
   }
@@ -246,18 +252,26 @@ public class CalcularMetricas {
 
   
    public void calcularMetricaTest(int idTest) throws IOException, FileNotFoundException, ClassNotFoundException{
-      
+      //Analisis analisis= new Analisis();
+       //System.out.println("antes de calcular metricas el id test en analisis es "+analisis.getIdTest());
+       
         System.out.println(" calculando metricas");        
 
 //primero debemos obtener el test y setearlo en la lista de terminos
       this.idTest=idTest;
+       System.out.println(" el id test es "+this.idTest);
+      
        getTerminosdelTest();
-       calcularFrecuenciasTest();
+       
+      calcularFrecuenciasTest();
       serializarTest();
+       
        metricasTest=calculaMetrica();
       metricaGlobalTest=calculaMetricaGlobal(metricasTest);
       serializarMetricasTest();
       
+      
+    
       
       
       
@@ -396,7 +410,7 @@ public class CalcularMetricas {
     
     //Esto es importante ya que acá redireccionaremos una vez terminado el análisis 
         FacesContext fc=FacesContext.getCurrentInstance();
-         fc.getExternalContext().redirect("/Proyecto/faces/estadisticasRazonIngreso.xhtml");//redirecciona la página
+         fc.getExternalContext().redirect("/Proyecto/faces/CATPages/estadisticasRazonIngreso.xhtml");//redirecciona la página
 
         System.out.println(" redireccionando a estadisticas razon ingreso "+causaIngreso);
     }else{
@@ -456,6 +470,9 @@ public class CalcularMetricas {
                  int index= termGenerales.indexOf(termGeneral);
                  int frecuencia=termGenerales.get(index).getFrecuencia();
                  termGenerales.get(index).setFrecuencia(termGeneral.getFrecuencia()+frecuencia);
+                 
+                 int total=termGenerales.get(index).getTotal();
+                 termGenerales.get(index).setTotal(termGeneral.getTotal()+total);
                  
                   
               }else{
@@ -637,6 +654,7 @@ public class CalcularMetricas {
        int index= metricasTest.indexOf(metrica);
        
        return metricasTest.get(index).getTerminosGenerales();
+       
    }
    
      public List<TerminosGenerales> getTerminosGeneralesMetricaTestsExaminado(MetricaRI metrica){
@@ -786,7 +804,9 @@ public class CalcularMetricas {
     public void setCantidadTestsPorCausa(int cantidadTestsPorCausa) {
         this.cantidadTestsPorCausa = cantidadTestsPorCausa;
     }
-    
+
+  
+
  
     
 }
