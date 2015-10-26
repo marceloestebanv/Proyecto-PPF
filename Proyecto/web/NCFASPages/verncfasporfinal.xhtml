@@ -87,20 +87,26 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 rowsPerPageTemplate="10">
                 
-                <p:column headerText="Nombre Familia">
+               <p:column headerText="Nombre Familia">
+                    <div align="center">
                     <h:outputText value="#{ncfas.nombrefamilia}"/>
+                    </div>
                 </p:column>
                 <p:column headerText="Parte del proceso">
+                    <div align="center">
                     <h:outputText value="#{ncfas.parteproceso}">
                         <f:converter converterId="procesoConverter" />
-                    </h:outputText>    
+                    </h:outputText>  
+                        </div>
                 </p:column>
                            
-                <p:column headerText="Accion">
-                   <p:column headerText="ACCION">
+                <p:column headerText="Acción">
+                    <div align="center">
+                   <p:column headerText="Acción">
                 <p:commandButton value="Generar Datos" actionListener="#{itemBean.mostrarID(ncfas.idncfas)}" onclick="PF('dlgmodificar').show();"/>
-            </p:column>                
-                </p:column>           
+            </p:column> 
+                        </div>
+                </p:column>               
              
                 </p:dataTable> 
         </div>

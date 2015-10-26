@@ -3,20 +3,7 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/ExaminadoBean.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/TestBean.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/NCFAS/MineriaBean.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/NCFASPages/mineriadedatos.xhtml</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/NCFASPages/nuevoncfas.xhtml</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/NCFASPages/verncfasporfinal.xhtml</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/NCFASPages/verncfasporinicial.xhtml</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Dao/NCFAS/PruebaWekaDao.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/NCFAS/ChartView2.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/nbproject/build-impl.xml</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/AdminTerminosBean.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/NCFASPages/mineriadedatos_Dim3.xhtml</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/CAT/MannagerPDFBean.java</file>
-            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/web/NCFASPages/itemsncfas_listar.xhtml</file>
+            <file>file:/C:/Users/Marcelo%20Verdugo/Documents/NetBeansProjects/Proyecto-PPF/Proyecto/src/java/Bean/NCFAS/ListarItemsBean.java</file>
         </group>
     </open-files>
 </project-private>

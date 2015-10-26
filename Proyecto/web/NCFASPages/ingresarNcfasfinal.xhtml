@@ -88,12 +88,33 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 rowsPerPageTemplate="10">
                 
                 <p:column headerText="Nombre Familia">
+                    <div align="center">
                     <h:outputText value="#{ncfas.nombrefamilia}"/>
+                    </div>
                 </p:column>
                 <p:column headerText="Parte del proceso">
+                    <div align="center">
                     <h:outputText value="#{ncfas.parteproceso}">
                         <f:converter converterId="procesoConverter" />
                     </h:outputText>    
+                        </div>
+                </p:column>
+        
+                <p:column headerText="Razón de Ingreso">
+                    <div align="center">
+                    <h:outputText value="#{ncfas.idRazonIngreso}">
+                        
+                        <f:converter converterId="procesoConverter" />
+                    </h:outputText>    
+                          </div>
+                </p:column>
+        
+        <p:column headerText="Fecha de Ingreso">
+            <div align="center">
+            <h:outputText value="#{ncfas.fecha}">
+                       
+                    </h:outputText>  
+                </div>
                 </p:column>
         
                 
@@ -101,11 +122,11 @@ rowsPerPageTemplate="10">
                 <p:column headerText="Accion">
                    
                      
-                <h:commandButton  value="Ingresar Ncfas Final" action="#{ncfasBean.registrarNcfasFinal}" >
+                <p:commandButton  value="Ingresar Ncfas Final" action="#{ncfasBean.registrarNcfasFinal}" >
                      <f:setPropertyActionListener target="#{ncfasBean.nombrefamilia}" value="#{ncfas.nombrefamilia}" />
                      <f:setPropertyActionListener target="#{ncfasBean.parteproceso}" value="#{ncfas.parteproceso}" />
-                     <f:setPropertyActionListener target="#{ncfasBean.idCausaIngreso}" value="#{ncfas.idCausaIngreso}" />
-                </h:commandButton>
+                     <f:setPropertyActionListener target="#{ncfasBean.idRazonIngreso}" value="#{ncfas.idRazonIngreso}" />
+                </p:commandButton>
                 </p:column>
                     
             

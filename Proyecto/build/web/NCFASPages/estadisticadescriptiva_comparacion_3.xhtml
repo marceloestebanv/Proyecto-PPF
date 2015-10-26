@@ -87,20 +87,26 @@
 
         
      <h:form>   
+         <div class="col-md-10">
          <p:dataTable var="ncfas" value="#{ncfasBean.listarNcfasporfinal()}" emptyMessage="No hay Ncfas disponibles"
 paginator="true" rows="10" paginatorPosition="top"
 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
 {PageLinks} {NextPageLink} {RowsPerPageDropdown}"
 rowsPerPageTemplate="10">  
             <p:column headerText="Nombre Familia">
+                <div align="center">
                     <h:outputText id="valores" value="#{ncfas.nombrefamilia}"/>
+                    </div>
             </p:column>
              
            
-            <p:column headerText="ACCION">
+            <p:column headerText="Acción">
+                <div align="center">
                 <p:commandButton value="Generar Datos" actionListener="#{itemBean.mostrarID(ncfas.idncfas)}" onclick="PF('dlgmodificar').show();"/>
+                </div>
             </p:column> 
         </p:dataTable>
+             </div>
             </h:form>
                                     
 

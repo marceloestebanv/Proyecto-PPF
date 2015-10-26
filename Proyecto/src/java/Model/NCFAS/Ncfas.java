@@ -38,7 +38,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Ncfas.findByIdncfas", query = "SELECT n FROM Ncfas n WHERE n.idncfas = :idncfas"),
     @NamedQuery(name = "Ncfas.findByNombrefamilia", query = "SELECT n FROM Ncfas n WHERE n.nombrefamilia = :nombrefamilia"),
     @NamedQuery(name = "Ncfas.findByFecha", query = "SELECT n FROM Ncfas n WHERE n.fecha = :fecha"),
-    @NamedQuery(name = "Ncfas.findByParteproceso", query = "SELECT n FROM Ncfas n WHERE n.parteproceso = :parteproceso")})
+    @NamedQuery(name = "Ncfas.findByParteproceso", query = "SELECT n FROM Ncfas n WHERE n.parteproceso = :parteproceso"),
+    @NamedQuery(name = "Ncfas.findByidRazonIngreso", query = "SELECT n FROM Ncfas n WHERE n.idRazonIngreso = :idRazonIngreso")})
+
 public class Ncfas implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "ncfas")
     private Collection<Item> itemCollection;
@@ -49,7 +51,8 @@ public class Ncfas implements Serializable {
     @Column(name = "idncfas")
     private Integer idncfas;
     private Date fecha;
-    private int idCausaIngreso;
+    @Column(name = "idRazonIngreso")
+    private int idRazonIngreso;
     @Size(max = 45)
     @Column(name = "nombrefamilia")
     private String nombrefamilia;
@@ -105,13 +108,15 @@ public class Ncfas implements Serializable {
         this.parteproceso = parteproceso;
     }
 
-    public int getidCausaIngreso() {
-        return idCausaIngreso;
+    public int getIdRazonIngreso() {
+        return idRazonIngreso;
     }
 
-    public void setidCausaIngreso(int idCausaIngreso) {
-        this.idCausaIngreso = idCausaIngreso;
+    public void setIdRazonIngreso(int idRazonIngreso) {
+        this.idRazonIngreso = idRazonIngreso;
     }
+
+    
 
     
 

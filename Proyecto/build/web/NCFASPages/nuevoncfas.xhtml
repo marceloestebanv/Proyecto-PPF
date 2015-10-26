@@ -80,27 +80,30 @@
         
         
         
-        <p:growl id="msgs"  showDetail="true" />
+        
         <p:layoutUnit position="center">
         
             
-             <h:form id="formMenu">
+             <h:form id="formInsertar" class="form">
+                 
+                 <p:messages id="messages"  autoUpdate="true" closable="true" />
+                 
                  <h2>Nuevo NCFAS</h2>
             <div class="col-md-9 col-md-offset-1">
-                 <h:panelGrid columns="2" style="width:100%">
-                 <h:outputText value="Ingrese Nombre Familia" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;" />
+                 <h:panelGrid columns="2" >
+                 <p:outputLabel for="NombreFamilia" value="Ingrese Nombre Familia" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;" />
                   <p:inputText id="NombreFamilia" value="#{ncfasBean.nombrefamilia}" required="true" validatorMessage="Debe Ingresar un Nombre de la Familia" style="margin-left: 25px"/>
                  
                  
-                 <h:outputText value="Seleccione Parte del Proceso" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;" />
+                 <p:outputLabel for="ParteProceso" value="Seleccione Parte del Proceso" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;" />
                  
-                  <p:selectOneMenu value="#{ncfasBean.parteproceso}" required="true" style="margin-left: 25px ">
+                  <p:selectOneMenu id="ParteProceso" value="#{ncfasBean.parteproceso}" required="true" style="margin-left: 25px ">
                 <f:selectItem itemLabel="inicial" itemValue="1" />
             </p:selectOneMenu>
                  
-                 <h:outputText value="Seleccione Causa de Ingreso" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;"/>
-                
-            <p:selectOneMenu id="valores11" value="#{ncfasBean.idCausaIngreso}">   
+                 <p:outputLabel for="CausaIngreso" value="Seleccione Causa de Ingreso" style="font-size:15pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;"/>
+                 
+            <p:selectOneMenu id="CausaIngreso" value="#{ncfasBean.idRazonIngreso}" required="true" style="margin-left: 25px;" >   
                 <f:selectItem itemLabel="Abandono de hogar" itemValue="130" />
                 <f:selectItem itemLabel="Adolecente embarazada (incl Intento de aborto)" itemValue="131" />
                 <f:selectItem itemLabel="Deserción Escolar" itemValue="132" />
@@ -128,7 +131,7 @@
                 <f:selectItem itemLabel="Testigo de violencia intrafamiliar" itemValue="154" /> 
    
             </p:selectOneMenu>
-                  
+              
                  
                
             </h:panelGrid>

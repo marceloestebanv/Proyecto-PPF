@@ -38,7 +38,7 @@ public class NcfasBean {
     private Date date1;
     private Date date2;
     private Integer[] valores;
-   private int idCausaIngreso;
+   private int idRazonIngreso;
    
    
    
@@ -133,19 +133,13 @@ public class NcfasBean {
         this.ncfases2 = ncfases2;
     }
 
-    public int getIdCausaIngreso() {
-        return idCausaIngreso;
+    public int getIdRazonIngreso() {
+        return idRazonIngreso;
     }
 
-    public void setIdCausaIngreso(int idCausaIngreso) {
-        this.idCausaIngreso = idCausaIngreso;
-    }
-
-    
-    
-   
-    
-    
+    public void setIdRazonIngreso(int idRazonIngreso) {
+        this.idRazonIngreso = idRazonIngreso;
+    }    
 
     public void registrarNcfas() throws Exception {
     NcfasDAO dao;
@@ -160,7 +154,7 @@ public class NcfasBean {
             ItemDao daoitems;
            daoitems = new ItemDao(); 
             dao = new NcfasDAO();
-           dao.ingresarNcafas(nombrefamilia,parteproceso,rutUsuario,idCausaIngreso);
+           dao.ingresarNcafas(nombrefamilia,parteproceso,rutUsuario,idRazonIngreso);
 
         for (int i = 1; i<=7; i++) {
             //System.out.println(valores[i]);
@@ -273,7 +267,7 @@ public class NcfasBean {
     try {
             ItemDao daoitems;
             dao = new NcfasDAO();
-           dao.ingresarNcafas(nombrefamilia,3,rutUsuario,idCausaIngreso);
+           dao.ingresarNcafas(nombrefamilia,3,rutUsuario,idRazonIngreso);
            
            
         for (int i = 1; i<=7; i++) {

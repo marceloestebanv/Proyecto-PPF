@@ -145,6 +145,8 @@ public class NcfasDAO extends DAO {
                 tempNcfas.setIdncfas((Integer)rs.getObject(1));
                 tempNcfas.setNombrefamilia(rs.getObject(2).toString());
                 tempNcfas.setParteproceso((Integer) rs.getObject(3));
+                tempNcfas.setFecha((Date) rs.getObject(4));
+                tempNcfas.setIdRazonIngreso((Integer) rs.getObject(6)); 
                 lista.add(tempNcfas);
             } 
         }catch(Exception e){

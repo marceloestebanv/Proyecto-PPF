@@ -1555,7 +1555,7 @@ public void ingresarItems1(int valor) throws IOException  {
         System.out.println(listaValoresGeneralesDim5.size());
         System.out.println(listaValoresGeneralesDim6.size());
         System.out.println(listaValoresGeneralesDim7.size());
-        System.out.println(listaValoresGeneralesDim8.size());*/
+        System.out.println(listaValoresGeneralesDim8.size());
         System.out.println(listaValoresGeneralesDim1.get(3));
         System.out.println(listaValoresGeneralesDim2.get(2));
         System.out.println(listaValoresGeneralesDim3.get(1));
@@ -1563,7 +1563,7 @@ public void ingresarItems1(int valor) throws IOException  {
         System.out.println(listaValoresGeneralesDim5.get(3));
         System.out.println(listaValoresGeneralesDim6.get(2));
         System.out.println(listaValoresGeneralesDim7.get(1));
-        System.out.println(listaValoresGeneralesDim8.get(0));
+        System.out.println(listaValoresGeneralesDim8.get(0));*/
         
         for(int h=0;listaValoresGeneralesDim1.size()>h;h++){
         System.out.println("llegamos a insertar los items generales AL ARFF");

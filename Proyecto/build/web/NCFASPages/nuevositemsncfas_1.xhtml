@@ -1866,15 +1866,39 @@
     </h:form>                
 </p:dialog>
   
+  <p:dialog id="dlg61" header="Ayuda Ingresar Nuevo NCFAS" widgetVar="dlgayuda" modal="true" resizable="true" width="980px"  >
+    <h:form>
+        <div class="row">
+            
+            <div class="col-md-12" >
+                <p style="font-size: 25px; font-weight:bold; color:#3BBAAE; ">1.- Ud. deberá seleccionar cada una de las dimensiones y luego seleccionar el valor que desea para cada ítem. </p>
+                <p style="font-size: 25px; font-weight:bold; color:#3BBAAE;">2.- Posteriormente ud. deberá presionar el botón "Guardar Dimensión" para que los valores queden almacenados en el Sistema.</p>
+                <p style="font-size: 25px; font-weight:bold; color:#3BBAAE;">3.- Finalmente si ud. desea ingresar una observación al NCFAS, ud deberá escribir en el recuadro inferior y posteriormente presionar el botón "Guardar Observación".</p>
+                <p style="font-size: 20px; font-weight:bold; ">En la parte inferior de cada botón se encuentra el estado que puede ser "Sin Guardar" o "Dimensión Guarda" con el fin de recordar a ud. si guardó o no la dimensión respectiva.</p>
+                <p style="font-size: 20px; font-weight:bold; ">Al costado del botón "Guardar Observación" se encuentra el estado que puede ser "Sin Guardar" o "Observación Guardad" con el fin de recordar a ud. si guardó o no la observasión.</p>
+                <p style="font-size: 20px; font-weight:bold; ">Si presiona un ítem, se despliega un recuadro con el descriptor del ítem seleccionado.</p>
+              
+            </div>
+            
+            </div>
+        <p:commandButton value="Ok"  onclick="PF('dlgayuda').hide();"/>  
+    </h:form>                
+</p:dialog>
+  
   
   <p:layoutUnit position="center">
         
-            
+              
+                  <div class="col-md-10">
+                      <h:form>
       <h2>Ingrese valores a las dimensiones del NCFAS</h2>   
       <h3> ¡Recuerde guardar las dimensiones antes de salir! </h3>
+      <div class="col-md-offset-10">
       
-      <div class="col-md-10">
-             <h:form>        
+                 <p:commandLink value="¿Ayuda?"   onclick="PF('dlgayuda').show();" style="font-size:20pt;line-height:0.85em;font-weight: 800;text-align:center;letter-spacing: 2px;color:#3BBAAE;font-family:  'Yanone Kaffeesatz', sans-serif;"  />     
+  </div>
+             
+               
             <p:accordionPanel multiple="true">
             <p:tab title="ENTORNO">
           
