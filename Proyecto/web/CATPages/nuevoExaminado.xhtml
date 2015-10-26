@@ -85,12 +85,12 @@
                      <p:messages id="messages"  autoUpdate="true" closable="true" />
             <h:panelGrid columns="2">
                 
-                <p:outputLabel for="rut" value="Rut del Examinado"/>
+                <p:outputLabel for="rut" value="Rut del Examinado (sin puntos ni dig. verificador): "/>
                 <p:inputText id="rut" value="#{examinadoBean.examinado.rut}" required="true" validatorMessage="Rut Erroneo" placeholder="Ej:18033150">
                  <f:validateRegex  pattern="[0-9]{7,9}"  />  
                 </p:inputText>
                 
-                 <p:outputLabel for="nombre" value="Nombre del Examinado"/>
+                 <p:outputLabel for="nombre" value="Nombre y Apellido del Examinado: "/>
                 <p:inputText id="nombre" value="#{examinadoBean.examinado.nombre}"  required="true"  placeholder="Ingrese Nombre"  >
                  <f:validateLength minimum="5" maximum="45" /> 
                 </p:inputText>
@@ -98,24 +98,24 @@
                 
               
                 
-                 <p:outputLabel for="direccion" value="Dirección del Examinado"/>
+                 <p:outputLabel for="direccion" value="Dirección del Examinado: "/>
                  <p:inputText id="direccion" value="#{examinadoBean.examinado.direccion}"  required="true"  placeholder="Ingrese Dirección"  >
                  <f:validateLength minimum="5" maximum="45" /> 
                 </p:inputText>
                 
                 
-                 <p:outputLabel for="fechaNac" value="Fecha de Nacimiento (AAAA-MM-DD)" />
+                 <p:outputLabel for="fechaNac" value="Fecha de Nacimiento (AAAA-MM-DD): " />
                 
                  <p:calendar id="fechaNac" value="#{examinadoBean.examinado.fechaNac}"   validatorMessage="Fecha Errónea" pattern="yyyy-mm-dd" mask="true" >
                
                  </p:calendar>
                 
    
-                <p:outputLabel for="escolaridad" value="Escolaridad del Examinado"/>
+                <p:outputLabel for="escolaridad" value="Escolaridad del Examinado: "/>
                 
                       <p:selectOneMenu id="escolaridad" effect="drop"  style="width: 100%"
                                  value="#{examinadoBean.examinado.escolaridad}" required="true">
-          <f:selectItem itemLabel="Elija parentesco" itemValue="0" noSelectionOption="true"/>
+          <f:selectItem itemLabel="Elija escolaridad" itemValue="0" noSelectionOption="true"/>
           <f:selectItem itemLabel="Enseñanza Básica Incompleta" itemValue="Enseñanza Basica Incompleta"  />
           <f:selectItem itemLabel="Enseñanza Básica Completa" itemValue="Enseñanza Basica Completa"  />
           <f:selectItem itemLabel="Otra" itemValue="Otra"  />
@@ -125,7 +125,7 @@
                 
 
             
-                 <p:outputLabel for="resp" value="Nombre Adulto Responsable"/>
+                 <p:outputLabel for="resp" value="Nombre y apellido del Adulto Responsable: "/>
                  <p:inputText id="resp" value="#{examinadoBean.examinado.nombreRespons}"  required="true"  placeholder="Ingrese Nombre del Responsable"  >
                  <f:validateLength minimum="5" maximum="45" /> 
                 </p:inputText>
@@ -147,10 +147,10 @@
                 
                 
                 
-                 <p:outputLabel for="causaIng" value="Causa Ingreso SENAINFO"/>
+                 <p:outputLabel for="causaIng" value="Causa Ingreso SENAINFO: "/>
                  <p:selectOneMenu id="causaIng" effect="drop"  style="width: 100%"
                                  value="#{examinadoBean.examinado.idCausaIngreso}" required="true">
-          <f:selectItem itemLabel="Elija causa Ingreso" itemValue="0" noSelectionOption="true"/>
+          <f:selectItem itemLabel="Elija causa ingreso" itemValue="0" noSelectionOption="true"/>
           <f:selectItems value="#{examinadoBean.causasIngreso}"
                          var="causa" itemLabel="#{causa.causa}"
                          itemValue="#{causa.idCausa}" />
@@ -158,8 +158,10 @@
 
               
             </h:panelGrid>
-                     <br/>
-                        
+                  
+                     <h:outputText value="(*) Campo obligatorio."/>
+                      <br/>  
+                      <br/>  
                      <p:commandButton actionListener="#{examinadoBean.insertar()}" validateClient="true" value="Ingresar Examinado" />         
         </h:form>
         

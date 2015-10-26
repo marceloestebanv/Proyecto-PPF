@@ -90,7 +90,7 @@
                         
                                 
                                
-                        <h2>Nuevos Términos Agregados</h2>
+                        <h2>Nuevos Términos Agregados al Diccionario</h2>
                         
                         <br/>
                         
@@ -103,7 +103,7 @@
                             
                             <h:panelGrid columns="2"   style="margin-top:20px">
                             
-                           <h4>Relato #{loop.index+1}</h4>  
+                           <h4>Lámina #{loop.index+1}</h4>  
                           
                             
                             
@@ -144,14 +144,14 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                             
                         
                      <p:column headerText="Aceptar " >
-                    <p:commandButton icon="ui-icon-ok-2"
+                    <p:commandButton icon="ui-icon-check"
                         title="Aceptar"
                         actionListener="#{modifTestBean.removeNuevosTerminos(as,loop.index)}"   update=":formMostrar:table#{loop.index}"
                          />
                </p:column> 
                              
                                <p:column headerText="Rechazar " >
-                    <p:commandButton icon="ui-icon-cancel-2"
+                    <p:commandButton icon="ui-icon-close"
                         title="Rechazar"
                         actionListener="#{modifTestBean.rechazarNuevoTermino(as,loop.index)}"   update=":formMostrar:table#{loop.index}"
                          />
@@ -176,7 +176,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                         
                             <br/>
                           
-                           <h2>Cambios en Términos Existentes </h2>
+                           <h2>Cambios en Términos Existentes del Diccionario </h2>
                         
                         <br/>
                         
@@ -189,7 +189,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                             
                             <h:panelGrid columns="2"   style="margin-top:20px">
                             
-                           <h4>Relato #{loop.index+1}</h4>  
+                           <h4>Lámina #{loop.index+1}</h4>  
                           
                          
                             
@@ -230,7 +230,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                             
                         
                      <p:column headerText="Aceptar " >
-                    <p:commandButton icon="ui-icon-trash"
+                    <p:commandButton icon="ui-icon-check"
                         title="Aceptar"
                         actionListener="#{modifTestBean.removeNuevosTermAsoc(as,loop.index)}" update=":formMostrar:table#{loop.index}0"
                          />

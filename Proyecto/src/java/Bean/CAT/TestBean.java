@@ -483,6 +483,20 @@ public class TestBean {
         examinado=dao.getExaminado(rutUsuario);
         return examinado;
     }
+      
+         public String getNombreExaminado(String rutExaminado) {
+        
+        UsuarioDao dao= new UsuarioDao();
+        Examinado exami=dao.getExaminado(rutExaminado);
+        return exami.getNombre();
+    }
+         
+           public String getNombreUsuario(String rutUsuario) {
+        
+        UsuarioDao dao= new UsuarioDao();
+        Usuario user=dao.getUsuario(rutUsuario);
+        return user.getNombre();
+    }
 
 
     public void setExaminado(Examinado examinado) {

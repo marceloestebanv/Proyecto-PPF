@@ -95,15 +95,23 @@ rowsPerPageTemplate="10"
                 <p:column headerText="Rut Examinado">
                     <h:outputText value="#{test.rutExaminado}"/>
                 </p:column>
+                           
+                           <p:column headerText="Nombre Examinado">
+                               <h:outputText value="#{testBean.getNombreExaminado(test.rutExaminado)}"/>
+                </p:column>
                 <p:column headerText="Rut Profesional">
                     <h:outputText value="#{test.rutUsuario}"/>
+                </p:column>
+                           
+                           <p:column headerText="Nombre Profesional">
+                               <h:outputText value="#{testBean.getNombreUsuario(test.rutUsuario)}"/>
                 </p:column>
                  <p:column headerText="Fecha ">
                      <h:outputText value="#{test.fecha}"/>
                 </p:column>
                 
        
-                <p:column headerText="Acción" style="width: 13%">
+                <p:column headerText="Acción" style="width: 12%">
                     
                     <p:commandButton value="Relatos" actionListener="#{testBean.redireccionarMostrarRelatos(test.idTest)}">
                          
@@ -112,7 +120,7 @@ rowsPerPageTemplate="10"
                     </p:column>
                     
                     
-               <p:column headerText="Acción" style="width: 13%">
+               <p:column headerText="Acción" style="width: 12%">
                     
                    <p:commandButton value="Result." actionListener="#{calcularMetricas.consultarMetricasTestPagina(test.idTest)}">
                          
@@ -124,12 +132,12 @@ rowsPerPageTemplate="10"
              
            
                            
-             <p:column headerText="Acción" style="width: 13%">
+             <p:column headerText="Acción" style="width: 11%">
                  <p:commandButton value="Editar" actionListener="#{testBean.redireccionarEditarTest(test.idTest)}"/>
                    
                 </p:column>              
                 
-                  <p:column headerText="Acción" style="width: 13%">
+                  <p:column headerText="Acción" style="width: 12%">
                     <p:commandButton value="Eliminar"  onclick="PF('dlgeliminar').show();" >
                         <f:setPropertyActionListener target="#{testBean.test}" value="#{test}"/>
                     </p:commandButton>
