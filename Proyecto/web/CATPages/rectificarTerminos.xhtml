@@ -140,7 +140,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                 </p:column>
                            
                           
-                            <p:column headerText="Clasificación" >
+                            <p:column headerText="Connotación" >
                       
                                 <h:outputText rendered="#{as.connotacion eq 0 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #CC6666"/>
                                  <h:outputText rendered="#{as.connotacion eq 1 }" value="#{terminosBean.clasificacion(as.connotacion)}" style="color: #579575"/>
@@ -155,7 +155,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                             
                         
                             
-                             <p:column headerText="Editar" >
+                             <p:column headerText="Editar Connotación" >
                     <p:commandButton icon="ui-icon-pencil" onclick="PF('dlgmodificar').show();" update=":formModificar">
                         <f:setPropertyActionListener target="#{terminosBean.terminoTemp2}" value="#{as}"/>
                        
@@ -202,7 +202,7 @@ paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink}
                         </c:forEach>
                         
                           <br/>
-                        <h:commandButton value="Guardar y Ver Resultados" class="btn btn-primary" action="#{terminosBean.calcularMetricasTest()}"/>          
+                        <h:commandButton value="Guardar y Ver Resultados"  action="#{terminosBean.calcularMetricasTest()}"/>          
                         
                     
                          </h:form>
